@@ -1,0 +1,24 @@
+# OpenVPN Client Configuration
+
+client
+dev tun
+proto udp
+remote {{ remote|e }}
+nobind
+persist-key
+persist-tun
+ns-cert-type server
+comp-lzo
+verb 3
+
+<ca>
+{{ ca|e }}
+</ca>
+
+<cert>
+{{ cert|e }}
+</cert>
+
+<key>
+{{ key|e }}
+</key>

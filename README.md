@@ -1,0 +1,53 @@
+# Introduction
+This is a configuration generator for OpenVPN. It aims at providing a REST API
+that makes it easy to manage client configuration files. It is possible to 
+generate a configuration and revoke a configuration.
+
+# Requirements
+This service requires a system running PHP and easy_rsa. This software was 
+tested on Fedora 20 with PHP, the PDO database abstraction and Apache.
+
+    $ yum install php mod_ssl easy-rsa php-pdo
+
+The software was designed to run with SELinux enabled. RPM packages are 
+provided for Fedora and CentOS (RHEL).
+
+# Installation
+It is recommended to use the RPM of this software to install it.
+
+However, if you want to develop for the software or install it from source, 
+these are the steps. Make sure you have [Composer](https://getcomposer.org) to 
+install the dependencies.
+
+    $ cd /var/www
+    $ sudo mkdir vpn-cert-service
+    $ sudo chown fkooman.fkooman vpn-cert-service
+    $ git clone https://github.com/fkooman/vpn-cert-service.git
+    $ cd vpn-cert-service
+    $ /path/to/composer.phar install
+    $ mkdir -p data
+    $ sudo chown -R apache.apache data
+    $ sudo semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/vpn-cert-service/data(/.*)?'
+    $ sudo restorecon -R /var/www/vpn-cert-service/data
+    $ cd config
+    $ cp config.ini.defaults config.ini
+
+# Configuration
+Now you can run the configuration script, it is assumed the `easy-rsa` package
+is installed.
+
+    $ php bin/vpn-cert-service-init
+
+This will prepare the `easy-rsa` configuration for use with the service and 
+initialize the database that will be populated with the generated certificates.
+
+# Testing
+A comprehensive testing suite is included for validating the software. You can
+run it using [PHPUnit](https://phpunit.de).
+
+    $ /path/to/phpunit tests
+
+# License
+Licensed under the Apache License, Version 2.0;
+
+   http://www.apache.org/licenses/LICENSE-2.0

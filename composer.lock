@@ -1,0 +1,239 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "065d6368a9767da0c9f9ee1cdbf84d66",
+    "packages": [
+        {
+            "name": "fkooman/config",
+            "version": "0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-config.git",
+                "reference": "f2d34bc367f19c3315c41193d8029588c2d68538"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-config/zipball/f2d34bc367f19c3315c41193d8029588c2d68538",
+                "reference": "f2d34bc367f19c3315c41193d8029588c2d68538",
+                "shasum": ""
+            },
+            "require": {
+                "fkooman/json": "~0.5.1",
+                "php": ">=5.3.3",
+                "symfony/yaml": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Config\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library to handle YAML, INI and JSON configuration files",
+            "time": "2014-09-16 11:21:12"
+        },
+        {
+            "name": "fkooman/json",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-json.git",
+                "reference": "b07e3e4166e14ff41ac23f917285fb4061c21ad3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-json/zipball/b07e3e4166e14ff41ac23f917285fb4061c21ad3",
+                "reference": "b07e3e4166e14ff41ac23f917285fb4061c21ad3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Json\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library to encode and decode JSON",
+            "time": "2014-09-16 11:16:29"
+        },
+        {
+            "name": "fkooman/rest",
+            "version": "0.4.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-rest.git",
+                "reference": "ceae8209a6ffde8f38ce753f82d19b1591845fc0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/ceae8209a6ffde8f38ce753f82d19b1591845fc0",
+                "reference": "ceae8209a6ffde8f38ce753f82d19b1591845fc0",
+                "shasum": ""
+            },
+            "require": {
+                "fkooman/json": "~0.5.1",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Http": "src/",
+                    "fkooman\\Rest": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple PHP library for writing REST services.",
+            "time": "2014-10-06 18:04:45"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.5.5",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b1dbc53593b98c2d694ebf383660ac9134d30b96",
+                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-09-22 09:14:18"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v1.16.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabpot/Twig.git",
+                "reference": "8ce37115802e257a984a82d38254884085060024"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8ce37115802e257a984a82d38254884085060024",
+                "reference": "8ce37115802e257a984a82d38254884085060024",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.16-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2014-07-05 12:19:05"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "platform": {
+        "ext-openssl": "*",
+        "php": ">=5.3.3"
+    },
+    "platform-dev": []
+}
