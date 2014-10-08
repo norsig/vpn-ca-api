@@ -70,6 +70,9 @@ Obtain the CRL:
 
     $ curl http://localhost/vpn-cert-service/api.php/crl
 
+# Docker
+It is possible to use Docker to evaluate this service, see the `docker` folder.
+
 # Testing
 A comprehensive testing suite is included for validating the software. You can
 run it using [PHPUnit](https://phpunit.de).
