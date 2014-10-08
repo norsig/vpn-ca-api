@@ -42,9 +42,12 @@ Now you can run the configuration script, it is assumed the `easy-rsa` package
 is installed.
 
     $ sudo -u apache bin/vpn-cert-service-init
+    $ sudo -u apache bin/vpn-cert-service-generate-server-config
 
 This will prepare the `easy-rsa` configuration for use with the service and 
 initialize the database that will be populated with the generated certificates.
+The second command will generate a server configuration file that can be 
+loaded in your OpenVPN server.
 
 # Testing
 A comprehensive testing suite is included for validating the software. You can

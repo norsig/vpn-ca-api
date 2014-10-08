@@ -1,0 +1,24 @@
+# OpenVPN Server Configuration for {{ cn|e }}
+
+port 1194
+proto udp
+dev tun
+server {{ network|e }} {{ netmask|e }}
+push "redirect-gateway def1"
+comp-lzo
+persist-key
+persist-tun
+verb 3
+
+<ca>
+{{ ca|e }}
+</ca>
+<cert>
+{{ cert|e }}
+</cert>
+<key>
+{{ key|e }}
+</key>
+<dh>
+{{ dh|e }}
+</dh>

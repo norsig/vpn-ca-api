@@ -37,7 +37,7 @@ class CertService
             'ca' => $this->easyRsa->getCaCert(),
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],
-            'remotes' => $this->config->s('remotes', true)->toArray(),
+            'remotes' => $this->config->s('clients', true)->s('remotes', true)->toArray(),
         );
         $configGenerator = new ConfigGenerator($configData);
         $response = new Response(201, "text/plain");

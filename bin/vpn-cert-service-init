@@ -61,4 +61,3 @@ $db = new PdoStorage($db);
 
 $e = new EasyRsa($easyRsaTargetConfigPath, $db);
 $e->initCa();
-$e->generateServerCert("server");

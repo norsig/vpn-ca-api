@@ -47,6 +47,7 @@ generate a configuration and revoke a configuration.
 %setup -qn %{github_name}-%{version}
 
 sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-init
+sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-generate-server-config
 
 %build
 
@@ -87,6 +88,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/vpn-cert-service.conf
 %config(noreplace) %{_sysconfdir}/vpn-cert-service
 %{_bindir}/vpn-cert-service-init
+%{_bindir}/vpn-cert-service-generate-server-config
 %dir %{_datadir}/vpn-cert-service
 %{_datadir}/vpn-cert-service/src
 %{_datadir}/vpn-cert-service/vendor

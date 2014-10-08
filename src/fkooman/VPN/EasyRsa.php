@@ -22,7 +22,23 @@ class EasyRsa
 
     public function generateServerCert($commonName)
     {
-        return $this->generateCert($commonName, true);
+        $certKeyDh = $this->generateCert($commonName, true);
+        $certKeyDh['dh'] = $this->generateDh();
+
+        return $certKeyDh;
+    }
+
+    public function generateDh()
+    {
+        $this->execute("./build-dh");
+
+        $dhFile = sprintf(
+            "%s/keys/%s",
+            $this->easyRsaPath,
+            'dh2048.pem'
+        );
+
+        return trim(file_get_contents($dhFile));
     }
 
     public function generateClientCert($commonName)
