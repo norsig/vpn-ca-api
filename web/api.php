@@ -4,9 +4,13 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\Rest\Service;
 use fkooman\Http\Request;
-use fkooman\Http\IncomingHttpRequest;
+use fkooman\Http\IncomingRequest;
 use fkooman\Http\Exception\HttpException;
 use fkooman\Config\Config;
+use fkooman\VPN\ConfigGenerator;
+use fkooman\VPN\EasyRsa;
+use fkooman\Http\Response;
+use fkooman\Http\JsonResponse;
 
 try {
     $config = Config::fromIniFile(
@@ -15,19 +19,28 @@ try {
 
     $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath'));
 
-    $request = Request::fromIncomingHttpRequest(new IncomingHttpRequest());
+    $request = Request::fromIncomingRequest(new IncomingRequest());
     $service = new Service($request);
-    $service->delete('/:commonName', function ($commonName) {
+    $service->delete('/:commonName', function ($commonName) use ($easyRsa) {
+        $easyRsa->revokeClientCert($commonName);
         // revoke
+        $response = new JsonResponse();
+        $response->setContent(array("status" => "ok"));
+
+        return $response;
     });
-    $service->post('/:commonName', function ($commonName) {
+    $service->post('/:commonName', function ($commonName) use ($easyRsa) {
         // generate
+        $configGenerator = new ConfigGenerator($easyRsa);
+
+        $response = new Response(201, "text/plain");
+        $response->setContent($configGenerator->generateClientConfig($commonName));
+
+        return $response;
     });
-    $service->get('/:commonName', function ($commonName) {
-        // get
-    });
-    $service->run();
+    $service->run()->sendResponse();
 } catch (Exception $e) {
-    if ($e instanceof HttpException) {
-    }
+    die($e->getMessage());
+#    if ($e instanceof HttpException) {
+#    }
 }

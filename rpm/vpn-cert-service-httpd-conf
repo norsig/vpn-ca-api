@@ -1,4 +1,4 @@
-Alias /php-oauth-as /usr/share/vpn-cert-service/web
+Alias /vpn-cert-service /usr/share/vpn-cert-service/web
 
 <Directory /usr/share/vpn-cert-service/web>
     AllowOverride None

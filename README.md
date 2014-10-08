@@ -32,6 +32,11 @@ install the dependencies.
     $ cd config
     $ cp config.ini.defaults config.ini
 
+We need to figure out if these are really necessary or that they can be
+resolved differently
+
+    $ sudo setsebool -P httpd_unified 1
+
 # Configuration
 Now you can run the configuration script, it is assumed the `easy-rsa` package
 is installed.
