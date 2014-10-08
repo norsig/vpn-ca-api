@@ -11,7 +11,7 @@
             "fkooman\\VPN": "src/"
         }
     },
-    "description": "VPN Certificate Manager",
+    "description": "Configuration Generator Web Service for OpenVPN written in PHP",
     "license": "Apache-2.0",
     "name": "fkooman/php-cert-service",
     "require": {

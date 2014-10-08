@@ -4,7 +4,7 @@
 Name:       vpn-cert-service
 Version:    0.1.0
 Release:    0.1%{?dist}
-Summary:    Configuration Generator for OpenVPN written in PHP
+Summary:    Configuration Generator Web Service for OpenVPN written in PHP
 
 Group:      Applications/Internet
 License:    ASL-2.0
