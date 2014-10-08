@@ -39,5 +39,5 @@ Now you can download the CRL and add it to the server configuration:
 
     $ curl -k https://localhost/vpn-cert-service/api.php/crl
 
-By now adding `crl-verify /path/to/crl` to your `server.conf` the configuration
-should no longer be accepted.
+By now adding `crl-verify /path/to/crl` to your `server.conf` the generated 
+client configuration should no longer be accepted.
