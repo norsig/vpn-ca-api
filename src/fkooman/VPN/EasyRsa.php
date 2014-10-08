@@ -35,7 +35,15 @@ class EasyRsa
     {
         $this->execute(sprintf("pkitool %s", $commonName));
 
-        return $this->getCertFile(sprintf("%s.crt", $commonName));
+        return array(
+            "cert" => $this->getCertFile(sprintf("%s.crt", $commonName)),
+            "key" => $this->getKeyFile(sprintf("%s.key", $commonName)),
+        );
+    }
+
+    public function getCaCert()
+    {
+        return $this->getCertFile("ca.crt");
     }
 
     public function revokeClientCert($commonName)
@@ -56,7 +64,18 @@ class EasyRsa
             $certFile
         );
 
-        return implode("\n", $this->execute($command, false)).PHP_EOL;
+        return implode("\n", $this->execute($command, false));
+    }
+
+    private function getKeyFile($keyFile)
+    {
+        $keyFile = sprintf(
+            "%s/keys/%s",
+            $this->easyRsaPath,
+            $keyFile
+        );
+
+        return trim(file_get_contents($keyFile));
     }
 
     public function execute($command, $isQuiet = true)

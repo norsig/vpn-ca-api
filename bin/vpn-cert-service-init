@@ -24,7 +24,7 @@ $e = new EasyRsa($EASY_RSA_TARGET_CONFIG_PATH);
 $e->cleanAll();
 $e->initCa();
 $e->generateServerCert("s3rv3r");
-echo $e->generateClientCert("client1");
+//echo $e->generateClientCert("client1");
 //$e->generateClientCert("client11");
 //$e->generateClientCert("client111");
 //$e->revokeClientCert("client11");
