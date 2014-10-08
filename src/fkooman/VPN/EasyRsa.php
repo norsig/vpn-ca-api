@@ -2,6 +2,8 @@
 
 namespace fkooman\VPN;
 
+use fkooman\VPN\Exception\EasyRsaException;
+
 class EasyRsa
 {
     /** @var string */
