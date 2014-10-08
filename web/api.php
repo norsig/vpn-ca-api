@@ -17,7 +17,7 @@ try {
         dirname(__DIR__)."/config/config.ini"
     );
 
-    $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath'));
+    $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath', true));
 
     $request = Request::fromIncomingRequest(new IncomingRequest());
     $service = new Service($request);
@@ -29,9 +29,9 @@ try {
 
         return $response;
     });
-    $service->post('/:commonName', function ($commonName) use ($easyRsa) {
+    $service->post('/:commonName', function ($commonName) use ($easyRsa, $config) {
         // generate
-        $configGenerator = new ConfigGenerator($easyRsa);
+        $configGenerator = new ConfigGenerator($easyRsa, $config->s('remotes')->toArray());
 
         $response = new Response(201, "text/plain");
         $response->setContent($configGenerator->generateClientConfig($commonName));

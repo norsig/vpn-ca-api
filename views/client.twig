@@ -3,7 +3,11 @@
 client
 dev tun
 proto udp
+
+{% for remote in remotes %}
 remote {{ remote|e }}
+{% endfor %}
+
 nobind
 persist-key
 persist-tun

@@ -10,9 +10,13 @@ class ConfigGenerator
     /** @var fkooman\VPN\EasyRsa */
     private $easyRsa;
 
-    public function __construct(EasyRsa $easyRsa)
+    /** @var array */
+    private $remotes;
+
+    public function __construct(EasyRsa $easyRsa, array $remotes)
     {
         $this->easyRsa = $easyRsa;
+        $this->remotes = $remotes;
     }
 
     public function generateClientConfig($commonName)
@@ -27,7 +31,7 @@ class ConfigGenerator
             "client.twig",
             array(
                 "cn" => $commonName,
-                "remote" => "vpn.example.org",
+                "remotes" => $this->remotes,
                 "ca" => $this->easyRsa->getCaCert(),
                 "cert" => $certKey['cert'],
                 "key" => $certKey['key'],

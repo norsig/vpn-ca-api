@@ -11,7 +11,7 @@ $config = Config::fromIniFile(
 );
 
 $easyRsaPath = '/usr/share/easy-rsa/2.0';
-$easyRsaTargetConfigPath = $config->getValue('easyRsaConfigPath');
+$easyRsaTargetConfigPath = $config->getValue('easyRsaConfigPath', true);
 
 if (!file_exists($easyRsaTargetConfigPath)) {
     mkdir($easyRsaTargetConfigPath);
