@@ -3,7 +3,7 @@
 
 Name:       vpn-cert-service
 Version:    0.1.0
-Release:    0.1%{?dist}
+Release:    1%{?dist}
 Summary:    Configuration Generator Web Service for OpenVPN written in PHP
 
 Group:      Applications/Internet
@@ -26,6 +26,8 @@ Requires:   php-composer(fkooman/config) >= 0.3.3
 Requires:   php-composer(fkooman/config) < 0.4.0
 Requires:   php-composer(fkooman/rest) >= 0.4.9
 Requires:   php-composer(fkooman/rest) < 0.5.0
+Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
+Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
 
 #Starting F21 we can use the composer dependency for Symfony
 #Requires:   php-composer(symfony/classloader) >= 2.3.9
@@ -37,9 +39,9 @@ Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
 
 %description
-This is a configuration generator for OpenVPN. It aims at providing a REST 
-API that makes it easy to manage client configuration files. It is possible 
-to generate a configuration and revoke a configuration.
+This is a configuration generator for OpenVPN. It aims at providing a REST API
+that makes it easy to manage client configuration files. It is possible to 
+generate a configuration and revoke a configuration.
 
 %prep
 %setup -qn %{github_name}-%{version}
@@ -54,7 +56,7 @@ install -m 0644 -D -p %{SOURCE1} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/vp
 
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service
-cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service
+cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service
 
 # use our own class loader
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service/vendor
@@ -65,7 +67,7 @@ cp -pr bin/* ${RPM_BUILD_ROOT}%{_bindir}
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/vpn-cert-service
-#cp -p config/oauth.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/vpn-cert-service/oauth.ini
+cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/vpn-cert-service/config.ini
 ln -s ../../../etc/vpn-cert-service ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service/config
 
 # Data
@@ -89,10 +91,11 @@ fi
 %{_datadir}/vpn-cert-service/src
 %{_datadir}/vpn-cert-service/vendor
 %{_datadir}/vpn-cert-service/web
+%{_datadir}/vpn-cert-service/views
 %{_datadir}/vpn-cert-service/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/vpn-cert-service
-%doc README.md COPYING composer.json
+%doc README.md COPYING composer.json config/
 
 %changelog
-* Wed Oct 08 2014 François Kooman <fkooman@tuxed.net> - 0.1.0-0.1
+* Wed Oct 08 2014 François Kooman <fkooman@tuxed.net> - 0.1.0-1
 - initial package

@@ -2,7 +2,6 @@ Alias /vpn-cert-service /usr/share/vpn-cert-service/web
 
 <Directory /usr/share/vpn-cert-service/web>
     AllowOverride None
-    Options FollowSymLinks
 
     <IfModule mod_authz_core.c>
       # Apache 2.4
@@ -15,11 +14,4 @@ Alias /vpn-cert-service /usr/share/vpn-cert-service/web
       Allow from 127.0.0.1
       Allow from ::1
     </IfModule>
-    
-    RewriteEngine On
-    RewriteCond %{HTTP:Authorization} ^(.+)$
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # HSTS: https://developer.mozilla.org/en-US/docs/Security/HTTP_Strict_Transport_Security
-    #Header set Strict-Transport-Security max-age=604800
 </Directory>
