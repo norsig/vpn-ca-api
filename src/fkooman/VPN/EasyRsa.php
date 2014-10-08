@@ -64,6 +64,10 @@ class EasyRsa
             'crl.pem'
         );
 
+        if (!file_exists($crlFile)) {
+            return null;
+        }
+
         return file_get_contents($crlFile);
     }
 

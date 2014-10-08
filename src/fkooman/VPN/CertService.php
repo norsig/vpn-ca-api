@@ -62,7 +62,11 @@ class CertService
     public function getCrl()
     {
         $response = new Response(200, 'application/pkix-crl');
-        $response->setContent($this->easyRsa->getCrl());
+
+        $crlData = $this->easyRsa->getCrl();
+        if (null !== $crlData) {
+            $response->setContent($crlData);
+        }
 
         return $response;
     }
