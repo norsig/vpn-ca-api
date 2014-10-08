@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.2
+- add Docker files to evaluate vpn-cert-service
+
 ## 0.1.1
 - fix HTTP response to CRL endpoint when CRL is missing
 - implement generating server configuration using a bin script
