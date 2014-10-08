@@ -7,37 +7,24 @@ use Twig_Environment;
 
 class ConfigGenerator
 {
-    /** @var fkooman\VPN\EasyRsa */
-    private $easyRsa;
-
     /** @var array */
-    private $remotes;
+    private $configData;
 
-    public function __construct(EasyRsa $easyRsa, array $remotes)
+    public function __construct(array $configData)
     {
-        $this->easyRsa = $easyRsa;
-        $this->remotes = $remotes;
+        $this->configData = $configData;
     }
 
-    public function generateClientConfig($commonName)
+    public function getConfig()
     {
-        $certKey = $this->easyRsa->generateClientCert($commonName);
-
         $loader = new Twig_Loader_Filesystem(
             dirname(dirname(dirname(__DIR__)))."/views"
         );
         $twig = new Twig_Environment($loader);
-        $output = $twig->render(
-            "client.twig",
-            array(
-                "cn" => $commonName,
-                "remotes" => $this->remotes,
-                "ca" => $this->easyRsa->getCaCert(),
-                "cert" => $certKey['cert'],
-                "key" => $certKey['key'],
-            )
-        );
 
-        return $output;
+        return $twig->render(
+            "client.twig",
+            $this->configData
+        );
     }
 }

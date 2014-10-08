@@ -2,8 +2,6 @@
 
 namespace fkooman\VPN;
 
-use fkooman\VPN\Exception\EasyRsaException;
-
 class EasyRsa
 {
     /** @var string */
@@ -34,12 +32,6 @@ class EasyRsa
 
     public function generateCert($commonName, $isServer = false)
     {
-        $this->validateCommonName($commonName);
-
-        if ($this->hasCert($commonName)) {
-            throw new EasyRsaException("cert for this common name already exists");
-        }
-
         $this->db->addCert($commonName);
 
         if ($isServer) {
@@ -56,8 +48,6 @@ class EasyRsa
 
     public function hasCert($commonName)
     {
-        $this->validateCommonName($commonName);
-
         return null !== $this->db->getCert($commonName);
     }
 
@@ -68,10 +58,6 @@ class EasyRsa
 
     public function revokeClientCert($commonName)
     {
-        $this->validateCommonName($commonName);
-        if (!$this->hasCert($commonName)) {
-            throw new EasyRsaException("cert with this common name does not exist");
-        }
         $this->db->deleteCert($commonName);
         $this->execute(sprintf("revoke-full %s", $commonName));
     }
@@ -108,13 +94,6 @@ class EasyRsa
         $this->execute("clean-all");
         $this->execute("pkitool --initca");
         $this->db->initDatabase();
-    }
-
-    private function validateCommonName($commonName)
-    {
-        if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {
-            throw new EasyRsaException("invalid common name");
-        }
     }
 
     private function execute($command, $isQuiet = true)
