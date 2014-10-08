@@ -22,8 +22,33 @@ foreach (glob($easyRsaPath."/*") as $file) {
     // also keep file permissions
     chmod($easyRsaTargetConfigPath."/".basename($file), $fp);
 }
-# update configuration in "vars"
-//export KEY_EXPIRE=3650
+
+$caConfig = $config->s('ca')->l('ca_expire');
+
+# update the 'vars' file
+$search = array(
+    'export CA_EXPIRE=3650',
+    'export KEY_EXPIRE=3650',
+    'export KEY_COUNTRY="US"',
+    'export KEY_PROVINCE="CA"',
+    'export KEY_CITY="SanFrancisco"',
+    'export KEY_ORG="Fort-Funston"',
+    'export KEY_EMAIL="me@myhost.mydomain"',
+    'export KEY_OU="MyOrganizationalUnit"',
+);
+$replace = array(
+    sprintf('export CA_EXPIRE=%d', $config->s('ca', true)->l('ca_expire', true)),
+    sprintf('export KEY_EXPIRE=%d', $config->s('ca', true)->l('key_expire', true)),
+    sprintf('export KEY_COUNTRY="%s"', $config->s('ca', true)->l('key_country', true)),
+    sprintf('export KEY_PROVINCE="%s"', $config->s('ca', true)->l('key_province', true)),
+    sprintf('export KEY_CITY="%s"', $config->s('ca', true)->l('key_city', true)),
+    sprintf('export KEY_ORG="%s"', $config->s('ca', true)->l('key_org', true)),
+    sprintf('export KEY_EMAIL="%s"', $config->s('ca', true)->l('key_email', true)),
+    sprintf('export KEY_OU="%s"', $config->s('ca', true)->l('key_ou', true)),
+);
+$varsFile = $easyRsaTargetConfigPath."/vars";
+$varsContent = str_replace($search, $replace, file_get_contents($varsFile));
+file_put_contents($varsFile, $varsContent);
 
 $e = new EasyRsa($easyRsaTargetConfigPath);
 $e->cleanAll();

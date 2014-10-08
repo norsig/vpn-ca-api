@@ -3,3 +3,13 @@ easyRsaConfigPath = '/var/lib/vpn-cert-service/easy-rsa'
 ; specify the remotes
 remotes[] = 'nl.example.org'
 ;remotes[] = 'de.example.org'
+
+[ca]
+ca_expire = 3650
+key_expire = 3650
+key_country = 'US'
+key_province = 'CA'
+key_city = 'SanFrancisco'
+key_org = 'Fort-Funston'
+key_email = 'me@myhost.mydomain'
+key_ou = 'MyOrganizationalUnit'

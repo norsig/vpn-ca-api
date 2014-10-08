@@ -41,7 +41,7 @@ resolved differently
 Now you can run the configuration script, it is assumed the `easy-rsa` package
 is installed.
 
-    $ php bin/vpn-cert-service-init
+    $ sudo -u apache bin/vpn-cert-service-init
 
 This will prepare the `easy-rsa` configuration for use with the service and 
 initialize the database that will be populated with the generated certificates.
