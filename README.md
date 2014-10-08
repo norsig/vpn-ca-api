@@ -49,6 +49,27 @@ initialize the database that will be populated with the generated certificates.
 The second command will generate a server configuration file that can be 
 loaded in your OpenVPN server.
 
+# API
+The HTTP API currently supports three calls:
+
+- Generate a new configuration file for a client
+- Revoke a certificate
+- Obtain the CRL
+
+These calls can be performed using e.g. `curl`:
+
+Generate a configuration:
+
+    $ curl -X POST http://localhost/vpn-cert-service/api.php/user@example.org
+
+Delete (revoke) a configuration:
+
+    $ curl -X DELETE http://localhost/vpn-cert-service/api.php/user@example.org
+
+Obtain the CRL:
+
+    $ curl http://localhost/vpn-cert-service/api.php/crl
+
 # Testing
 A comprehensive testing suite is included for validating the software. You can
 run it using [PHPUnit](https://phpunit.de).
