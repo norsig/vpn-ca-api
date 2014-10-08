@@ -29,12 +29,14 @@ USER apache
 RUN vpn-cert-service-init
 
 # Generate Server Configuration
-# We expose this configuration file with private key on the webserver, so it
-# can be downloaded in the actualy OpenVPN server by retrieving it from the 
-# web server. THIS IS ONLY FOR DOCKER, NOT FOR PRODUCTION!
-RUN vpn-cert-service-generate-server-config > /var/www/html/server.conf
+# For production this is NOT a good idea, the configuration MUST be transported
+# using secure means, and not by exposing it in /tmp and a web server
+RUN vpn-cert-service-generate-server-config > /tmp/server.conf
 
 USER root
+
+# Copy the file to the web root (as root)
+RUN cp /tmp/server.conf /var/www/html/server.conf
 
 # Expose port 443 and set httpd as our entrypoint
 EXPOSE 443
