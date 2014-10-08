@@ -1,30 +1,31 @@
 #!/usr/bin/php
 <?php
 
-require_once 'vendor/autoload.php';
+require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\VPN\EasyRsa;
+use fkooman\Config\Config;
 
-$EASY_RSA_PATH = '/usr/share/easy-rsa/2.0';
-$DATA_DIR = dirname(__DIR__)."/data";
-$EASY_RSA_TARGET_CONFIG_PATH = $DATA_DIR."/easy-rsa";
-if (!file_exists($EASY_RSA_TARGET_CONFIG_PATH)) {
-    mkdir($EASY_RSA_TARGET_CONFIG_PATH);
+$config = Config::fromIniFile(
+    dirname(__DIR__)."/config/config.ini"
+);
+
+$easyRsaPath = '/usr/share/easy-rsa/2.0';
+$easyRsaTargetConfigPath = $config->getValue('easyRsaConfigPath');
+
+if (!file_exists($easyRsaTargetConfigPath)) {
+    mkdir($easyRsaTargetConfigPath);
 }
-foreach (glob($EASY_RSA_PATH."/*") as $file) {
+foreach (glob($easyRsaPath."/*") as $file) {
     $fp = fileperms($file);
-    copy($file, $EASY_RSA_TARGET_CONFIG_PATH."/".basename($file));
+    copy($file, $easyRsaTargetConfigPath."/".basename($file));
     // also keep file permissions
-    chmod($EASY_RSA_TARGET_CONFIG_PATH."/".basename($file), $fp);
+    chmod($easyRsaTargetConfigPath."/".basename($file), $fp);
 }
 # update configuration in "vars"
 //export KEY_EXPIRE=3650
 
-$e = new EasyRsa($EASY_RSA_TARGET_CONFIG_PATH);
+$e = new EasyRsa($easyRsaTargetConfigPath);
 $e->cleanAll();
 $e->initCa();
 $e->generateServerCert("s3rv3r");
-//echo $e->generateClientCert("client1");
-//$e->generateClientCert("client11");
-//$e->generateClientCert("client111");
-//$e->revokeClientCert("client11");

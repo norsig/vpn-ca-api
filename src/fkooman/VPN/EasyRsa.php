@@ -84,13 +84,13 @@ class EasyRsa
         $command = 0 !== strpos($command, "/") ? sprintf("./%s", $command) : $command;
 
         // by default we are quiet
-        $quiet = $isQuiet ? " >/dev/null 2>/dev/null" : "";
+        $quietSuffix = $isQuiet ? " >/dev/null 2>/dev/null" : "";
 
         $cmd = sprintf(
             "cd %s && source ./vars >/dev/null 2>/dev/null && %s %s",
             $this->easyRsaPath,
             $command,
-            $quiet
+            $quietSuffix
         );
         $output = array();
         $returnValue = 0;
