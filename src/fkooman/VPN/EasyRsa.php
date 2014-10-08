@@ -20,28 +20,43 @@ class EasyRsa
         $this->openSslPath = $openSslPath;
     }
 
-    public function initCa()
-    {
-        $this->execute("clean-all");
-        $this->db->initDatabase();
-        $this->execute("pkitool --initca");
-    }
-
     public function generateServerCert($commonName)
     {
-        $this->db->addCert($commonName);
-        $this->execute(sprintf("pkitool --server %s", $commonName));
+        return $this->generateCert($commonName, true);
     }
 
     public function generateClientCert($commonName)
     {
+        return $this->generateCert($commonName, false);
+    }
+
+    public function generateCert($commonName, $isServer = false)
+    {
+        $this->validateCommonName($commonName);
+
+        if ($this->hasCert($commonName)) {
+            throw new EasyRsaException("cert for this common name already exists");
+        }
+
         $this->db->addCert($commonName);
-        $this->execute(sprintf("pkitool %s", $commonName));
+
+        if ($isServer) {
+            $this->execute(sprintf("pkitool --server %s", $commonName));
+        } else {
+            $this->execute(sprintf("pkitool %s", $commonName));
+        }
 
         return array(
             "cert" => $this->getCertFile(sprintf("%s.crt", $commonName)),
             "key" => $this->getKeyFile(sprintf("%s.key", $commonName)),
         );
+    }
+
+    public function hasCert($commonName)
+    {
+        $this->validateCommonName($commonName);
+
+        return null !== $this->db->getCert($commonName);
     }
 
     public function getCaCert()
@@ -51,6 +66,10 @@ class EasyRsa
 
     public function revokeClientCert($commonName)
     {
+        $this->validateCommonName($commonName);
+        if (!$this->hasCert($commonName)) {
+            throw new EasyRsaException("cert with this common name does not exist");
+        }
         $this->db->deleteCert($commonName);
         $this->execute(sprintf("revoke-full %s", $commonName));
     }
@@ -82,7 +101,21 @@ class EasyRsa
         return trim(file_get_contents($keyFile));
     }
 
-    public function execute($command, $isQuiet = true)
+    public function initCa()
+    {
+        $this->execute("clean-all");
+        $this->execute("pkitool --initca");
+        $this->db->initDatabase();
+    }
+
+    private function validateCommonName($commonName)
+    {
+        if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {
+            throw new EasyRsaException("invalid common name");
+        }
+    }
+
+    private function execute($command, $isQuiet = true)
     {
         // if not absolute path, prepend with "./"
         $command = 0 !== strpos($command, "/") ? sprintf("./%s", $command) : $command;
