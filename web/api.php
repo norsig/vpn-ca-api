@@ -11,13 +11,21 @@ use fkooman\VPN\ConfigGenerator;
 use fkooman\VPN\EasyRsa;
 use fkooman\Http\Response;
 use fkooman\Http\JsonResponse;
+use fkooman\VPN\PdoStorage;
 
 try {
     $config = Config::fromIniFile(
         dirname(__DIR__)."/config/config.ini"
     );
 
-    $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath', true));
+    $db = new PDO(
+        $config->s('PdoStorage')->l('dsn', true),
+        $config->s('PdoStorage')->l('username', false),
+        $config->s('PdoStorage')->l('password', false)
+    );
+
+    $db = new PdoStorage($db);
+    $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath', true), $db);
 
     $request = Request::fromIncomingRequest(new IncomingRequest());
     $service = new Service($request);

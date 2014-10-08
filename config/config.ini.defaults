@@ -13,3 +13,14 @@ key_city = 'SanFrancisco'
 key_org = 'Fort-Funston'
 key_email = 'me@myhost.mydomain'
 key_ou = 'MyOrganizationalUnit'
+
+[PdoStorage]
+dsn = "sqlite:/var/lib/vpn-cert-service/certs.sqlite"
+;dsn = "mysql:host=localhost;dbname=vpn-cert-service"
+;username = "vpn-cert-service"
+;password = "s3cr3t"
+;dsn = "pgsql:host=localhost;port=5432;dbname=XYZ;user=ABC;password=DEF"
+
+; use a persistent DB connection, make sure to ENABLE this for PRODUCTION 
+; systems
+persistentConnection = false

@@ -7,32 +7,35 @@ class EasyRsa
     /** @var string */
     private $easyRsaPath;
 
+    /** @var fkooman\VPN\PdoStorage */
+    private $db;
+
     /** @var string */
     private $openSslPath;
 
-    public function __construct($easyRsaPath, $openSslPath = "/usr/bin/openssl")
+    public function __construct($easyRsaPath, PdoStorage $db, $openSslPath = "/usr/bin/openssl")
     {
         $this->easyRsaPath = $easyRsaPath;
+        $this->db = $db;
         $this->openSslPath = $openSslPath;
-    }
-
-    public function cleanAll()
-    {
-        $this->execute("clean-all");
     }
 
     public function initCa()
     {
+        $this->execute("clean-all");
+        $this->db->initDatabase();
         $this->execute("pkitool --initca");
     }
 
     public function generateServerCert($commonName)
     {
+        $this->db->addCert($commonName);
         $this->execute(sprintf("pkitool --server %s", $commonName));
     }
 
     public function generateClientCert($commonName)
     {
+        $this->db->addCert($commonName);
         $this->execute(sprintf("pkitool %s", $commonName));
 
         return array(
@@ -48,6 +51,7 @@ class EasyRsa
 
     public function revokeClientCert($commonName)
     {
+        $this->db->deleteCert($commonName);
         $this->execute(sprintf("revoke-full %s", $commonName));
     }
 
