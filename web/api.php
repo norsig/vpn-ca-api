@@ -37,6 +37,9 @@ try {
     $service->post('/:commonName', function ($commonName) use ($certService) {
         return $certService->generateCert($commonName);
     });
+    $service->get('/crl', function () use ($certService) {
+        return $certService->getCrl();
+    });
     $service->run()->sendResponse();
 } catch (Exception $e) {
     // FIXME: make a separate catch for HttpException instead, is cleaner

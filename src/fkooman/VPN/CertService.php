@@ -59,6 +59,14 @@ class CertService
         return new Response(200);
     }
 
+    public function getCrl()
+    {
+        $response = new Response(200, 'application/pkix-crl');
+        $response->setContent($this->easyRsa->getCrl());
+
+        return $response;
+    }
+
     private function validateCommonName($commonName)
     {
         if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {

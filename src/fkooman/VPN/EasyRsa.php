@@ -56,6 +56,17 @@ class EasyRsa
         return $this->getCertFile("ca.crt");
     }
 
+    public function getCrl()
+    {
+        $crlFile = sprintf(
+            "%s/keys/%s",
+            $this->easyRsaPath,
+            'crl.pem'
+        );
+
+        return file_get_contents($crlFile);
+    }
+
     public function revokeClientCert($commonName)
     {
         $this->db->deleteCert($commonName);
