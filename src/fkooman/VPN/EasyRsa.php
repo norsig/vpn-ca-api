@@ -10,14 +10,10 @@ class EasyRsa
     /** @var fkooman\VPN\PdoStorage */
     private $db;
 
-    /** @var string */
-    private $openSslPath;
-
-    public function __construct($easyRsaPath, PdoStorage $db, $openSslPath = "/usr/bin/openssl")
+    public function __construct($easyRsaPath, PdoStorage $db)
     {
         $this->easyRsaPath = $easyRsaPath;
         $this->db = $db;
-        $this->openSslPath = $openSslPath;
     }
 
     public function generateServerCert($commonName)
@@ -100,13 +96,15 @@ class EasyRsa
             $this->easyRsaPath,
             $certFile
         );
-        $command = sprintf(
-            "%s x509 -inform PEM -in %s",
-            $this->openSslPath,
-            $certFile
-        );
+        // only return the certificate, strip junk before and after the actual
+        // certificate
 
-        return implode("\n", $this->execute($command, false));
+        $pattern = '/(-----BEGIN CERTIFICATE-----.*-----END CERTIFICATE-----)/msU';
+        if (1 === preg_match($pattern, file_get_contents($certFile), $matches)) {
+            return $matches[1];
+        }
+
+        return null;
     }
 
     private function getKeyFile($keyFile)
