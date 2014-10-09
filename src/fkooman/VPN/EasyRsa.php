@@ -10,10 +10,14 @@ class EasyRsa
     /** @var fkooman\VPN\PdoStorage */
     private $db;
 
-    public function __construct($easyRsaPath, PdoStorage $db)
+    /** @var string */
+    private $pathToOpenVpn;
+
+    public function __construct($easyRsaPath, PdoStorage $db, $pathToOpenVpn = '/usr/sbin/openvpn')
     {
         $this->easyRsaPath = $easyRsaPath;
         $this->db = $db;
+        $this->pathToOpenVpn = $pathToOpenVpn;
     }
 
     public function generateServerCert($commonName)
@@ -40,6 +44,32 @@ class EasyRsa
     public function generateClientCert($commonName)
     {
         return $this->generateCert($commonName, false);
+    }
+
+    public function getTlsAuthKey()
+    {
+        $taFile = sprintf(
+            "%s/keys/ta.key",
+            $this->easyRsaPath
+        );
+
+        return trim(file_get_contents($taFile));
+    }
+
+    private function generateTlsAuthKey()
+    {
+        $taFile = sprintf(
+            "%s/keys/ta.key",
+            $this->easyRsaPath
+        );
+
+        $this->execute(
+            sprintf(
+                '%s --genkey --secret %s',
+                $this->pathToOpenVpn,
+                $taFile
+            )
+        );
     }
 
     public function generateCert($commonName, $isServer = false)
@@ -122,6 +152,7 @@ class EasyRsa
     {
         $this->execute("clean-all");
         $this->execute("pkitool --initca");
+        $this->generateTlsAuthKey();
         $this->db->initDatabase();
     }
 

@@ -26,6 +26,7 @@ $db = new PdoStorage($db);
 
 $easyRsa = new EasyRsa($easyRsaTargetConfigPath, $db);
 $certKeyDh = $easyRsa->generateServerCert($commonName);
+$tlsAuth = $easyRsa->getTlsAuthKey();
 
 $configData = array(
     'cn' => $commonName,
@@ -33,6 +34,7 @@ $configData = array(
     'cert' => $certKeyDh['cert'],
     'key' => $certKeyDh['key'],
     'dh' => $certKeyDh['dh'],
+    'ta' => $tlsAuth,
     'network' => $config->s('server', true)->l('network', true),
     'netmask' => $config->s('server', true)->l('netmask', true),
     'nameservers' => $config->s('server', true)->s('nameservers', true)->toArray(),

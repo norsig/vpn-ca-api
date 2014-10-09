@@ -13,6 +13,7 @@ max-clients 100
 keepalive 30 60
 user openvpn
 group openvpn
+key-direction 0
 ;crl-verify /etc/openvpn/ca.crl
 
 {% for nameserver in nameservers %}
@@ -31,3 +32,6 @@ push "dhcp-option DNS {{ nameserver|e }}"
 <dh>
 {{ dh|e }}
 </dh>
+<tls-auth>
+{{ ta|e }}
+</tls-auth>

@@ -11,9 +11,10 @@ remote {{ remote|e }}
 nobind
 persist-key
 persist-tun
-ns-cert-type server
+remote-cert-tls server
 comp-lzo
 verb 3
+key-direction 1
 
 <ca>
 {{ ca|e }}
@@ -24,3 +25,6 @@ verb 3
 <key>
 {{ key|e }}
 </key>
+<tls-auth>
+{{ ta|e }}
+</tls-auth>

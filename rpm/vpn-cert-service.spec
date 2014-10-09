@@ -3,7 +3,7 @@
 
 Name:       vpn-cert-service
 Version:    0.1.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Configuration Generator Web Service for OpenVPN written in PHP
 
 Group:      Applications/Internet
@@ -20,6 +20,7 @@ Requires:   php-openssl
 Requires:   php-pdo
 Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
+Requires:   openvpn
 
 Requires:   php-composer(fkooman/json) >= 0.5.1
 Requires:   php-composer(fkooman/json) < 0.6.0
@@ -100,6 +101,9 @@ fi
 %doc README.md COPYING composer.json rpm/README-RPM.md config/
 
 %changelog
+* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-3
+- require openvpn as we need to generate tls-auth key
+
 * Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-2
 - also install README-RPM.md
 
