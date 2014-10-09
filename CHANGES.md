@@ -2,6 +2,7 @@
 
 ## 0.1.3
 - implement tls-auth for DoS prevention in client and server config
+- drop privileges to openvpn:openvpn after startup in server config
 
 ## 0.1.2
 - add Docker files to evaluate vpn-cert-service
