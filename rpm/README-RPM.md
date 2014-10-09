@@ -2,16 +2,13 @@ This configuration describes how to use the software after installing it. It
 is assumed you already installed the `vpn-cert-service` package and restarted
 Apache.
 
-    $ sudo yum -y install vpn-cert-service
+    $ sudo yum -y install mod_ssl vpn-cert-service
+    $ sudo systemctl enable httpd
     $ sudo systemctl restart httpd
 
-Now you can create a configuration file from the template in 
-`/etc/vpn-cert-service`:
-
-    $ sudo cp /etc/vpn-cert-service/config.ini.defaults /etc/vpn-cert-service/config.ini
-
-Modify it to suit your environment. After that you can initialize the 
-configuration:
+Now you can modify the configuration file in `/etc/vpn-cert-service` named
+`config.ini`. Modify it to suit your environment. After that you can initialize 
+the configuration:
 
     $ sudo -u apache vpn-cert-service-init
 
@@ -24,7 +21,7 @@ will taka a **really long** time:
     $ sudo -u apache vpn-cert-service-generate-server-config
 
 You can use the output and place it in your server directory as 
-`/etc/openvpn/server.conf`. Now you can fix the permissions and start 
+`/etc/openvpn/server.conf`. Now you should fix the permissions and start 
 OpenVPN (at boot):
 
     $ sudo chown openvpn.openvpn /etc/openvpn/server.conf
