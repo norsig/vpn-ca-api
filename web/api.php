@@ -6,9 +6,9 @@ use fkooman\Rest\Service;
 use fkooman\Http\Request;
 use fkooman\Http\IncomingRequest;
 use fkooman\Http\Exception\HttpException;
+use fkooman\Http\Exception\InternalServerErrorException;
 use fkooman\Config\Config;
 use fkooman\VPN\EasyRsa;
-use fkooman\Http\JsonResponse;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\CertService;
 
@@ -42,22 +42,12 @@ try {
     });
     $service->run()->sendResponse();
 } catch (Exception $e) {
-    // FIXME: make a separate catch for HttpException instead, is cleaner
-    $message = $e->getMessage();
     if ($e instanceof HttpException) {
-        $code = $e->getCode();
-        $reason = $e->getReason();
+        $response = $e->getResponse();
     } else {
-        $code = 500;
-        $reason = 'Internal Server Error';
+        // we catch all other (unexpected) exceptions and return a 500
+        $e = new InternalServerErrorException($e->getMessage());
+        $response = $e->getResponse();
     }
-    $response = new JsonResponse($code);
-    $response->setContent(
-        array(
-            "code" => $code,
-            "error" => $reason,
-            "error_description" => $message,
-        )
-    );
     $response->sendResponse();
 }
