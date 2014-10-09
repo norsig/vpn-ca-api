@@ -40,7 +40,7 @@ class CertService
             'remotes' => $this->config->s('clients', true)->s('remotes', true)->toArray(),
         );
         $configGenerator = new ConfigGenerator($configData);
-        $response = new Response(201, "text/plain");
+        $response = new Response(201, "application/x-openvpn-profile");
         $response->setContent($configGenerator->getConfig());
 
         return $response;
