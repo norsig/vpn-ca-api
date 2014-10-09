@@ -24,9 +24,21 @@ will taka a **really long** time:
     $ sudo -u apache vpn-cert-service-generate-server-config
 
 You can use the output and place it in your server directory as 
-`/etc/openvpn/server.conf`. Now you can start OpenVPN:
+`/etc/openvpn/server.conf`. Now you can fix the permissions and start 
+OpenVPN (at boot):
 
+    $ sudo chown openvpn.openvpn /etc/openvpn/server.conf
+    $ sudo chmod 640 /etc/openvpn/server.conf
+    $ sudo systemctl enable openvpn@server
     $ sudo systemctl start openvpn@server
+
+With the default config NAT routing needs to be enabled on the server:
+
+    $ sudo sysctl net.ipv4.ip_forward=1
+    $ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+
+**FIXME**: figure out how to enable this on boot as well, say something about
+the firewall, 1194 udp...)
 
 This is all that is needed to get going on the server. See the project's 
 README.md on how to use the API to generate client configuration files. It is

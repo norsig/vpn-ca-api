@@ -11,6 +11,8 @@ persist-tun
 verb 3
 max-clients 100
 keepalive 30 60
+user openvpn
+group openvpn
 ;crl-verify /etc/openvpn/ca.crl
 
 {% for nameserver in nameservers %}
