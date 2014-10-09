@@ -2,8 +2,8 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.1
-Release:    2%{?dist}
+Version:    0.1.2
+Release:    1%{?dist}
 Summary:    Configuration Generator Web Service for OpenVPN written in PHP
 
 Group:      Applications/Internet
@@ -25,7 +25,7 @@ Requires:   php-composer(fkooman/json) >= 0.5.1
 Requires:   php-composer(fkooman/json) < 0.6.0
 Requires:   php-composer(fkooman/config) >= 0.3.3
 Requires:   php-composer(fkooman/config) < 0.4.0
-Requires:   php-composer(fkooman/rest) >= 0.4.10
+Requires:   php-composer(fkooman/rest) >= 0.4.11
 Requires:   php-composer(fkooman/rest) < 0.5.0
 Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
 Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
@@ -100,6 +100,9 @@ fi
 %doc README.md COPYING composer.json config/
 
 %changelog
+* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-1
+- update to 0.1.2
+
 * Wed Oct 08 2014 François Kooman <fkooman@tuxed.net> - 0.1.1-2
 - add easy-rsa dependency
 

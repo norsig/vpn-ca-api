@@ -4,6 +4,8 @@
 - add Docker files to evaluate vpn-cert-service
 - add DNS and keepalive options to server config
 - make vpn-cert-service-generate-server-config quiet, only output the config
+- use fkooman/rest 0.4.11 for better exception handling
+- remove the need for `openssl` cli invocation
 
 ## 0.1.1
 - fix HTTP response to CRL endpoint when CRL is missing
