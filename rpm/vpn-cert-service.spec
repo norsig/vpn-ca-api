@@ -2,8 +2,8 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.2
-Release:    3%{?dist}
+Version:    0.1.3
+Release:    1%{?dist}
 Summary:    Configuration Generator Web Service for OpenVPN written in PHP
 
 Group:      Applications/Internet
@@ -101,7 +101,8 @@ fi
 %doc README.md COPYING composer.json rpm/README-RPM.md config/
 
 %changelog
-* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-3
+* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.3-1
+- update to 0.1.3
 - require openvpn as we need to generate tls-auth key
 
 * Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-2
