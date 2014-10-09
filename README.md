@@ -7,7 +7,7 @@ generate a configuration and revoke a configuration.
 This service requires a system running PHP and easy_rsa. This software was 
 tested on Fedora 20 with PHP, the PDO database abstraction and Apache.
 
-    $ yum install php easy-rsa php-pdo
+    $ yum install php easy-rsa php-pdo openvpn
 
 The software was designed to run with SELinux enabled. RPM packages are 
 provided for Fedora and CentOS (RHEL).
@@ -32,10 +32,11 @@ install the dependencies.
     $ cd config
     $ cp config.ini.defaults config.ini
 
-We need to figure out if these are really necessary or that they can be
-resolved differently
+For now it is needed to set the following SELinux boolean:
 
     $ sudo setsebool -P httpd_unified 1
+
+More work is needed to figure out if we can do without this...
 
 # Configuration
 Now you can run the init script to initialize the configuration and database:
@@ -49,6 +50,31 @@ will take a **really long time** to generate the DH keys.
 
 The second command will generate a server configuration file that can be 
 loaded in your OpenVPN server.
+
+# Apache
+The following configuration can be used in Apache, place it in 
+`/etc/httpd/conf.d/vpn-cert-service.conf`:
+
+    Alias /vpn-cert-service /var/www/vpn-cert-service/web
+
+    <Directory /var/www/vpn-cert-service/web>
+        AllowOverride None
+
+        <IfModule mod_authz_core.c>
+          # Apache 2.4
+          Require local
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+          # Apache 2.2
+          Order Deny,Allow
+          Deny from All
+          Allow from 127.0.0.1
+          Allow from ::1
+        </IfModule>
+    </Directory>
+
+This will only allow access from `localhost`. This service MUST NOT be 
+accessible over the Internet!
 
 # API
 The HTTP API currently supports three calls:
