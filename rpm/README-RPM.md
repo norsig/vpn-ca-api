@@ -18,11 +18,12 @@ configuration:
 This will create the correct files in `/var/lib/vpn-cert-service` and generate 
 a CA. 
 
-To generate the server configuration use the following:
+To generate the server configuration use the following, please not that this
+will taka a **really long** time:
 
     $ sudo -u apache vpn-cert-service-generate-server-config
 
-You can use this file and place it in your server directory as 
+You can use the output and place it in your server directory as 
 `/etc/openvpn/server.conf`. Now you can start OpenVPN:
 
     $ sudo systemctl start openvpn@server

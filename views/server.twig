@@ -1,14 +1,21 @@
 # OpenVPN Server Configuration for {{ cn|e }}
 
-port 1194
-proto udp
 dev tun
+proto udp
+port 1194
 server {{ network|e }} {{ netmask|e }}
 push "redirect-gateway def1"
 comp-lzo
 persist-key
 persist-tun
 verb 3
+max-clients 100
+keepalive 30 60
+;crl-verify /etc/openvpn/ca.crl
+
+{% for nameserver in nameservers %}
+push "dhcp-option DNS {{ nameserver|e }}"
+{% endfor %}
 
 <ca>
 {{ ca|e }}

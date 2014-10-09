@@ -26,3 +26,5 @@ remotes[] = 'nl.example.org'
 ; specify the network provided to the clients
 network = '10.8.0.0'
 netmask = '255.255.255.0'
+nameservers[] = '8.8.8.8'
+nameservers[] = '8.8.4.4'

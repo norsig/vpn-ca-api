@@ -7,7 +7,7 @@ generate a configuration and revoke a configuration.
 This service requires a system running PHP and easy_rsa. This software was 
 tested on Fedora 20 with PHP, the PDO database abstraction and Apache.
 
-    $ yum install php mod_ssl easy-rsa php-pdo
+    $ yum install php easy-rsa php-pdo
 
 The software was designed to run with SELinux enabled. RPM packages are 
 provided for Fedora and CentOS (RHEL).
@@ -38,14 +38,15 @@ resolved differently
     $ sudo setsebool -P httpd_unified 1
 
 # Configuration
-Now you can run the configuration script, it is assumed the `easy-rsa` package
-is installed.
+Now you can run the init script to initialize the configuration and database:
 
     $ sudo -u apache bin/vpn-cert-service-init
+
+To generate the server configuration use the following. Please note that it
+will take a **really long time** to generate the DH keys.
+
     $ sudo -u apache bin/vpn-cert-service-generate-server-config
 
-This will prepare the `easy-rsa` configuration for use with the service and 
-initialize the database that will be populated with the generated certificates.
 The second command will generate a server configuration file that can be 
 loaded in your OpenVPN server.
 

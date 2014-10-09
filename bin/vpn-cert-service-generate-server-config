@@ -8,9 +8,6 @@ use fkooman\Config\Config;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\ConfigGenerator;
 
-echo 'Generating server configuration and Diffie Hellman parameters,'.PHP_EOL;
-echo 'this will take some time...'.PHP_EOL;
-
 $config = Config::fromIniFile(
     dirname(__DIR__)."/config/config.ini"
 );
@@ -38,6 +35,7 @@ $configData = array(
     'dh' => $certKeyDh['dh'],
     'network' => $config->s('server', true)->l('network', true),
     'netmask' => $config->s('server', true)->l('netmask', true),
+    'nameservers' => $config->s('server', true)->s('nameservers', true)->toArray(),
 );
 $configGenerator = new ConfigGenerator($configData);
 echo $configGenerator->getConfig('server.twig');
