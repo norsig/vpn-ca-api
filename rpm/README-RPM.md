@@ -24,8 +24,7 @@ You can use the output and place it in your server directory as
 `/etc/openvpn/server.conf`. Now you should fix the permissions and start 
 OpenVPN (at boot):
 
-    $ sudo chown openvpn.openvpn /etc/openvpn/server.conf
-    $ sudo chmod 640 /etc/openvpn/server.conf
+    $ sudo chmod 600 /etc/openvpn/server.conf
     $ sudo systemctl enable openvpn@server
     $ sudo systemctl start openvpn@server
 
