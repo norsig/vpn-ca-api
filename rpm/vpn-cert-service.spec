@@ -3,7 +3,7 @@
 
 Name:       vpn-cert-service
 Version:    0.1.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Configuration Generator Web Service for OpenVPN written in PHP
 
 Group:      Applications/Internet
@@ -97,9 +97,12 @@ fi
 %{_datadir}/vpn-cert-service/views
 %{_datadir}/vpn-cert-service/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/vpn-cert-service
-%doc README.md COPYING composer.json config/
+%doc README.md COPYING composer.json rpm/README-RPM.md config/
 
 %changelog
+* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-2
+- also install README-RPM.md
+
 * Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-1
 - update to 0.1.2
 
