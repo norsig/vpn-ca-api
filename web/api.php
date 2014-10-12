@@ -11,6 +11,12 @@ use fkooman\VPN\EasyRsa;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\CertService;
 
+set_error_handler(
+    function ($errno, $errstr, $errfile, $errline) {
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }
+);
+
 try {
     $config = Config::fromIniFile(
         dirname(__DIR__)."/config/config.ini"

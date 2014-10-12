@@ -72,7 +72,7 @@ class EasyRsa
         );
     }
 
-    public function generateCert($commonName, $isServer = false)
+    private function generateCert($commonName, $isServer = false)
     {
         $this->db->addCert($commonName);
 
