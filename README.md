@@ -87,11 +87,11 @@ These calls can be performed using e.g. `curl`:
 
 Generate a configuration:
 
-    $ curl -X POST http://localhost/vpn-cert-service/api.php/user@example.org
+    $ curl -X POST -d 'user@example.org' http://localhost/vpn-cert-service/api.php/config/
 
 Delete (revoke) a configuration:
 
-    $ curl -X DELETE http://localhost/vpn-cert-service/api.php/user@example.org
+    $ curl -X DELETE http://localhost/vpn-cert-service/api.php/config/user@example.org
 
 Obtain the CRL:
 

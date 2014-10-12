@@ -3,12 +3,15 @@
 namespace fkooman\VPN;
 
 use fkooman\Config\Config;
+use fkooman\Rest\Service;
+use fkooman\Rest\Plugin\BasicAuthentication;
+use fkooman\Http\Request;
+use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
 use fkooman\Http\Exception\NotFoundException;
 use fkooman\Http\Exception\ForbiddenException;
-use fkooman\Http\Response;
 
-class CertService
+class CertService extends Service
 {
     /** @var fkooman\Config\Config */
     private $config;
@@ -20,6 +23,25 @@ class CertService
     {
         $this->config = $config;
         $this->easyRsa = $easyRsa;
+
+        parent::__construct();
+
+        $basicAuthenticationPlugin = new BasicAuthentication(
+            $config->l('authUser', true),
+            $config->l('authPass', true),
+            'vpn-cert-service'
+        );
+        $this->registerBeforeMatchingPlugin($basicAuthenticationPlugin);
+
+        $this->delete('/config/:commonName', function ($commonName) {
+            return $this->revokeCert($commonName);
+        });
+        $this->post('/config/', function (Request $request) {
+            return $this->generateCert($request->getPostParameter('commonName'));
+        });
+        $this->get('/crl', function () {
+            return $this->getCrl();
+        });
     }
 
     public function generateCert($commonName)

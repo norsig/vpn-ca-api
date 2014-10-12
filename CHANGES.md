@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.4
+- update `fkooman/rest` and update code for API changes
+- `CertService` now extends `Service` so all calls are not implemented
+  in `CertService` and not in the `api.php` script
+- path changed from `/api.php/` to `/api.php/config/` for generating and 
+  deleting configurations (CRL path unchanged)
+- the POST request now expects the commonName in the POST body, not in the 
+  URI, see `README.md` for updated `curl` examples
+- implement Basic Authenication (issue #4)
+
 ## 0.1.3
 - implement tls-auth for DoS prevention in client and server config
 - drop privileges to openvpn:openvpn after startup in server config

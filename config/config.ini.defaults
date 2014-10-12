@@ -1,5 +1,10 @@
 easyRsaConfigPath = '/var/lib/vpn-cert-service/easy-rsa'
 
+; Use provided 'vpn-cert-service-generate-password-hash' script to generate 
+; basicPass, default hash is for the password 's3cr3t'
+authUser = 'admin'
+authPass = '$2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2'
+
 [PdoStorage]
 dsn = "sqlite:/var/lib/vpn-cert-service/certs.sqlite"
 ;dsn = "mysql:host=localhost;dbname=vpn-cert-service"

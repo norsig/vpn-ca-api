@@ -22,12 +22,13 @@ Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
 Requires:   openvpn
 
+Requires:   php-password-compat >= 1.0.0
 Requires:   php-composer(fkooman/json) >= 0.5.1
 Requires:   php-composer(fkooman/json) < 0.6.0
 Requires:   php-composer(fkooman/config) >= 0.3.3
 Requires:   php-composer(fkooman/config) < 0.4.0
-Requires:   php-composer(fkooman/rest) >= 0.4.11
-Requires:   php-composer(fkooman/rest) < 0.5.0
+Requires:   php-composer(fkooman/rest) >= 0.5.0
+Requires:   php-composer(fkooman/rest) < 0.6.0
 Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
 Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
 
@@ -42,7 +43,7 @@ Requires(postun): policycoreutils-python
 
 %description
 This is a configuration generator for OpenVPN. It aims at providing a REST API
-that makes it easy to manage client configuration files. It is possible to 
+that makes it easy to manage client configuration files. It is possible to
 generate a configuration and revoke a configuration.
 
 %prep
@@ -50,6 +51,7 @@ generate a configuration and revoke a configuration.
 
 sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-init
 sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-generate-server-config
+sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-generate-password-hash
 
 %build
 
@@ -91,6 +93,7 @@ fi
 %config(noreplace) %{_sysconfdir}/vpn-cert-service
 %{_bindir}/vpn-cert-service-init
 %{_bindir}/vpn-cert-service-generate-server-config
+%{_bindir}/vpn-cert-service-generate-password-hash
 %dir %{_datadir}/vpn-cert-service
 %{_datadir}/vpn-cert-service/src
 %{_datadir}/vpn-cert-service/vendor
