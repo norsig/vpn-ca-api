@@ -21,7 +21,7 @@ a physical server.
 
 Now generate a client configuration and use that in the client:
 
-    $ curl -k -X POST -d 'commonName=fkooman@tuxed.net' https://localhost/vpn-cert-service/api.php/config/
+    $ curl -u admin:s3cr3t -k -X POST -d 'commonName=fkooman@tuxed.net' https://localhost/vpn-cert-service/api.php/config/
 
 For now you'll have to manually edit the IP address of the server in the client
 configuration as changing it would require changes to the configuration 
@@ -33,11 +33,11 @@ This should now work!
 The CRL implementation is not yet perfect as the server needs to read the CRL,
 to test it you can revoke the certifcate:
 
-    $ curl -k -X DELETE https://localhost/vpn-cert-service/api.php/config/fkooman@tuxed.net
+    $ curl -u admin:s3cr3t -k -X DELETE https://localhost/vpn-cert-service/api.php/config/fkooman@tuxed.net
 
 Now you can download the CRL and add it to the server configuration:
 
-    $ curl -k https://localhost/vpn-cert-service/api.php/crl
+    $ curl -k https://localhost/vpn-cert-service/api.php/ca.crl
 
 By now adding `crl-verify /path/to/crl` to your `server.conf` the generated 
 client configuration should no longer be accepted.

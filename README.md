@@ -94,15 +94,15 @@ These calls can be performed using e.g. `curl`:
 
 Generate a configuration:
 
-    $ curl -X POST -d 'user@example.org' http://localhost/vpn-cert-service/api.php/config/
+    $ curl -u admin:s3cr3t -X POST -d 'user@example.org' http://localhost/vpn-cert-service/api.php/config/
 
 Delete (revoke) a configuration:
 
-    $ curl -X DELETE http://localhost/vpn-cert-service/api.php/config/user@example.org
+    $ curl -u admin:s3cr3t -X DELETE http://localhost/vpn-cert-service/api.php/config/user@example.org
 
 Obtain the CRL:
 
-    $ curl http://localhost/vpn-cert-service/api.php/crl
+    $ curl http://localhost/vpn-cert-service/api.php/ca.crl
 
 # Docker
 It is possible to use Docker to evaluate this service, see the `docker` folder.

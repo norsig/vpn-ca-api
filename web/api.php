@@ -22,9 +22,8 @@ try {
         $config->s('PdoStorage')->l('password', false)
     );
     $db = new PdoStorage($db);
-
-    // FIXME: maybe initialize EasyRsa from within CertService?
     $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath', true), $db);
+
     $certService = new CertService($config, $easyRsa);
     $request = Request::fromIncomingRequest(new IncomingRequest());
     $certService->run($request)->sendResponse();

@@ -34,7 +34,7 @@ With the default config NAT routing needs to be enabled on the server:
     $ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 
 **FIXME**: figure out how to enable this on boot as well, say something about
-the firewall, 1194 udp...)
+the firewall, 1194 udp, add more info on password generating...)
 
 This is all that is needed to get going on the server. See the project's 
 README.md on how to use the API to generate client configuration files. It is

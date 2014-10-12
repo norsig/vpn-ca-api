@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+- make the CRL accessible without authentication (issue #8)
+- rename the CRL to `ca.crl` instead of just `crl`.
+
 ## 0.1.4
 - update `fkooman/rest` and update code for API changes
 - `CertService` now extends `Service` so all calls are not implemented

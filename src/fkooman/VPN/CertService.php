@@ -21,27 +21,45 @@ class CertService extends Service
 
     public function __construct(Config $config, EasyRsa $easyRsa)
     {
+        parent::__construct();
+
         $this->config = $config;
         $this->easyRsa = $easyRsa;
-
-        parent::__construct();
 
         $basicAuthenticationPlugin = new BasicAuthentication(
             $config->l('authUser', true),
             $config->l('authPass', true),
             'vpn-cert-service'
         );
-        $this->registerBeforeMatchingPlugin($basicAuthenticationPlugin);
 
-        $this->delete('/config/:commonName', function ($commonName) {
-            return $this->revokeCert($commonName);
-        });
-        $this->post('/config/', function (Request $request) {
-            return $this->generateCert($request->getPostParameter('commonName'));
-        });
-        $this->get('/crl', function () {
-            return $this->getCrl();
-        });
+        $this->registerBeforeEachMatchPlugin($basicAuthenticationPlugin);
+
+        /* DELETE */
+        $this->delete(
+            '/config/:commonName',
+            function ($commonName) {
+                return $this->revokeCert($commonName);
+            }
+        );
+
+        /* POST */
+        $this->post(
+            '/config/',
+            function (Request $request) {
+                return $this->generateCert(
+                    $request->getPostParameter('commonName')
+                );
+            }
+        );
+
+        /* GET */
+        $this->get(
+            '/ca.crl',
+            function () {
+                return $this->getCrl();
+            },
+            array('fkooman\Rest\Plugin\BasicAuthentication')
+        );
     }
 
     public function generateCert($commonName)
