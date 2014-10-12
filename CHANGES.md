@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6
+- add error_handler that throws exceptions instead of showing PHP errors
+- add error_log for all non-client exceptions (writes to Apache error_log)
+
 ## 0.1.5
 - make the CRL accessible without authentication (issue #8)
 - rename the CRL to `ca.crl` instead of just `crl`.
