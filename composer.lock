@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "28e45e8037d9139cc28e7c91ff7c2338",
+    "hash": "0b6beb2f2db2b42d803d71d8bc0cb899",
     "packages": [
         {
             "name": "fkooman/config",
@@ -84,16 +84,16 @@
         },
         {
             "name": "fkooman/rest",
-            "version": "dev-master",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest.git",
-                "reference": "cbeae113d8f6929bc40412c5a35ae6da45cc22c5"
+                "reference": "689808ee9442053159af4678942cbf58a53b031b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/cbeae113d8f6929bc40412c5a35ae6da45cc22c5",
-                "reference": "cbeae113d8f6929bc40412c5a35ae6da45cc22c5",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/689808ee9442053159af4678942cbf58a53b031b",
+                "reference": "689808ee9442053159af4678942cbf58a53b031b",
                 "shasum": ""
             },
             "require": {
@@ -120,7 +120,7 @@
                 }
             ],
             "description": "Simple PHP library for writing REST services.",
-            "time": "2014-10-11 20:44:19"
+            "time": "2014-10-12 11:17:38"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -269,9 +269,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "fkooman/rest": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "ext-openssl": "*",
