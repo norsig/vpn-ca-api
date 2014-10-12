@@ -51,6 +51,13 @@ will take a **really long time** to generate the DH keys.
 The second command will generate a server configuration file that can be 
 loaded in your OpenVPN server.
 
+You also need to store a hashed password for protecting the HTTP interface in
+`config/config.ini`. The default password is `s3cr3t`. You can generate your
+own by using the `bin/vpn-cert-service-generate-password-hash yourpass`. 
+
+**NOTE**: generate your own hash and put it in `config/config.ini`, do **NOT** 
+use the default.
+
 # Apache
 The following configuration can be used in Apache, place it in 
 `/etc/httpd/conf.d/vpn-cert-service.conf`:
