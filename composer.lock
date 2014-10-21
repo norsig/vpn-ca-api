@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9dfaab069ffb03d7d9e80114745e89c1",
+    "hash": "edf2efedb51219820953a482e85d96cb",
     "packages": [
         {
             "name": "fkooman/config",
@@ -84,22 +84,24 @@
         },
         {
             "name": "fkooman/rest",
-            "version": "0.5.1",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest.git",
-                "reference": "2fef8131c04f27d7cb76fa01da3e292b4363c725"
+                "reference": "5dcc3136f848922f11790660aec1405d0dcdc644"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/2fef8131c04f27d7cb76fa01da3e292b4363c725",
-                "reference": "2fef8131c04f27d7cb76fa01da3e292b4363c725",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/5dcc3136f848922f11790660aec1405d0dcdc644",
+                "reference": "5dcc3136f848922f11790660aec1405d0dcdc644",
                 "shasum": ""
             },
             "require": {
                 "fkooman/json": "~0.5.1",
-                "ircmaxell/password-compat": "~1.0",
                 "php": ">=5.3.3"
+            },
+            "suggest": {
+                "fkooman/rest-plugin-basic": "Basic Authentication plugin for Service"
             },
             "type": "library",
             "autoload": {
@@ -120,7 +122,46 @@
                 }
             ],
             "description": "Simple PHP library for writing REST services.",
-            "time": "2014-10-12 16:37:14"
+            "time": "2014-10-21 16:30:51"
+        },
+        {
+            "name": "fkooman/rest-plugin-basic",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-rest-plugin-basic.git",
+                "reference": "3c6570012596c6a7677226527fa5c08cd8b58eaa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/3c6570012596c6a7677226527fa5c08cd8b58eaa",
+                "reference": "3c6570012596c6a7677226527fa5c08cd8b58eaa",
+                "shasum": ""
+            },
+            "require": {
+                "fkooman/rest": "~0.6.0",
+                "ircmaxell/password-compat": "~1.0",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Rest\\Plugin\\Basic": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Basic Authentication plugin for fkooman/rest",
+            "time": "2014-10-21 16:33:32"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -210,16 +251,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.16.1",
+            "version": "v1.16.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "7c4c01dcf578523cfcddf383641a4f12790270ec"
+                "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/7c4c01dcf578523cfcddf383641a4f12790270ec",
-                "reference": "7c4c01dcf578523cfcddf383641a4f12790270ec",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
+                "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +304,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-10-10 14:09:53"
+            "time": "2014-10-17 12:53:44"
         }
     ],
     "packages-dev": [],
@@ -272,8 +313,7 @@
     "stability-flags": [],
     "prefer-stable": false,
     "platform": {
-        "ext-openssl": "*",
-        "php": ">=5.3.3"
+        "ext-openssl": "*"
     },
     "platform-dev": []
 }

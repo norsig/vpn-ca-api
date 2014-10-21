@@ -10,12 +10,13 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'fkooman\\VPN'             => $baseDir.'/src',
-    'fkooman\\Rest'            => $vendorDir,
-    'fkooman\\Json'            => $vendorDir,
-    'fkooman\\Http'            => $vendorDir,
-    'fkooman\\Config'          => $vendorDir,
-    'Symfony\\Component\\Yaml' => $vendorDir,
+    'fkooman\\VPN'                 => $baseDir.'/src',
+    'fkooman\\Rest'                => $vendorDir,
+    'fkooman\\Rest\\Plugin\\Basic' => $vendorDir,
+    'fkooman\\Json'                => $vendorDir,
+    'fkooman\\Http'                => $vendorDir,
+    'fkooman\\Config'              => $vendorDir,
+    'Symfony\\Component\\Yaml'     => $vendorDir,
 ));
 $loader->registerPrefixes(array(
     'Twig_'               => array($pearDir, $vendorDir),

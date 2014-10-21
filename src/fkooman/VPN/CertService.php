@@ -4,7 +4,7 @@ namespace fkooman\VPN;
 
 use fkooman\Config\Config;
 use fkooman\Rest\Service;
-use fkooman\Rest\Plugin\BasicAuthentication;
+use fkooman\Rest\Plugin\Basic\BasicAuthentication;
 use fkooman\Http\Request;
 use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
