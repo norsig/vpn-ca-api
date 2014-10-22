@@ -2,7 +2,7 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.6
+Version:    0.1.7
 Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
@@ -104,32 +104,5 @@ fi
 %doc README.md COPYING composer.json rpm/README-RPM.md config/
 
 %changelog
-* Tue Oct 21 2014 François Kooman <fkooman@tuxed.net> - 0.1.6-1
-- update to 0.1.6
-
-* Sun Oct 12 2014 François Kooman <fkooman@tuxed.net> - 0.1.5-1
-- update to 0.1.5
-
-* Sun Oct 12 2014 François Kooman <fkooman@tuxed.net> - 0.1.4-1
-- update to 0.1.4
-
-* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.3-1
-- update to 0.1.3
-- require openvpn as we need to generate tls-auth key
-
-* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-2
-- also install README-RPM.md
-
-* Thu Oct 09 2014 François Kooman <fkooman@tuxed.net> - 0.1.2-1
-- update to 0.1.2
-
-* Wed Oct 08 2014 François Kooman <fkooman@tuxed.net> - 0.1.1-2
-- add easy-rsa dependency
-
-* Wed Oct 08 2014 François Kooman <fkooman@tuxed.net> - 0.1.1-1
-- update to 0.1.1
-- include new vpn-cert-service-generate-server-config script
-- update dependency requirement for fkooman/rest
-
-* Wed Oct 08 2014 François Kooman <fkooman@tuxed.net> - 0.1.0-1
-- initial package
+* Wed Oct 22 2014 François Kooman <fkooman@tuxed.net> - 0.1.7-1
+- update to 0.1.7
