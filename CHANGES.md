@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.7
+- update to new `fkooman/rest`
+
 ## 0.1.6
 - add error_handler that throws exceptions instead of showing PHP errors
 - add error_log for all non-client exceptions (writes to Apache error_log)

@@ -2,8 +2,6 @@
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use fkooman\Http\Request;
-use fkooman\Http\IncomingRequest;
 use fkooman\Http\Exception\HttpException;
 use fkooman\Http\Exception\InternalServerErrorException;
 use fkooman\Config\Config;
@@ -31,8 +29,7 @@ try {
     $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath', true), $db);
 
     $certService = new CertService($config, $easyRsa);
-    $request = Request::fromIncomingRequest(new IncomingRequest());
-    $certService->run($request)->sendResponse();
+    $certService->run()->sendResponse();
 } catch (Exception $e) {
     if ($e instanceof HttpException) {
         $response = $e->getJsonResponse();
