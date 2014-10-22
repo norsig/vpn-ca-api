@@ -15,8 +15,7 @@ $loader->registerNamespaces(array(
     'fkooman\\Rest\\Plugin\\Basic' => $vendorDir,
     'fkooman\\Json'                => $vendorDir,
     'fkooman\\Http'                => $vendorDir,
-    'fkooman\\Config'              => $vendorDir,
-    'Symfony\\Component\\Yaml'     => $vendorDir,
+    'fkooman\\Ini'                 => $vendorDir,
 ));
 $loader->registerPrefixes(array(
     'Twig_'               => array($pearDir, $vendorDir),

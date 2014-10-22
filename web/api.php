@@ -4,7 +4,8 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\Http\Exception\HttpException;
 use fkooman\Http\Exception\InternalServerErrorException;
-use fkooman\Config\Config;
+use fkooman\Rest\Plugin\Basic\BasicAuthentication;
+use fkooman\Ini\IniReader;
 use fkooman\VPN\EasyRsa;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\CertService;
@@ -16,19 +17,27 @@ set_error_handler(
 );
 
 try {
-    $config = Config::fromIniFile(
+    $iniReader = IniReader::fromFile(
         dirname(__DIR__)."/config/config.ini"
     );
 
-    $db = new PDO(
-        $config->s('PdoStorage')->l('dsn', true),
-        $config->s('PdoStorage')->l('username', false),
-        $config->s('PdoStorage')->l('password', false)
+    $pdo = new PDO(
+        $iniReader->v(['PdoStorage', 'dsn']),
+        $iniReader->v(['PdoStorage', 'username', false]),
+        $iniReader->v(['PdoStorage', 'password', false])
     );
-    $db = new PdoStorage($db);
-    $easyRsa = new EasyRsa($config->getValue('easyRsaConfigPath', true), $db);
 
-    $certService = new CertService($config, $easyRsa);
+    $pdoStorage = new PdoStorage($pdo);
+    $easyRsa = new EasyRsa($iniReader->v(['easyRsaConfigPath']), $pdoStorage);
+
+    $basicAuthenticationPlugin = new BasicAuthentication(
+        $iniReader->v(['authUser']),
+        $iniReader->v(['authPass']),
+        'VPN Configuration Service'
+    );
+
+    $certService = new CertService($easyRsa, $iniReader->v(['clients', 'remotes']));
+    $certService->registerBeforeEachMatchPlugin($basicAuthenticationPlugin);
     $certService->run()->sendResponse();
 } catch (Exception $e) {
     if ($e instanceof HttpException) {

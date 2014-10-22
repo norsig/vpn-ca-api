@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.8
+- use new `fkooman/ini` instead of `fkooman/config`
+
 ## 0.1.7
 - update to new `fkooman/rest`
 - add `Last-Modified` header to `ca.crl` response

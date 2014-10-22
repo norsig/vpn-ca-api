@@ -16,9 +16,10 @@
     "name": "fkooman/vpn-cert-service",
     "require": {
         "ext-openssl": "*",
-        "fkooman/config": "~0.3.4",
+        "fkooman/ini": "~0.1.0",
         "fkooman/rest": "~0.6.1",
         "fkooman/rest-plugin-basic": "~0.2.1",
+        "php": ">=5.4",
         "twig/twig": "~1.15"
     }
 }

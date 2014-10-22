@@ -4,15 +4,15 @@
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\VPN\EasyRsa;
-use fkooman\Config\Config;
+use fkooman\Ini\IniReader;
 use fkooman\VPN\PdoStorage;
 
-$config = Config::fromIniFile(
+$iniReader = IniReader::fromFile(
     dirname(__DIR__)."/config/config.ini"
 );
 
 $easyRsaPath = '/usr/share/easy-rsa/2.0';
-$easyRsaTargetConfigPath = $config->getValue('easyRsaConfigPath', true);
+$easyRsaTargetConfigPath = $iniReader->v(['easyRsaConfigPath']);
 
 if (!file_exists($easyRsaTargetConfigPath)) {
     mkdir($easyRsaTargetConfigPath);
@@ -23,8 +23,6 @@ foreach (glob($easyRsaPath."/*") as $file) {
     // also keep file permissions
     chmod($easyRsaTargetConfigPath."/".basename($file), $fp);
 }
-
-$caConfig = $config->s('ca')->l('ca_expire');
 
 # update the 'vars' file
 $search = array(
@@ -38,26 +36,26 @@ $search = array(
     'export KEY_OU="MyOrganizationalUnit"',
 );
 $replace = array(
-    sprintf('export CA_EXPIRE=%d', $config->s('ca', true)->l('ca_expire', true)),
-    sprintf('export KEY_EXPIRE=%d', $config->s('ca', true)->l('key_expire', true)),
-    sprintf('export KEY_COUNTRY="%s"', $config->s('ca', true)->l('key_country', true)),
-    sprintf('export KEY_PROVINCE="%s"', $config->s('ca', true)->l('key_province', true)),
-    sprintf('export KEY_CITY="%s"', $config->s('ca', true)->l('key_city', true)),
-    sprintf('export KEY_ORG="%s"', $config->s('ca', true)->l('key_org', true)),
-    sprintf('export KEY_EMAIL="%s"', $config->s('ca', true)->l('key_email', true)),
-    sprintf('export KEY_OU="%s"', $config->s('ca', true)->l('key_ou', true)),
+    sprintf('export CA_EXPIRE=%d', $iniReader->v(['ca', 'ca_expire'])),
+    sprintf('export KEY_EXPIRE=%d', $iniReader->v(['ca', 'key_expire'])),
+    sprintf('export KEY_COUNTRY="%s"', $iniReader->v(['ca', 'key_country'])),
+    sprintf('export KEY_PROVINCE="%s"', $iniReader->v(['ca', 'key_province'])),
+    sprintf('export KEY_CITY="%s"', $iniReader->v(['ca', 'key_city'])),
+    sprintf('export KEY_ORG="%s"', $iniReader->v(['ca', 'key_org'])),
+    sprintf('export KEY_EMAIL="%s"', $iniReader->v(['ca', 'key_email'])),
+    sprintf('export KEY_OU="%s"', $iniReader->v(['ca', 'key_ou'])),
 );
 $varsFile = $easyRsaTargetConfigPath."/vars";
 $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
 file_put_contents($varsFile, $varsContent);
 
-$db = new PDO(
-    $config->s('PdoStorage')->l('dsn'),
-    $config->s('PdoStorage')->l('username', false),
-    $config->s('PdoStorage')->l('password', false)
+$pdo = new PDO(
+    $iniReader->v(['PdoStorage', 'dsn']),
+    $iniReader->v(['PdoStorage', 'username', false]),
+    $iniReader->v(['PdoStorage', 'password', false])
 );
 
-$db = new PdoStorage($db);
+$pdoStorage = new PdoStorage($pdo);
 
-$e = new EasyRsa($easyRsaTargetConfigPath, $db);
+$e = new EasyRsa($easyRsaTargetConfigPath, $pdoStorage);
 $e->initCa();

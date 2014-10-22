@@ -15,15 +15,15 @@ Source2:    vpn-cert-service-autoload.php
 
 BuildArch:  noarch
 
-Requires:   php >= 5.3.3
+Requires:   php >= 5.4
 Requires:   php-openssl
 Requires:   php-pdo
 Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
 Requires:   openvpn
 
-Requires:   php-composer(fkooman/config) >= 0.3.4
-Requires:   php-composer(fkooman/config) < 0.4.0
+Requires:   php-composer(fkooman/ini) >= 0.1.0
+Requires:   php-composer(fkooman/ini) < 0.2.0
 Requires:   php-composer(fkooman/rest) >= 0.6.1
 Requires:   php-composer(fkooman/rest) < 0.7.0
 Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.2.1

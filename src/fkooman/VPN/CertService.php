@@ -2,9 +2,7 @@
 
 namespace fkooman\VPN;
 
-use fkooman\Config\Config;
 use fkooman\Rest\Service;
-use fkooman\Rest\Plugin\Basic\BasicAuthentication;
 use fkooman\Http\Request;
 use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
@@ -13,26 +11,18 @@ use fkooman\Http\Exception\ForbiddenException;
 
 class CertService extends Service
 {
-    /** @var fkooman\Config\Config */
-    private $config;
-
     /** @var fkooman\VPN\EasyRsa */
     private $easyRsa;
 
-    public function __construct(Config $config, EasyRsa $easyRsa)
+    /** @var array */
+    private $remotes;
+
+    public function __construct(EasyRsa $easyRsa, array $remotes)
     {
         parent::__construct();
 
-        $this->config = $config;
         $this->easyRsa = $easyRsa;
-
-        $basicAuthenticationPlugin = new BasicAuthentication(
-            $config->l('authUser', true),
-            $config->l('authPass', true),
-            'vpn-cert-service'
-        );
-
-        $this->registerBeforeEachMatchPlugin($basicAuthenticationPlugin);
+        $this->remotes = $remotes;
 
         /* DELETE */
         $this->delete(
@@ -87,7 +77,7 @@ class CertService extends Service
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],
             'ta' => $this->easyRsa->getTlsAuthKey(),
-            'remotes' => $this->config->s('clients', true)->s('remotes', true)->toArray(),
+            'remotes' => $this->remotes,
         );
         $configGenerator = new ConfigGenerator($configData);
         $response = new Response(201, "application/x-openvpn-profile");
