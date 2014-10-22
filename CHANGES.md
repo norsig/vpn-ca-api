@@ -2,6 +2,8 @@
 
 ## 0.1.7
 - update to new `fkooman/rest`
+- add `Last-Modified` header to `ca.crl` response
+- fix not needing authentication to fetch the CRL
 
 ## 0.1.6
 - add error_handler that throws exceptions instead of showing PHP errors

@@ -58,7 +58,7 @@ class CertService extends Service
             function () {
                 return $this->getCrl();
             },
-            array('fkooman\Rest\Plugin\BasicAuthentication')
+            array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
         );
     }
 
@@ -104,9 +104,10 @@ class CertService extends Service
     {
         $response = new Response(200, 'application/pkix-crl');
 
-        $crlData = $this->easyRsa->getCrl();
-        if (null !== $crlData) {
-            $response->setContent($crlData);
+        $crlArray = $this->easyRsa->getCrl();
+        if (null !== $crlArray['crl_data']) {
+            $response->setHeader("Last-Modified", $crlArray['last_modified']);
+            $response->setContent($crlArray['crl_data']);
         }
 
         return $response;

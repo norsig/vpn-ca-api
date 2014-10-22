@@ -110,7 +110,10 @@ class EasyRsa
             return null;
         }
 
-        return file_get_contents($crlFile);
+        return array(
+            'last_modified' => date('r', filemtime($crlFile)),
+            'crl_data' => file_get_contents($crlFile),
+        );
     }
 
     public function revokeClientCert($commonName)
