@@ -60,6 +60,15 @@ class CertService extends Service
             },
             array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
         );
+
+        /* HEAD */
+        $this->head(
+            '/ca.crl',
+            function () {
+                return $this->getCrlHead();
+            },
+            array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
+        );
     }
 
     public function generateCert($commonName)
@@ -104,10 +113,22 @@ class CertService extends Service
     {
         $response = new Response(200, 'application/pkix-crl');
 
-        $crlArray = $this->easyRsa->getCrl();
-        if (null !== $crlArray['crl_data']) {
-            $response->setHeader("Last-Modified", $crlArray['last_modified']);
-            $response->setContent($crlArray['crl_data']);
+        $crlData = $this->easyRsa->getCrl();
+        if (null !== $crlData) {
+            $response->setHeader('Last-Modified', $this->easyRsa->getCrlLastModifiedTime());
+            $response->setContent($crlData);
+        }
+
+        return $response;
+    }
+
+    public function getCrlHead()
+    {
+        $response = new Response(200, 'application/pkix-crl');
+
+        if (null !== $this->easyRsa->getCrlLastModifiedTime() && null !== $this->easyRsa->getCrlFileSize()) {
+            $response->setHeader('Last-Modified', $this->easyRsa->getCrlLastModifiedTime());
+            $response->setHeader('Content-Length', $this->easyRsa->getCrlFileSize());
         }
 
         return $response;

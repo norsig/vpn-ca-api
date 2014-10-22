@@ -110,10 +110,37 @@ class EasyRsa
             return null;
         }
 
-        return array(
-            'last_modified' => date('r', filemtime($crlFile)),
-            'crl_data' => file_get_contents($crlFile),
+        return file_get_contents($crlFile);
+    }
+
+    public function getCrlLastModifiedTime()
+    {
+        $crlFile = sprintf(
+            "%s/keys/%s",
+            $this->easyRsaPath,
+            'crl.pem'
         );
+
+        if (!file_exists($crlFile)) {
+            return null;
+        }
+
+        return date('r', filemtime($crlFile));
+    }
+
+    public function getCrlFileSize()
+    {
+        $crlFile = sprintf(
+            "%s/keys/%s",
+            $this->easyRsaPath,
+            'crl.pem'
+        );
+
+        if (!file_exists($crlFile)) {
+            return null;
+        }
+
+        return filesize($crlFile);
     }
 
     public function revokeClientCert($commonName)
