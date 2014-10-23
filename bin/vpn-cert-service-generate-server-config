@@ -9,10 +9,10 @@ use fkooman\VPN\PdoStorage;
 use fkooman\VPN\ConfigGenerator;
 
 $iniReader = IniReader::fromFile(
-    dirname(__DIR__)."/config/config.ini"
+    dirname(__DIR__).'/config/config.ini'
 );
 
-$commonName = "server";
+$commonName = 'server';
 
 $easyRsaTargetConfigPath = $iniReader->v(['easyRsaConfigPath']);
 

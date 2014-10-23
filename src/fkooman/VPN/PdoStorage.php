@@ -10,7 +10,7 @@ class PdoStorage
     private $db;
     private $prefix;
 
-    public function __construct(PDO $db, $prefix = "")
+    public function __construct(PDO $db, $prefix = '')
     {
         $this->db = $db;
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -21,11 +21,11 @@ class PdoStorage
     {
         $stmt = $this->db->prepare(
             sprintf(
-                "SELECT common_name FROM %s WHERE common_name = :common_name",
-                $this->prefix."certs"
+                'SELECT common_name FROM %s WHERE common_name = :common_name',
+                $this->prefix.'certs'
             )
         );
-        $stmt->bindValue(":common_name", $commonName, PDO::PARAM_STR);
+        $stmt->bindValue(':common_name', $commonName, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (false !== $result) {
@@ -39,15 +39,15 @@ class PdoStorage
     {
         $stmt = $this->db->prepare(
             sprintf(
-                "INSERT INTO %s (common_name) VALUES(:common_name)",
-                $this->prefix."certs"
+                'INSERT INTO %s (common_name) VALUES(:common_name)',
+                $this->prefix.'certs'
             )
         );
-        $stmt->bindValue(":common_name", $commonName, PDO::PARAM_STR);
+        $stmt->bindValue(':common_name', $commonName, PDO::PARAM_STR);
         $stmt->execute();
 
         if (1 !== $stmt->rowCount()) {
-            throw new PdoStorageException("unable to add cert");
+            throw new PdoStorageException('unable to add cert');
         }
     }
 
@@ -55,15 +55,15 @@ class PdoStorage
     {
         $stmt = $this->db->prepare(
             sprintf(
-                "DELETE FROM %s WHERE common_name = :common_name",
-                $this->prefix."certs"
+                'DELETE FROM %s WHERE common_name = :common_name',
+                $this->prefix.'certs'
             )
         );
-        $stmt->bindValue(":common_name", $commonName, PDO::PARAM_STR);
+        $stmt->bindValue(':common_name', $commonName, PDO::PARAM_STR);
         $stmt->execute();
 
         if (1 !== $stmt->rowCount()) {
-            throw new PdoStorageException("unable to delete cert");
+            throw new PdoStorageException('unable to delete cert');
         }
     }
 
@@ -71,10 +71,10 @@ class PdoStorage
     {
         $query = array();
         $query[] = sprintf(
-            "CREATE TABLE IF NOT EXISTS %s (
+            'CREATE TABLE IF NOT EXISTS %s (
                 common_name VARCHAR(255) NOT NULL,
                 UNIQUE (common_name)
-            )",
+            )',
             $prefix.'certs'
         );
 
@@ -93,7 +93,7 @@ class PdoStorage
             // make sure the tables are empty
             $this->db->query(
                 sprintf(
-                    "DELETE FROM %s",
+                    'DELETE FROM %s',
                     $this->prefix.$t
                 )
             );

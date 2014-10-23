@@ -18,7 +18,7 @@ set_error_handler(
 
 try {
     $iniReader = IniReader::fromFile(
-        dirname(__DIR__)."/config/config.ini"
+        dirname(__DIR__).'/config/config.ini'
     );
 
     $pdo = new PDO(

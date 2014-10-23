@@ -66,7 +66,7 @@ class CertService extends Service
         $this->validateCommonName($commonName);
 
         if ($this->easyRsa->hasCert($commonName)) {
-            throw new ForbiddenException("certificate with this common name already exists");
+            throw new ForbiddenException('certificate with this common name already exists');
         }
 
         $certKey = $this->easyRsa->generateClientCert($commonName);
@@ -80,7 +80,7 @@ class CertService extends Service
             'remotes' => $this->remotes,
         );
         $configGenerator = new ConfigGenerator($configData);
-        $response = new Response(201, "application/x-openvpn-profile");
+        $response = new Response(201, 'application/x-openvpn-profile');
         $response->setContent($configGenerator->getConfig());
 
         return $response;
@@ -91,7 +91,7 @@ class CertService extends Service
         $this->validateCommonName($commonName);
 
         if (!$this->easyRsa->hasCert($commonName)) {
-            throw new NotFoundException("certificate with this common name does not exist");
+            throw new NotFoundException('certificate with this common name does not exist');
         }
 
         $this->easyRsa->revokeClientCert($commonName);
@@ -127,7 +127,7 @@ class CertService extends Service
     private function validateCommonName($commonName)
     {
         if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {
-            throw new BadRequestException("invalid common name syntax");
+            throw new BadRequestException('invalid common name syntax');
         }
     }
 }

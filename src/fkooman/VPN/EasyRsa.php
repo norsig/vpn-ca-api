@@ -30,10 +30,10 @@ class EasyRsa
 
     public function generateDh()
     {
-        $this->execute("./build-dh");
+        $this->execute('./build-dh');
 
         $dhFile = sprintf(
-            "%s/keys/%s",
+            '%s/keys/%s',
             $this->easyRsaPath,
             'dh2048.pem'
         );
@@ -49,7 +49,7 @@ class EasyRsa
     public function getTlsAuthKey()
     {
         $taFile = sprintf(
-            "%s/keys/ta.key",
+            '%s/keys/ta.key',
             $this->easyRsaPath
         );
 
@@ -59,7 +59,7 @@ class EasyRsa
     private function generateTlsAuthKey()
     {
         $taFile = sprintf(
-            "%s/keys/ta.key",
+            '%s/keys/ta.key',
             $this->easyRsaPath
         );
 
@@ -77,14 +77,14 @@ class EasyRsa
         $this->db->addCert($commonName);
 
         if ($isServer) {
-            $this->execute(sprintf("pkitool --server %s", $commonName));
+            $this->execute(sprintf('pkitool --server %s', $commonName));
         } else {
-            $this->execute(sprintf("pkitool %s", $commonName));
+            $this->execute(sprintf('pkitool %s', $commonName));
         }
 
         return array(
-            "cert" => $this->getCertFile(sprintf("%s.crt", $commonName)),
-            "key" => $this->getKeyFile(sprintf("%s.key", $commonName)),
+            'cert' => $this->getCertFile(sprintf('%s.crt', $commonName)),
+            'key' => $this->getKeyFile(sprintf('%s.key', $commonName)),
         );
     }
 
@@ -95,13 +95,13 @@ class EasyRsa
 
     public function getCaCert()
     {
-        return $this->getCertFile("ca.crt");
+        return $this->getCertFile('ca.crt');
     }
 
     public function getCrl()
     {
         $crlFile = sprintf(
-            "%s/keys/%s",
+            '%s/keys/%s',
             $this->easyRsaPath,
             'crl.pem'
         );
@@ -116,7 +116,7 @@ class EasyRsa
     public function getCrlLastModifiedTime()
     {
         $crlFile = sprintf(
-            "%s/keys/%s",
+            '%s/keys/%s',
             $this->easyRsaPath,
             'crl.pem'
         );
@@ -131,7 +131,7 @@ class EasyRsa
     public function getCrlFileSize()
     {
         $crlFile = sprintf(
-            "%s/keys/%s",
+            '%s/keys/%s',
             $this->easyRsaPath,
             'crl.pem'
         );
@@ -146,13 +146,13 @@ class EasyRsa
     public function revokeClientCert($commonName)
     {
         $this->db->deleteCert($commonName);
-        $this->execute(sprintf("revoke-full %s", $commonName));
+        $this->execute(sprintf('revoke-full %s', $commonName));
     }
 
     private function getCertFile($certFile)
     {
         $certFile = sprintf(
-            "%s/keys/%s",
+            '%s/keys/%s',
             $this->easyRsaPath,
             $certFile
         );
@@ -170,7 +170,7 @@ class EasyRsa
     private function getKeyFile($keyFile)
     {
         $keyFile = sprintf(
-            "%s/keys/%s",
+            '%s/keys/%s',
             $this->easyRsaPath,
             $keyFile
         );
@@ -180,22 +180,22 @@ class EasyRsa
 
     public function initCa()
     {
-        $this->execute("clean-all");
-        $this->execute("pkitool --initca");
+        $this->execute('clean-all');
+        $this->execute('pkitool --initca');
         $this->generateTlsAuthKey();
         $this->db->initDatabase();
     }
 
     private function execute($command, $isQuiet = true)
     {
-        // if not absolute path, prepend with "./"
-        $command = 0 !== strpos($command, "/") ? sprintf("./%s", $command) : $command;
+        // if not absolute path, prepend with './'
+        $command = 0 !== strpos($command, '/') ? sprintf('./%s', $command) : $command;
 
         // by default we are quiet
-        $quietSuffix = $isQuiet ? " >/dev/null 2>/dev/null" : "";
+        $quietSuffix = $isQuiet ? ' >/dev/null 2>/dev/null' : '';
 
         $cmd = sprintf(
-            "cd %s && source ./vars >/dev/null 2>/dev/null && %s %s",
+            'cd %s && source ./vars >/dev/null 2>/dev/null && %s %s',
             $this->easyRsaPath,
             $command,
             $quietSuffix

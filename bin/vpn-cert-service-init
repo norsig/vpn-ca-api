@@ -8,7 +8,7 @@ use fkooman\Ini\IniReader;
 use fkooman\VPN\PdoStorage;
 
 $iniReader = IniReader::fromFile(
-    dirname(__DIR__)."/config/config.ini"
+    dirname(__DIR__).'/config/config.ini'
 );
 
 $easyRsaPath = '/usr/share/easy-rsa/2.0';
@@ -17,11 +17,11 @@ $easyRsaTargetConfigPath = $iniReader->v(['easyRsaConfigPath']);
 if (!file_exists($easyRsaTargetConfigPath)) {
     mkdir($easyRsaTargetConfigPath);
 }
-foreach (glob($easyRsaPath."/*") as $file) {
+foreach (glob($easyRsaPath.'/*') as $file) {
     $fp = fileperms($file);
-    copy($file, $easyRsaTargetConfigPath."/".basename($file));
+    copy($file, $easyRsaTargetConfigPath.'/'.basename($file));
     // also keep file permissions
-    chmod($easyRsaTargetConfigPath."/".basename($file), $fp);
+    chmod($easyRsaTargetConfigPath.'/'.basename($file), $fp);
 }
 
 # update the 'vars' file
@@ -45,7 +45,7 @@ $replace = array(
     sprintf('export KEY_EMAIL="%s"', $iniReader->v(['ca', 'key_email'])),
     sprintf('export KEY_OU="%s"', $iniReader->v(['ca', 'key_ou'])),
 );
-$varsFile = $easyRsaTargetConfigPath."/vars";
+$varsFile = $easyRsaTargetConfigPath.'/vars';
 $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
 file_put_contents($varsFile, $varsContent);
 
