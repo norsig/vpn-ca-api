@@ -22,21 +22,21 @@ try {
     );
 
     $pdo = new PDO(
-        $iniReader->v(['PdoStorage', 'dsn']),
-        $iniReader->v(['PdoStorage', 'username', false]),
-        $iniReader->v(['PdoStorage', 'password', false])
+        $iniReader->v('PdoStorage', 'dsn'),
+        $iniReader->v('PdoStorage', 'username', false),
+        $iniReader->v('PdoStorage', 'password', false)
     );
 
     $pdoStorage = new PdoStorage($pdo);
-    $easyRsa = new EasyRsa($iniReader->v(['easyRsaConfigPath']), $pdoStorage);
+    $easyRsa = new EasyRsa($iniReader->v('easyRsaConfigPath'), $pdoStorage);
 
     $basicAuthenticationPlugin = new BasicAuthentication(
-        $iniReader->v(['authUser']),
-        $iniReader->v(['authPass']),
+        $iniReader->v('authUser'),
+        $iniReader->v('authPass'),
         'VPN Configuration Service'
     );
 
-    $certService = new CertService($easyRsa, $iniReader->v(['clients', 'remotes']));
+    $certService = new CertService($easyRsa, $iniReader->v('clients', 'remotes'));
     $certService->registerBeforeEachMatchPlugin($basicAuthenticationPlugin);
     $certService->run()->sendResponse();
 } catch (Exception $e) {

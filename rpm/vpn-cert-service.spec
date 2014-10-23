@@ -2,7 +2,7 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.8
+Version:    0.1.9
 Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
@@ -22,8 +22,8 @@ Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
 Requires:   openvpn
 
-Requires:   php-composer(fkooman/ini) >= 0.1.0
-Requires:   php-composer(fkooman/ini) < 0.2.0
+Requires:   php-composer(fkooman/ini) >= 0.2.0
+Requires:   php-composer(fkooman/ini) < 0.3.0
 Requires:   php-composer(fkooman/rest) >= 0.6.1
 Requires:   php-composer(fkooman/rest) < 0.7.0
 Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.2.1
@@ -104,6 +104,9 @@ fi
 %doc README.md COPYING composer.json rpm/README-RPM.md config/
 
 %changelog
+* Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.1.9-1
+- update to 0.1.9
+
 * Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.1.8-1
 - update to 0.1.8
 

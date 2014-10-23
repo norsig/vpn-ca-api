@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.9
+- update to new `fkooman/ini` API
+
 ## 0.1.8
 - use new `fkooman/ini` instead of `fkooman/config`
 - update coding standards

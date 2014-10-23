@@ -12,7 +12,7 @@ $iniReader = IniReader::fromFile(
 );
 
 $easyRsaPath = '/usr/share/easy-rsa/2.0';
-$easyRsaTargetConfigPath = $iniReader->v(['easyRsaConfigPath']);
+$easyRsaTargetConfigPath = $iniReader->v('easyRsaConfigPath');
 
 if (!file_exists($easyRsaTargetConfigPath)) {
     mkdir($easyRsaTargetConfigPath);
@@ -36,23 +36,23 @@ $search = array(
     'export KEY_OU="MyOrganizationalUnit"',
 );
 $replace = array(
-    sprintf('export CA_EXPIRE=%d', $iniReader->v(['ca', 'ca_expire'])),
-    sprintf('export KEY_EXPIRE=%d', $iniReader->v(['ca', 'key_expire'])),
-    sprintf('export KEY_COUNTRY="%s"', $iniReader->v(['ca', 'key_country'])),
-    sprintf('export KEY_PROVINCE="%s"', $iniReader->v(['ca', 'key_province'])),
-    sprintf('export KEY_CITY="%s"', $iniReader->v(['ca', 'key_city'])),
-    sprintf('export KEY_ORG="%s"', $iniReader->v(['ca', 'key_org'])),
-    sprintf('export KEY_EMAIL="%s"', $iniReader->v(['ca', 'key_email'])),
-    sprintf('export KEY_OU="%s"', $iniReader->v(['ca', 'key_ou'])),
+    sprintf('export CA_EXPIRE=%d', $iniReader->v('ca', 'ca_expire')),
+    sprintf('export KEY_EXPIRE=%d', $iniReader->v('ca', 'key_expire')),
+    sprintf('export KEY_COUNTRY="%s"', $iniReader->v('ca', 'key_country')),
+    sprintf('export KEY_PROVINCE="%s"', $iniReader->v('ca', 'key_province')),
+    sprintf('export KEY_CITY="%s"', $iniReader->v('ca', 'key_city')),
+    sprintf('export KEY_ORG="%s"', $iniReader->v('ca', 'key_org')),
+    sprintf('export KEY_EMAIL="%s"', $iniReader->v('ca', 'key_email')),
+    sprintf('export KEY_OU="%s"', $iniReader->v('ca', 'key_ou')),
 );
 $varsFile = $easyRsaTargetConfigPath.'/vars';
 $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
 file_put_contents($varsFile, $varsContent);
 
 $pdo = new PDO(
-    $iniReader->v(['PdoStorage', 'dsn']),
-    $iniReader->v(['PdoStorage', 'username', false]),
-    $iniReader->v(['PdoStorage', 'password', false])
+    $iniReader->v('PdoStorage', 'dsn'),
+    $iniReader->v('PdoStorage', 'username', false),
+    $iniReader->v('PdoStorage', 'password', false)
 );
 
 $pdoStorage = new PdoStorage($pdo);

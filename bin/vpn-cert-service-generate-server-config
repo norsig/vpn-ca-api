@@ -14,12 +14,12 @@ $iniReader = IniReader::fromFile(
 
 $commonName = 'server';
 
-$easyRsaTargetConfigPath = $iniReader->v(['easyRsaConfigPath']);
+$easyRsaTargetConfigPath = $iniReader->v('easyRsaConfigPath');
 
 $pdo = new PDO(
-    $iniReader->v(['PdoStorage', 'dsn']),
-    $iniReader->v(['PdoStorage', 'username', false]),
-    $iniReader->v(['PdoStorage', 'password', false])
+    $iniReader->v('PdoStorage', 'dsn'),
+    $iniReader->v('PdoStorage', 'username', false),
+    $iniReader->v('PdoStorage', 'password', false)
 );
 
 $pdoStorage = new PdoStorage($pdo);
@@ -35,9 +35,9 @@ $configData = array(
     'key' => $certKeyDh['key'],
     'dh' => $certKeyDh['dh'],
     'ta' => $tlsAuth,
-    'network' => $iniReader->v(['server', 'network']),
-    'netmask' => $iniReader->v(['server', 'netmask']),
-    'nameservers' => $iniReader->v(['server', 'nameservers']),
+    'network' => $iniReader->v('server', 'network'),
+    'netmask' => $iniReader->v('server', 'netmask'),
+    'nameservers' => $iniReader->v('server', 'nameservers'),
 );
 $configGenerator = new ConfigGenerator($configData);
 echo $configGenerator->getConfig('server.twig');
