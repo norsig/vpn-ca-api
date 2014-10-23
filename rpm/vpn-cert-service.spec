@@ -2,7 +2,7 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.7
+Version:    0.1.8
 Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
@@ -104,5 +104,8 @@ fi
 %doc README.md COPYING composer.json rpm/README-RPM.md config/
 
 %changelog
+* Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.1.8-1
+- update to 0.1.8
+
 * Wed Oct 22 2014 François Kooman <fkooman@tuxed.net> - 0.1.7-1
 - update to 0.1.7

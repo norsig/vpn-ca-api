@@ -2,6 +2,7 @@
 
 ## 0.1.8
 - use new `fkooman/ini` instead of `fkooman/config`
+- update coding standards
 
 ## 0.1.7
 - update to new `fkooman/rest`
