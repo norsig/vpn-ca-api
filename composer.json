@@ -19,7 +19,7 @@
         "fkooman/ini": "~0.2.0",
         "fkooman/rest": "~0.6.1",
         "fkooman/rest-plugin-basic": "~0.2.1",
-        "php": ">=5.4",
+        "php": ">=5.3.3",
         "twig/twig": "~1.15"
     }
 }

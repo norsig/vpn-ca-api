@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e102dfe5ad2f07a1badbfd81a3a00261",
+    "hash": "f8e2a4f7a72c6f85d8c48a505771a417",
     "packages": [
         {
             "name": "fkooman/ini",
@@ -126,22 +126,22 @@
         },
         {
             "name": "fkooman/rest-plugin-basic",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-basic.git",
-                "reference": "3c6570012596c6a7677226527fa5c08cd8b58eaa"
+                "reference": "0ef9c0174d78701147b02c30e1342f3917a76949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/3c6570012596c6a7677226527fa5c08cd8b58eaa",
-                "reference": "3c6570012596c6a7677226527fa5c08cd8b58eaa",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/0ef9c0174d78701147b02c30e1342f3917a76949",
+                "reference": "0ef9c0174d78701147b02c30e1342f3917a76949",
                 "shasum": ""
             },
             "require": {
-                "fkooman/rest": "~0.6.0",
+                "fkooman/rest": "~0.6.1",
                 "ircmaxell/password-compat": "~1.0",
-                "php": ">=5.4"
+                "php": ">=5.3.3"
             },
             "type": "library",
             "autoload": {
@@ -161,7 +161,7 @@
                 }
             ],
             "description": "Basic Authentication plugin for fkooman/rest",
-            "time": "2014-10-21 16:33:32"
+            "time": "2014-10-23 19:20:41"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -267,7 +267,7 @@
     "prefer-stable": false,
     "platform": {
         "ext-openssl": "*",
-        "php": ">=5.4"
+        "php": ">=5.3.3"
     },
     "platform-dev": []
 }

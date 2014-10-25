@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.10
+- update default config for certs to only be valid for 1 yr
+- update RPM to create a config file only readable by the web server
+- only require PHP >= 5.3.3
+
 ## 0.1.9
 - update to new `fkooman/ini` API
 

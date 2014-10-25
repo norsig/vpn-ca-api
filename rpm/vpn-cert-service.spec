@@ -2,7 +2,7 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.9
+Version:    0.1.10
 Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
@@ -15,7 +15,7 @@ Source2:    vpn-cert-service-autoload.php
 
 BuildArch:  noarch
 
-Requires:   php >= 5.4
+Requires:   php >= 5.3.3
 Requires:   php-openssl
 Requires:   php-pdo
 Requires:   httpd
@@ -90,7 +90,8 @@ fi
 %files
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/vpn-cert-service.conf
-%config(noreplace) %{_sysconfdir}/vpn-cert-service
+%dir %attr(-,apache,apache) %{_sysconfdir}/vpn-cert-service
+%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/vpn-cert-service/config.ini
 %{_bindir}/vpn-cert-service-init
 %{_bindir}/vpn-cert-service-generate-server-config
 %{_bindir}/vpn-cert-service-generate-password-hash
@@ -101,9 +102,14 @@ fi
 %{_datadir}/vpn-cert-service/views
 %{_datadir}/vpn-cert-service/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/vpn-cert-service
-%doc README.md COPYING composer.json rpm/README-RPM.md config/
+%doc README.md COPYING composer.json rpm/README-RPM.md config/config.ini.defaults
 
 %changelog
+* Sat Oct 25 2014 François Kooman <fkooman@tuxed.net> - 0.1.10-2
+- update to 0.1.10
+- make the config file only readable by the apache proces
+- only PHP >= 5.3.3 needed
+
 * Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.1.9-1
 - update to 0.1.9
 

@@ -14,7 +14,7 @@ dsn = "sqlite:/var/lib/vpn-cert-service/certs.sqlite"
 
 [ca]
 ca_expire = 3650
-key_expire = 3650
+key_expire = 365
 key_country = 'US'
 key_province = 'CA'
 key_city = 'SanFrancisco'
