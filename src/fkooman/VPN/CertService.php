@@ -24,19 +24,22 @@ class CertService extends Service
         $this->easyRsa = $easyRsa;
         $this->remotes = $remotes;
 
+        // in PHP 5.3 we cannot use $this from a closure
+        $compatThis = &$this;
+
         /* DELETE */
         $this->delete(
             '/config/:commonName',
-            function ($commonName) {
-                return $this->revokeCert($commonName);
+            function ($commonName) use ($compatThis) {
+                return $compatThis->revokeCert($commonName);
             }
         );
 
         /* POST */
         $this->post(
             '/config/',
-            function (Request $request) {
-                return $this->generateCert(
+            function (Request $request) use ($compatThis) {
+                return $compatThis->generateCert(
                     $request->getPostParameter('commonName')
                 );
             }
@@ -45,8 +48,8 @@ class CertService extends Service
         /* GET */
         $this->get(
             '/ca.crl',
-            function () {
-                return $this->getCrl();
+            function () use ($compatThis) {
+                return $compatThis->getCrl();
             },
             array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
         );
@@ -54,8 +57,8 @@ class CertService extends Service
         /* HEAD */
         $this->head(
             '/ca.crl',
-            function () {
-                return $this->getCrlHead();
+            function () use ($compatThis) {
+                return $compatThis->getCrlHead();
             },
             array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
         );
