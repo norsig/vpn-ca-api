@@ -94,7 +94,7 @@ These calls can be performed using e.g. `curl`:
 
 Generate a configuration:
 
-    $ curl -u admin:s3cr3t -X POST -d 'user@example.org' http://localhost/vpn-cert-service/api.php/config/
+    $ curl -u admin:s3cr3t -X POST -d 'commonName=user@example.org' http://localhost/vpn-cert-service/api.php/config/
 
 Delete (revoke) a configuration:
 
