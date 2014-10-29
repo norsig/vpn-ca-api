@@ -3,8 +3,10 @@
 dev tun
 proto udp
 port 1194
+tls-server
+mlock
 server {{ network|e }} {{ netmask|e }}
-push "redirect-gateway def1"
+push "redirect-gateway def1 block-local"
 comp-lzo
 persist-key
 persist-tun
@@ -14,11 +16,14 @@ keepalive 30 60
 user openvpn
 group openvpn
 key-direction 0
-;crl-verify /etc/openvpn/ca.crl
+script-security 1
+crl-verify /etc/openvpn/ca.crl
 
 {% for nameserver in nameservers %}
 push "dhcp-option DNS {{ nameserver|e }}"
 {% endfor %}
+push "dhcp-option DISABLE-NBT"
+push "dhcp-option NTP pool.ntp.org"
 
 <ca>
 {{ ca|e }}

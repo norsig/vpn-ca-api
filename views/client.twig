@@ -3,6 +3,8 @@
 client
 dev tun
 proto udp
+tls-client
+mlock
 
 {% for remote in remotes %}
 remote {{ remote|e }}
@@ -15,6 +17,7 @@ remote-cert-tls server
 comp-lzo
 verb 3
 key-direction 1
+script-security 1
 
 <ca>
 {{ ca|e }}
