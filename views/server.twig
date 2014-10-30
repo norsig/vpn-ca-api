@@ -23,7 +23,7 @@ crl-verify /etc/openvpn/ca.crl
 push "dhcp-option DNS {{ nameserver|e }}"
 {% endfor %}
 push "dhcp-option DISABLE-NBT"
-push "dhcp-option NTP pool.ntp.org"
+push "dhcp-option NTP {{ ntpserver|e }}"
 
 <ca>
 {{ ca|e }}

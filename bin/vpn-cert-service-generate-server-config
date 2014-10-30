@@ -38,6 +38,7 @@ $configData = array(
     'network' => $iniReader->v('server', 'network'),
     'netmask' => $iniReader->v('server', 'netmask'),
     'nameservers' => $iniReader->v('server', 'nameservers'),
+    'ntpserver' => $iniReader->v('server', 'ntpserver'),
 );
 $configGenerator = new ConfigGenerator($configData);
 echo $configGenerator->getConfig('server.twig');
