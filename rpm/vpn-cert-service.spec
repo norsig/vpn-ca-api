@@ -24,9 +24,9 @@ Requires:   openvpn
 
 Requires:   php-composer(fkooman/ini) >= 0.2.0
 Requires:   php-composer(fkooman/ini) < 0.3.0
-Requires:   php-composer(fkooman/rest) >= 0.6.1
+Requires:   php-composer(fkooman/rest) >= 0.6.3
 Requires:   php-composer(fkooman/rest) < 0.7.0
-Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.2.1
+Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.2.2
 Requires:   php-composer(fkooman/rest-plugin-basic) < 0.3.0
 
 Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
@@ -102,7 +102,7 @@ fi
 %{_datadir}/vpn-cert-service/views
 %{_datadir}/vpn-cert-service/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/vpn-cert-service
-%doc README.md COPYING composer.json rpm/README-RPM.md config/config.ini.defaults
+%doc README.md COPYING composer.json config/config.ini.defaults
 
 %changelog
 * Sun Oct 26 2014 François Kooman <fkooman@tuxed.net> - 0.1.11-1
