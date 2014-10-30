@@ -26,6 +26,7 @@ foreach (glob($easyRsaPath.'/*') as $file) {
 
 # update the 'vars' file
 $search = array(
+    'export KEY_SIZE=2048',
     'export CA_EXPIRE=3650',
     'export KEY_EXPIRE=3650',
     'export KEY_COUNTRY="US"',
@@ -36,6 +37,7 @@ $search = array(
     'export KEY_OU="MyOrganizationalUnit"',
 );
 $replace = array(
+    sprintf('export KEY_SIZE=%d', $iniReader->v('ca', 'key_size')),
     sprintf('export CA_EXPIRE=%d', $iniReader->v('ca', 'ca_expire')),
     sprintf('export KEY_EXPIRE=%d', $iniReader->v('ca', 'key_expire')),
     sprintf('export KEY_COUNTRY="%s"', $iniReader->v('ca', 'key_country')),
