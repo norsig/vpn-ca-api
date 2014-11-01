@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.12
+- make NTP server configurable as a DHCP push option
+- allow for configuring a different key size
+- update dependencies
+- set default key size to 3072 bits
+- modify the default server and client configurations
+- enable the CRL by default, server will fail to start without
+- disable netbios by default in DHCP push option
+
 ## 0.1.11
 - fix php 5.3 support
 
