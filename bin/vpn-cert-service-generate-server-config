@@ -21,10 +21,9 @@ $pdo = new PDO(
     $iniReader->v('PdoStorage', 'username', false),
     $iniReader->v('PdoStorage', 'password', false)
 );
-
 $pdoStorage = new PdoStorage($pdo);
 
-$easyRsa = new EasyRsa($easyRsaTargetConfigPath, $pdoStorage);
+$easyRsa = new EasyRsa($easyRsaTargetConfigPath, $pdoStorage, $iniReader->v('ca', 'key_size'));
 $certKeyDh = $easyRsa->generateServerCert($commonName);
 $tlsAuth = $easyRsa->getTlsAuthKey();
 

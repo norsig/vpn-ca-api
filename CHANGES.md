@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.13
+- fix DH generation file name, it would always write to `dh2048.pem` which is 
+  confusing
+
 ## 0.1.12
 - make NTP server configurable as a DHCP push option
 - allow for configuring a different key size

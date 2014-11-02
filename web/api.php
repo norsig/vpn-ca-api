@@ -28,7 +28,7 @@ try {
     );
 
     $pdoStorage = new PdoStorage($pdo);
-    $easyRsa = new EasyRsa($iniReader->v('easyRsaConfigPath'), $pdoStorage);
+    $easyRsa = new EasyRsa($iniReader->v('easyRsaConfigPath'), $pdoStorage, $iniReader->v('ca', 'key_size'));
 
     $basicAuthenticationPlugin = new BasicAuthentication(
         $iniReader->v('authUser'),

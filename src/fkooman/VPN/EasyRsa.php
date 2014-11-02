@@ -11,12 +11,16 @@ class EasyRsa
     private $db;
 
     /** @var string */
+    private $keySize;
+
+    /** @var string */
     private $pathToOpenVpn;
 
-    public function __construct($easyRsaPath, PdoStorage $db, $pathToOpenVpn = '/usr/sbin/openvpn')
+    public function __construct($easyRsaPath, PdoStorage $db, $keySize, $pathToOpenVpn = '/usr/sbin/openvpn')
     {
         $this->easyRsaPath = $easyRsaPath;
         $this->db = $db;
+        $this->keySize = $keySize;
         $this->pathToOpenVpn = $pathToOpenVpn;
     }
 
@@ -33,9 +37,9 @@ class EasyRsa
         $this->execute('./build-dh');
 
         $dhFile = sprintf(
-            '%s/keys/%s',
+            '%s/keys/dh%s.pem',
             $this->easyRsaPath,
-            'dh2048.pem'
+            $this->keySize
         );
 
         return trim(file_get_contents($dhFile));
