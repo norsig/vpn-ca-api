@@ -129,7 +129,7 @@ class EasyRsa
             return null;
         }
 
-        return date('r', filemtime($crlFile));
+        return gmdate('r', filemtime($crlFile));
     }
 
     public function getCrlFileSize()
