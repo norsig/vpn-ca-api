@@ -2,6 +2,9 @@
 
 ## 0.1.14
 - use `gmdate()` instead of `date()` to determine last modified date of CRL
+- disable mlock (capabilities issue when running as openvpn user) and 
+  crl-verify (breaks openvpn when no CRL is available) by default in server 
+  config
 
 ## 0.1.13
 - fix DH generation file name, it would always write to `dh2048.pem` which is 

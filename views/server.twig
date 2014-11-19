@@ -4,7 +4,6 @@ dev tun
 proto udp
 port 1194
 tls-server
-
 #mlock
 server {{ network|e }} {{ netmask|e }}
 push "redirect-gateway def1 block-local"
