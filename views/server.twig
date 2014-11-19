@@ -5,8 +5,6 @@ proto udp
 port 1194
 tls-server
 
-# mlock does not work due to limited capabilities of the openvpn
-# user, disable for now
 #mlock
 server {{ network|e }} {{ netmask|e }}
 push "redirect-gateway def1 block-local"
@@ -21,7 +19,7 @@ group openvpn
 key-direction 0
 auth SHA256
 script-security 1
-crl-verify /etc/openvpn/ca.crl
+#crl-verify /etc/openvpn/ca.crl
 
 {% for nameserver in nameservers %}
 push "dhcp-option DNS {{ nameserver|e }}"
