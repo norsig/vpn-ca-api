@@ -8,11 +8,16 @@ use fkooman\Ini\IniReader;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\ConfigGenerator;
 
+// get common name from first parameter
+if (2 > $argc) {
+    printf('ERROR: provide a CN as parameter'.PHP_EOL);
+    exit(1);
+}
+$commonName = $argv[1];
+
 $iniReader = IniReader::fromFile(
     dirname(__DIR__).'/config/config.ini'
 );
-
-$commonName = 'server';
 
 $easyRsaTargetConfigPath = $iniReader->v('easyRsaConfigPath');
 

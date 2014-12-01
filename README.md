@@ -5,12 +5,12 @@ generate a configuration and revoke a configuration.
 
 # Requirements
 This service requires a system running PHP and easy_rsa. This software was 
-tested on Fedora 20 with PHP, the PDO database abstraction and Apache.
+tested on CentOS 6 20 with PHP, the PDO database abstraction and Apache.
 
     $ yum install php easy-rsa php-pdo openvpn
 
 The software was designed to run with SELinux enabled. RPM packages are 
-provided for Fedora and CentOS (RHEL).
+provided for CentOS (Red Hat Enterprise Linux).
 
 # Installation
 It is recommended to use the RPM of this software to install it.
@@ -32,21 +32,15 @@ install the dependencies.
     $ cd config
     $ cp config.ini.defaults config.ini
 
-For now it is needed to set the following SELinux boolean:
-
-    $ sudo setsebool -P httpd_unified 1
-
-More work is needed to figure out if we can do without this...
-
 # Configuration
 Now you can run the init script to initialize the configuration and database:
 
     $ sudo -u apache bin/vpn-cert-service-init
 
 To generate the server configuration use the following. Please note that it
-will take a **really long time** to generate the DH keys.
+will take a **really** long time to generate the DH keys.
 
-    $ sudo -u apache bin/vpn-cert-service-generate-server-config
+    $ sudo -u apache bin/vpn-cert-service-generate-server-config vpn.example.org
 
 The second command will generate a server configuration file that can be 
 loaded in your OpenVPN server.
@@ -103,15 +97,6 @@ Delete (revoke) a configuration:
 Obtain the CRL:
 
     $ curl http://localhost/vpn-cert-service/api.php/ca.crl
-
-# Docker
-It is possible to use Docker to evaluate this service, see the `docker` folder.
-
-# Testing
-A comprehensive testing suite is included for validating the software. You can
-run it using [PHPUnit](https://phpunit.de).
-
-    $ /path/to/phpunit tests
 
 # License
 Licensed under the Apache License, Version 2.0;

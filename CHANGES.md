@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.15
+- the `vpn-cert-service-generate-server-config` script now requires a 
+  parameter to specify the CN, this used to always be `server`, but this
+  way it becomes possible to generate multiple server configurations all
+  under the same CA
+- enable the CRL again by default in the generated server config
+- `topology` is now `subnet` in generated server config (issue #14)
+
 ## 0.1.14
 - use `gmdate()` instead of `date()` to determine last modified date of CRL
 - disable mlock (capabilities issue when running as openvpn user) and 
