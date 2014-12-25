@@ -13,6 +13,7 @@ server {{ network|e }} {{ netmask|e }}
 
 # the IPv6 range to give to clients
 #server-ipv6 2001:aaaa:bbbb:cccc::/64
+#push "route-ipv6 2000::/3"
 
 push "redirect-gateway def1 block-local"
 topology subnet
