@@ -2,14 +2,8 @@
 
 client
 dev tun
-proto udp
 tls-client
 mlock
-
-{% for remote in remotes %}
-remote {{ remote|e }}
-{% endfor %}
-
 nobind
 persist-key
 persist-tun
@@ -19,6 +13,11 @@ verb 3
 auth SHA256
 key-direction 1
 script-security 1
+remote-random
+
+{% for remote in remotes %}
+remote {{ remote|e }}
+{% endfor %}
 
 <ca>
 {{ ca|e }}

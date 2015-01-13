@@ -11,6 +11,10 @@
   the configuration file as this is different for all servers anyway
 - **BREAKING**: the configuration file now use the `servers` section name 
   instead of the `server` section name
+- the `remotes` in the configuration file also show now the port and 
+  protocol in the example, this is not strictly required if you use udp and
+  port 1194, but for everything else it is, this demonstrates how to do it
+- add `remote-random` to default client configuration
 
 ## 0.1.14
 - use `gmdate()` instead of `date()` to determine last modified date of CRL
