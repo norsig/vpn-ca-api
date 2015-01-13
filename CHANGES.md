@@ -7,6 +7,10 @@
   under the same CA
 - enable the CRL again by default in the generated server config
 - `topology` is now `subnet` in generated server config (issue #14)
+- no longer specify the IP ranges the server provides to the clients in
+  the configuration file as this is different for all servers anyway
+- **BREAKING**: the configuration file now use the `servers` section name 
+  instead of the `server` section name
 
 ## 0.1.14
 - use `gmdate()` instead of `date()` to determine last modified date of CRL

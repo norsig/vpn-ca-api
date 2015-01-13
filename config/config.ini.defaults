@@ -28,10 +28,8 @@ key_ou = 'MyOrganizationalUnit'
 remotes[] = 'nl.example.org'
 ;remotes[] = 'de.example.org'
 
-[server]
-; specify the network provided to the clients
-network = '10.8.0.0'
-netmask = '255.255.255.0'
+[servers]
+; specify some defaults provided to the clients
 nameservers[] = '8.8.8.8'
 nameservers[] = '8.8.4.4'
 ntpserver = 'pool.ntp.org'

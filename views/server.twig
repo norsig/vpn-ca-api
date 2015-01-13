@@ -3,16 +3,23 @@
 dev tun
 
 proto udp
-port 1194
-tls-server
-#mlock
-server {{ network|e }} {{ netmask|e }}
+#proto tcp
 
-# the IPv6 range to give to clients
+port 1194
+#port 443
+
+tls-server
+
+#mlock
+
+# IPv4
+server 10.8.0.0 255.255.255.0
+push "redirect-gateway def1 block-local"
+
+# IPv6
 #server-ipv6 2001:aaaa:bbbb:cccc::/64
 #push "route-ipv6 2000::/3"
 
-push "redirect-gateway def1 block-local"
 topology subnet
 comp-lzo
 persist-key
