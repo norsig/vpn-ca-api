@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.16
+- add `fragment 1300` and `mssfix` to both the server and client 
+  configuration by default
+
 ## 0.1.15
 - the `vpn-cert-service-generate-server-config` script now requires a 
   parameter to specify the CN, this used to always be `server`, but this
