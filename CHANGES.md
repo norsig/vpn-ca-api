@@ -3,6 +3,7 @@
 ## 0.1.16
 - add `fragment 1300` and `mssfix` to both the server and client 
   configuration by default
+- remove `mlock` from client config
 
 ## 0.1.15
 - the `vpn-cert-service-generate-server-config` script now requires a 
