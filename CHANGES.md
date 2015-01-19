@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.17
+- make it possible to override the client and server templates
+  by putting them in `config/views` folder
+- undo the `fragment` and `mssfix` settings. If they are really 
+  needed they can be used by overriding the template
+
 ## 0.1.16
 - add `fragment 1300` and `mssfix` to both the server and client 
   configuration by default

@@ -52,6 +52,10 @@ own by using the `bin/vpn-cert-service-generate-password-hash yourpass`.
 **NOTE**: generate your own hash and put it in `config/config.ini`, do **NOT** 
 use the default.
 
+You can also place the templates for both the server and client templates in 
+the `config/views` directory, i.e. `config/views/server.twig` and 
+`config/views/client.twig` folder.
+
 # Apache
 The following configuration can be used in Apache, place it in 
 `/etc/httpd/conf.d/vpn-cert-service.conf`:

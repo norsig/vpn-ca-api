@@ -18,7 +18,10 @@ class ConfigGenerator
     public function getConfig($configTemplate = 'client.twig')
     {
         $loader = new Twig_Loader_Filesystem(
-            dirname(dirname(dirname(__DIR__))).'/views'
+            array(
+                dirname(dirname(dirname(__DIR__))).'/config/views',
+                dirname(dirname(dirname(__DIR__))).'/views'
+            )
         );
         $twig = new Twig_Environment($loader);
 
