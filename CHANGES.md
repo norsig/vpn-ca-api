@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.18
+- only add the `config/views` directory to the template directory 
+  if it actually exists
+
 ## 0.1.17
 - make it possible to override the client and server templates
   by putting them in `config/views` folder
