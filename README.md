@@ -102,6 +102,15 @@ Obtain the CRL:
 
     $ curl http://localhost/vpn-cert-service/api.php/ca.crl
 
+# SELinux
+If you use SELinux on CentOS > 6 or Fedora >= 20 you need to set an SELinux 
+boolean:
+
+    $ sudo setsebool -P httpd_unified 1
+
+Otherwise Apache will not be able to execute `pkitool` for generating 
+certificates.
+
 # License
 Licensed under the Apache License, Version 2.0;
 
