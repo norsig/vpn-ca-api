@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.19
+- update `php-lib-rest-plugin-basic` to 0.3.0 and use its new API
+
 ## 0.1.18
 - only add the `config/views` directory to the template directory 
   if it actually exists

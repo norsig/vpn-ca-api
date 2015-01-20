@@ -31,8 +31,9 @@ try {
     $easyRsa = new EasyRsa($iniReader->v('easyRsaConfigPath'), $pdoStorage, $iniReader->v('ca', 'key_size'));
 
     $basicAuthenticationPlugin = new BasicAuthentication(
-        $iniReader->v('authUser'),
-        $iniReader->v('authPass'),
+        function ($userId) use ($iniReader) {
+            return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
+        },
         'VPN Configuration Service'
     );
 
