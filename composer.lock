@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9fcb290c8a086dd0f80e170854e2cdd0",
+    "hash": "b8a08b482503f7579c5ac7837f66945c",
     "packages": [
         {
             "name": "fkooman/ini",
@@ -126,16 +126,16 @@
         },
         {
             "name": "fkooman/rest-plugin-basic",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-basic.git",
-                "reference": "baeb346a21608d873f4e53b7f78e9edd30c23f40"
+                "reference": "b9b9599bdc91efa1e59dfe3c27e28ea19ec5ea0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/baeb346a21608d873f4e53b7f78e9edd30c23f40",
-                "reference": "baeb346a21608d873f4e53b7f78e9edd30c23f40",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/b9b9599bdc91efa1e59dfe3c27e28ea19ec5ea0c",
+                "reference": "b9b9599bdc91efa1e59dfe3c27e28ea19ec5ea0c",
                 "shasum": ""
             },
             "require": {
@@ -161,7 +161,7 @@
                 }
             ],
             "description": "Basic Authentication plugin for fkooman/rest",
-            "time": "2015-01-20 16:57:53"
+            "time": "2015-01-20 18:15:33"
         },
         {
             "name": "ircmaxell/password-compat",

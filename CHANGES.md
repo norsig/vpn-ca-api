@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.20
+- require `fkooman/rest-plugin-basic` version 0.3.1 to support PHP 5.3
+  again
+
 ## 0.1.19
 - update `php-lib-rest-plugin-basic` to 0.3.0 and use its new API
 
