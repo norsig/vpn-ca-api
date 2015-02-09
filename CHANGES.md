@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.21
+- update `fkooman/rest` and `fkooman/rest-plugin-basic` dependencies
+
 ## 0.1.20
 - require `fkooman/rest-plugin-basic` version 0.3.1 to support PHP 5.3
   again

@@ -2,7 +2,7 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.1.20
+Version:    0.1.21
 Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
@@ -105,49 +105,20 @@ fi
 %doc README.md COPYING composer.json config/config.ini.defaults
 
 %changelog
-* Tue Jan 20 2015 François Kooman - 0.1.20-1
+* Mon Feb 09 2015 François Kooman <fkooman@tuxed.net> - 0.1.21-1
+- update to 0.1.21
+
+* Tue Jan 20 2015 François Kooman <fkooman@tuxed.net> - 0.1.20-1
 - update to 0.1.20
 - require at least php-fkooman-rest-plugin-basic 0.3.1 for 
   PHP 5.3 support
 
-* Tue Jan 20 2015 François Kooman - 0.1.19-1
+* Tue Jan 20 2015 François Kooman <fkooman@tuxed.net> - 0.1.19-1
 - update to 0.1.19
 - update php-fkooman-rest-plugin-basic >= 0.3.0
 
-* Mon Jan 19 2015 François Kooman - 0.1.18-1
+* Mon Jan 19 2015 François Kooman <fkooman@tuxed.net> - 0.1.18-1
 - update to 0.1.18
 
-* Mon Jan 19 2015 François Kooman - 0.1.17-1
+* Mon Jan 19 2015 François Kooman <fkooman@tuxed.net> - 0.1.17-1
 - update to 0.1.17
-
-* Fri Jan 16 2015 François Kooman - 0.1.16-1
-- update to 0.1.16
-
-* Thu Jan 15 2015 François Kooman <fkooman@tuxed.net> - 0.1.15-1
-- update to 0.1.15
-
-* Wed Nov 19 2014 François Kooman <fkooman@tuxed.net> - 0.1.14-1
-- update to 0.1.14
-
-* Sun Nov 02 2014 François Kooman <fkooman@tuxed.net> - 0.1.13-1
-- update to 0.1.13
-
-* Sat Nov 01 2014 François Kooman <fkooman@tuxed.net> - 0.1.12-1
-- update to 0.1.12
-
-* Sun Oct 26 2014 François Kooman <fkooman@tuxed.net> - 0.1.11-1
-- update to 0.1.11
-
-* Sat Oct 25 2014 François Kooman <fkooman@tuxed.net> - 0.1.10-2
-- update to 0.1.10
-- make the config file only readable by the apache proces
-- only PHP >= 5.3.3 needed
-
-* Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.1.9-1
-- update to 0.1.9
-
-* Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.1.8-1
-- update to 0.1.8
-
-* Wed Oct 22 2014 François Kooman <fkooman@tuxed.net> - 0.1.7-1
-- update to 0.1.7
