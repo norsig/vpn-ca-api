@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b8a08b482503f7579c5ac7837f66945c",
+    "hash": "f45ad92938f03894033da814a19422b7",
     "packages": [
         {
             "name": "fkooman/ini",
@@ -82,16 +82,16 @@
         },
         {
             "name": "fkooman/rest",
-            "version": "0.6.3",
+            "version": "0.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest.git",
-                "reference": "7b9384b92b23a6ed7ebebb1b69f9f578426112a8"
+                "reference": "98f7e294a20145c2cc3b8b8c8e5dfc797f8e988a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/7b9384b92b23a6ed7ebebb1b69f9f578426112a8",
-                "reference": "7b9384b92b23a6ed7ebebb1b69f9f578426112a8",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/98f7e294a20145c2cc3b8b8c8e5dfc797f8e988a",
+                "reference": "98f7e294a20145c2cc3b8b8c8e5dfc797f8e988a",
                 "shasum": ""
             },
             "require": {
@@ -122,24 +122,24 @@
                 }
             ],
             "description": "Simple PHP library for writing REST services.",
-            "time": "2014-10-27 18:15:14"
+            "time": "2015-02-07 22:10:26"
         },
         {
             "name": "fkooman/rest-plugin-basic",
-            "version": "0.3.1",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-basic.git",
-                "reference": "b9b9599bdc91efa1e59dfe3c27e28ea19ec5ea0c"
+                "reference": "1d89f0cf273acd8edb19adc63d04c5f86f5fc8da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/b9b9599bdc91efa1e59dfe3c27e28ea19ec5ea0c",
-                "reference": "b9b9599bdc91efa1e59dfe3c27e28ea19ec5ea0c",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/1d89f0cf273acd8edb19adc63d04c5f86f5fc8da",
+                "reference": "1d89f0cf273acd8edb19adc63d04c5f86f5fc8da",
                 "shasum": ""
             },
             "require": {
-                "fkooman/rest": "~0.6.1",
+                "fkooman/rest": "~0.6.7",
                 "ircmaxell/password-compat": "~1.0",
                 "php": ">=5.3.3"
             },
@@ -161,7 +161,7 @@
                 }
             ],
             "description": "Basic Authentication plugin for fkooman/rest",
-            "time": "2015-01-20 18:15:33"
+            "time": "2015-02-07 22:14:20"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -207,16 +207,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.17.0",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "2493970fa4d587eca73f77e6d8bd48a8bdd4c608"
+                "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/2493970fa4d587eca73f77e6d8bd48a8bdd4c608",
-                "reference": "2493970fa4d587eca73f77e6d8bd48a8bdd4c608",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4cf7464348e7f9893a93f7096a90b73722be99cf",
+                "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf",
                 "shasum": ""
             },
             "require": {
@@ -225,7 +225,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
             "autoload": {
@@ -260,7 +260,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-01-14 10:15:49"
+            "time": "2015-01-25 17:32:08"
         }
     ],
     "packages-dev": [],

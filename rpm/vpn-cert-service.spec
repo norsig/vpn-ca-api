@@ -24,10 +24,10 @@ Requires:   openvpn
 
 Requires:   php-composer(fkooman/ini) >= 0.2.0
 Requires:   php-composer(fkooman/ini) < 0.3.0
-Requires:   php-composer(fkooman/rest) >= 0.6.3
+Requires:   php-composer(fkooman/rest) >= 0.6.7
 Requires:   php-composer(fkooman/rest) < 0.7.0
-Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.3.1
-Requires:   php-composer(fkooman/rest-plugin-basic) < 0.4.0
+Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.4.0
+Requires:   php-composer(fkooman/rest-plugin-basic) < 0.5.0
 
 Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
 Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
