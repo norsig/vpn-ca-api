@@ -51,7 +51,11 @@ class CertService extends Service
             function () use ($compatThis) {
                 return $compatThis->getCrl();
             },
-            array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
+            array(
+                'skipPlugins' => array(
+                    'fkooman\Rest\Plugin\Basic\BasicAuthentication'
+                )
+            )
         );
 
         /* HEAD */
@@ -60,7 +64,11 @@ class CertService extends Service
             function () use ($compatThis) {
                 return $compatThis->getCrlHead();
             },
-            array('fkooman\Rest\Plugin\Basic\BasicAuthentication')
+            array(
+                'skipPlugins' => array(
+                    'fkooman\Rest\Plugin\Basic\BasicAuthentication'
+                )
+            )
         );
     }
 

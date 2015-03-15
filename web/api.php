@@ -38,16 +38,9 @@ try {
     );
 
     $certService = new CertService($easyRsa, $iniReader->v('clients', 'remotes'));
-    $certService->registerBeforeEachMatchPlugin($basicAuthenticationPlugin);
+    $certService->registerOnMatchPlugin($basicAuthenticationPlugin);
     $certService->run()->sendResponse();
 } catch (Exception $e) {
-    if ($e instanceof HttpException) {
-        $response = $e->getJsonResponse();
-    } else {
-        // we catch all other (unexpected) exceptions and return a 500
-        error_log($e->getTraceAsString());
-        $e = new InternalServerErrorException($e->getMessage());
-        $response = $e->getJsonResponse();
-    }
-    $response->sendResponse();
+    error_log($e->getMessage());
+    CertService::handleException($e)->sendResponse();
 }

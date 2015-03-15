@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0
+- update `fkooman/rest` and `fkooman/rest-plugin-basic` dependencies
+
 ## 0.1.21
 - update `fkooman/rest` and `fkooman/rest-plugin-basic` dependencies
 
