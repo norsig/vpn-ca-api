@@ -29,6 +29,8 @@ user openvpn
 group openvpn
 key-direction 0
 auth SHA256
+tls-version-min 1.2
+tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256
 script-security 1
 crl-verify /etc/openvpn/ca.crl
 
