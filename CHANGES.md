@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.1
+- update `fkooman/rest` and authentication plugin
+
 ## 0.2.0
 - update `fkooman/rest` and `fkooman/rest-plugin-basic` dependencies
 
