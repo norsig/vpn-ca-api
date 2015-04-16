@@ -9,10 +9,15 @@ persist-tun
 remote-cert-tls server
 comp-lzo
 verb 3
+
+# crypto
 auth SHA256
-tls-version-min 1.2
-tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256
+prng SHA256
+cipher AES-256-CBC
+tls-version-min 1.0
+tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-256-CBC-SHA
 key-direction 1
+
 script-security 1
 remote-random
 
