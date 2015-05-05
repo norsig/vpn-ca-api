@@ -14,10 +14,13 @@ verb 3
 auth SHA256
 prng SHA256
 cipher AES-256-CBC
-tls-version-min 1.0
-tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-256-CBC-SHA
-key-direction 1
 
+# See RFC 7525 for TLS configuration recommendations
+# OpenVPN does not support ECDHE (https://community.openvpn.net/openvpn/wiki/Hardening)
+tls-version-min 1.2
+tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384
+
+key-direction 1
 script-security 1
 remote-random
 
