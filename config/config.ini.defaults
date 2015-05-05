@@ -13,8 +13,8 @@ dsn = "sqlite:/var/lib/vpn-cert-service/certs.sqlite"
 ;dsn = "pgsql:host=localhost;port=5432;dbname=XYZ;user=ABC;password=DEF"
 
 [ca]
-key_size = 2048
-ca_expire = 3650
+key_size = 4096 
+ca_expire = 1826
 key_expire = 365
 key_country = 'US'
 key_province = 'CA'
