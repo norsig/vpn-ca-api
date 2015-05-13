@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+- update `fkooman/rest`
+- HEAD is no longer supported as a request, it is the same response
+  as GET (without body) so remove all HEAD routes and handling
+
 ## 0.2.1
 - update `fkooman/rest` and authentication plugin
 
