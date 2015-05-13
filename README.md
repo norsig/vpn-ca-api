@@ -29,8 +29,7 @@ install the dependencies.
     $ sudo chown -R apache.apache data
     $ sudo semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/vpn-cert-service/data(/.*)?'
     $ sudo restorecon -R /var/www/vpn-cert-service/data
-    $ cd config
-    $ cp config.ini.defaults config.ini
+    $ cp config/config.ini.defaults config/config.ini
 
 # Configuration
 Now you can run the init script to initialize the configuration and database:
