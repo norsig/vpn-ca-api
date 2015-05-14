@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.3
+- update `fkooman/rest`
+
 ## 0.2.2
 - update `fkooman/rest`
 - HEAD is no longer supported as a request, it is the same response

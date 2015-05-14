@@ -24,7 +24,7 @@ Requires:   openvpn
 
 Requires:   php-composer(fkooman/ini) >= 0.2.0
 Requires:   php-composer(fkooman/ini) < 0.3.0
-Requires:   php-composer(fkooman/rest) >= 0.8.5
+Requires:   php-composer(fkooman/rest) >= 0.8.8
 Requires:   php-composer(fkooman/rest) < 0.9.0
 Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.5.1
 Requires:   php-composer(fkooman/rest-plugin-basic) < 0.6.0
