@@ -63,18 +63,8 @@ The following configuration can be used in Apache, place it in
 
     <Directory /var/www/vpn-cert-service/web>
         AllowOverride None
-
-        <IfModule mod_authz_core.c>
-          # Apache 2.4
-          Require local
-        </IfModule>
-        <IfModule !mod_authz_core.c>
-          # Apache 2.2
-          Order Deny,Allow
-          Deny from All
-          Allow from 127.0.0.1
-          Allow from ::1
-        </IfModule>
+        Require local
+        SetEnvIfNoCase ^Authorization$ "(.+)" HTTP_AUTHORIZATION=$1
     </Directory>
 
 This will only allow access from `localhost`. This service MUST NOT be 
