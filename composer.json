@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "fkooman\\VPN": "src/"
+            "fkooman\\VPN\\": "src/"
         }
     },
     "description": "OpenVPN configuration manager written in PHP",
@@ -17,8 +17,8 @@
     "require": {
         "ext-openssl": "*",
         "fkooman/ini": "~0.2.0",
-        "fkooman/rest": "~0.8.8",
-        "fkooman/rest-plugin-basic": "~0.5.1",
+        "fkooman/rest": "dev-master",
+        "fkooman/rest-plugin-basic": "dev-master",
         "php": ">=5.3.3",
         "twig/twig": "~1.15"
     }

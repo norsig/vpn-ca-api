@@ -52,9 +52,7 @@ class CertService extends Service
                 return $compatThis->getCrl();
             },
             array(
-                'skipPlugins' => array(
-                    'fkooman\Rest\Plugin\Basic\BasicAuthentication'
-                )
+                'fkooman\Rest\Plugin\Basic\BasicAuthentication' => array('enabled' => false)
             )
         );
     }
@@ -79,7 +77,7 @@ class CertService extends Service
         );
         $configGenerator = new ConfigGenerator($configData);
         $response = new Response(201, 'application/x-openvpn-profile');
-        $response->setContent($configGenerator->getConfig());
+        $response->setBody($configGenerator->getConfig());
 
         return $response;
     }
@@ -104,7 +102,7 @@ class CertService extends Service
         $crlData = $this->easyRsa->getCrl();
         if (null !== $crlData) {
             $response->setHeader('Last-Modified', $this->easyRsa->getCrlLastModifiedTime());
-            $response->setContent($crlData);
+            $response->setBody($crlData);
         }
 
         return $response;

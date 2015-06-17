@@ -32,7 +32,7 @@ class PdoStorage
             return $result;
         }
 
-        return null;
+        return;
     }
 
     public function addCert($commonName)

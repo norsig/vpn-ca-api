@@ -111,7 +111,7 @@ class EasyRsa
         );
 
         if (!file_exists($crlFile)) {
-            return null;
+            return;
         }
 
         return file_get_contents($crlFile);
@@ -126,7 +126,7 @@ class EasyRsa
         );
 
         if (!file_exists($crlFile)) {
-            return null;
+            return;
         }
 
         return gmdate('r', filemtime($crlFile));
@@ -141,7 +141,7 @@ class EasyRsa
         );
 
         if (!file_exists($crlFile)) {
-            return null;
+            return;
         }
 
         return filesize($crlFile);
@@ -168,7 +168,7 @@ class EasyRsa
             return $matches[1];
         }
 
-        return null;
+        return;
     }
 
     private function getKeyFile($keyFile)
