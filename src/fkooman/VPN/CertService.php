@@ -52,7 +52,7 @@ class CertService extends Service
                 return $compatThis->getCrl();
             },
             array(
-                'fkooman\Rest\Plugin\Basic\BasicAuthentication' => array('enabled' => false)
+                'fkooman\Rest\Plugin\Basic\BasicAuthentication' => array('enabled' => false),
             )
         );
     }
