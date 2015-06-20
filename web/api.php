@@ -31,7 +31,7 @@ $pluginRegistry->registerDefaultPlugin(
         function ($userId) use ($iniReader) {
             return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
         },
-        'VPN Configuration Service'
+        array('realm' => 'VPN Configuration Service')
     )
 );
 
