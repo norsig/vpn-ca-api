@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "84b22eef7aa82f0711d37035ff578e00",
+    "hash": "b29e4958ebcbd1db7dd9164c61ed74f3",
     "packages": [
         {
             "name": "fkooman/ini",
@@ -82,16 +82,16 @@
         },
         {
             "name": "fkooman/rest",
-            "version": "dev-master",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest.git",
-                "reference": "05956939abcb6a5ebdabf71b4925f64e0b194b6e"
+                "reference": "a37d259a4552955b034c34f2cf6e6532a313fe40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/05956939abcb6a5ebdabf71b4925f64e0b194b6e",
-                "reference": "05956939abcb6a5ebdabf71b4925f64e0b194b6e",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/a37d259a4552955b034c34f2cf6e6532a313fe40",
+                "reference": "a37d259a4552955b034c34f2cf6e6532a313fe40",
                 "shasum": ""
             },
             "require": {
@@ -125,24 +125,24 @@
                 }
             ],
             "description": "Simple PHP library for writing REST services.",
-            "time": "2015-06-20 10:09:23"
+            "time": "2015-06-28 11:43:47"
         },
         {
             "name": "fkooman/rest-plugin-basic",
-            "version": "dev-master",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-basic.git",
-                "reference": "249aeb513ac54f87de75e8d992cd745e52b9b878"
+                "reference": "4c294beabd7b45dddd329922e8bbddc4dee64467"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/249aeb513ac54f87de75e8d992cd745e52b9b878",
-                "reference": "249aeb513ac54f87de75e8d992cd745e52b9b878",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/4c294beabd7b45dddd329922e8bbddc4dee64467",
+                "reference": "4c294beabd7b45dddd329922e8bbddc4dee64467",
                 "shasum": ""
             },
             "require": {
-                "fkooman/rest": "dev-master",
+                "fkooman/rest": "~0.9.0",
                 "ircmaxell/password-compat": "~1.0",
                 "php": ">=5.3.3"
             },
@@ -164,7 +164,7 @@
                 }
             ],
             "description": "Basic Authentication plugin for fkooman/rest",
-            "time": "2015-06-17 17:57:17"
+            "time": "2015-06-28 11:48:31"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -269,10 +269,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "fkooman/rest": 20,
-        "fkooman/rest-plugin-basic": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
