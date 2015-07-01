@@ -28,9 +28,3 @@ key_ou = 'MyOrganizationalUnit'
 remotes[] = 'nl.example.org 1194 udp'
 ;remotes[] = 'de.example.org 1194 udp'
 ;remotes[] = 'xyz.example.org 443 tcp'
-
-[servers]
-; specify some defaults provided to the clients
-nameservers[] = '8.8.8.8'
-nameservers[] = '8.8.4.4'
-ntpserver = 'pool.ntp.org'

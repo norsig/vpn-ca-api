@@ -43,13 +43,21 @@ tls-version-min 1.2
 tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384
 
 script-security 1
-crl-verify /etc/openvpn/ca.crl
 
-{% for nameserver in nameservers %}
-push "dhcp-option DNS {{ nameserver|e }}"
-{% endfor %}
+# CRL, you MUST enable this in production, but first revoke a configuration
+#crl-verify /etc/openvpn/ca.crl
+
+# Use Google Public DNS by default
+# https://developers.google.com/speed/public-dns/
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+#push "dhcp-option DNS 2001:4860:4860::8888"
+#push "dhcp-otpion DNS 2001:4860:4860::8844"
+
 push "dhcp-option DISABLE-NBT"
-push "dhcp-option NTP {{ ntpserver|e }}"
+
+# also send a NTP server
+#push "dhcp-option NTP time.example.org"
 
 <ca>
 {{ ca|e }}

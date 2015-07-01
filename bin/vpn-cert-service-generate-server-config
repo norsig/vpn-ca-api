@@ -39,8 +39,6 @@ $configData = array(
     'key' => $certKeyDh['key'],
     'dh' => $certKeyDh['dh'],
     'ta' => $tlsAuth,
-    'nameservers' => $iniReader->v('servers', 'nameservers'),
-    'ntpserver' => $iniReader->v('servers', 'ntpserver'),
 );
 $configGenerator = new ConfigGenerator($configData);
 echo $configGenerator->getConfig('server.twig');
