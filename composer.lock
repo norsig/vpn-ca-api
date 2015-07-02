@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b29e4958ebcbd1db7dd9164c61ed74f3",
+    "hash": "3c42518df71eb8ba0e9373a43ec6e095",
     "packages": [
         {
             "name": "fkooman/ini",
@@ -129,16 +129,16 @@
         },
         {
             "name": "fkooman/rest-plugin-basic",
-            "version": "0.6.0",
+            "version": "0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-basic.git",
-                "reference": "4c294beabd7b45dddd329922e8bbddc4dee64467"
+                "reference": "886a0058299db6a75932b5706a522d5cdc585bcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/4c294beabd7b45dddd329922e8bbddc4dee64467",
-                "reference": "4c294beabd7b45dddd329922e8bbddc4dee64467",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-basic/zipball/886a0058299db6a75932b5706a522d5cdc585bcb",
+                "reference": "886a0058299db6a75932b5706a522d5cdc585bcb",
                 "shasum": ""
             },
             "require": {
@@ -164,7 +164,7 @@
                 }
             ],
             "description": "Basic Authentication plugin for fkooman/rest",
-            "time": "2015-06-28 11:48:31"
+            "time": "2015-06-29 18:55:35"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -273,7 +273,10 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-date": "*",
         "ext-openssl": "*",
+        "ext-pcre": "*",
+        "ext-pdo": "*",
         "php": ">=5.3.3"
     },
     "platform-dev": []

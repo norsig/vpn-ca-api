@@ -15,26 +15,25 @@ Source2:    vpn-cert-service-autoload.php
 
 BuildArch:  noarch
 
-Requires:   php >= 5.3.3
+Requires:   php(language) >=  5.3.3
+Requires:   php-date
 Requires:   php-openssl
+Requires:   php-pcre
 Requires:   php-pdo
+
 Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
 Requires:   openvpn
 
 Requires:   php-composer(fkooman/ini) >= 0.2.0
 Requires:   php-composer(fkooman/ini) < 0.3.0
-Requires:   php-composer(fkooman/rest) >= 0.8.8
-Requires:   php-composer(fkooman/rest) < 0.9.0
-Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.5.1
-Requires:   php-composer(fkooman/rest-plugin-basic) < 0.6.0
+Requires:   php-composer(fkooman/rest) >= 0.9.0
+Requires:   php-composer(fkooman/rest) < 0.10.0
+Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.6.1
+Requires:   php-composer(fkooman/rest-plugin-basic) < 0.7.0
 
 Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
 Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
-
-#Starting F21 we can use the composer dependency for Symfony
-#Requires:   php-composer(symfony/classloader) >= 2.3.9
-#Requires:   php-composer(symfony/classloader) < 3.0
 Requires:   php-pear(pear.symfony.com/ClassLoader) >= 2.3.9
 Requires:   php-pear(pear.symfony.com/ClassLoader) < 3.0
 
@@ -102,7 +101,8 @@ fi
 %{_datadir}/vpn-cert-service/views
 %{_datadir}/vpn-cert-service/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/vpn-cert-service
-%doc README.md COPYING composer.json config/config.ini.defaults
+%doc README.md composer.json config/config.ini.defaults
+%license COPYING
 
 %changelog
 * Fri May 15 2015 François Kooman <fkooman@tuxed.net> - 0.2.3-1

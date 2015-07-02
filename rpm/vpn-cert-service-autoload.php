@@ -14,7 +14,6 @@ $loader->registerNamespaces(
     array(
         'fkooman\\VPN' => $baseDir.'/src',
         'fkooman\\Rest' => $vendorDir,
-        'fkooman\\Rest\\Plugin\\Basic' => $vendorDir,
         'fkooman\\Json' => $vendorDir,
         'fkooman\\Http' => $vendorDir,
         'fkooman\\Ini' => $vendorDir,
