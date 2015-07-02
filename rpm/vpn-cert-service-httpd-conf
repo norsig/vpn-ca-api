@@ -2,6 +2,9 @@ Alias /vpn-cert-service /usr/share/vpn-cert-service/web
 
 <Directory /usr/share/vpn-cert-service/web>
     AllowOverride None
+
     Require local
+    #Require all granted
+
     SetEnvIfNoCase ^Authorization$ "(.+)" HTTP_AUTHORIZATION=$1
 </Directory>

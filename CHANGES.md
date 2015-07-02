@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+- update `fkooman/rest` and other dependencies
+- update default config for client and server
+- remove the configuration options for nameservers and NTP servers,
+  they should be manually set in the OpenVPN config
+
 ## 0.2.3
 - update `fkooman/rest`
 
