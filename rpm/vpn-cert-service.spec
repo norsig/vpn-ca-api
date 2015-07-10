@@ -15,7 +15,7 @@ Source2:    vpn-cert-service-autoload.php
 
 BuildArch:  noarch
 
-Requires:   php(language) >=  5.3.3
+Requires:   php(language) >= 5.3.3
 Requires:   php-date
 Requires:   php-openssl
 Requires:   php-pcre
