@@ -25,8 +25,8 @@ Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
 Requires:   openvpn
 
-Requires:   php-composer(fkooman/ini) >= 0.2.0
-Requires:   php-composer(fkooman/ini) < 0.3.0
+Requires:   php-composer(fkooman/ini) >= 1.0.0
+Requires:   php-composer(fkooman/ini) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 0.9.0
 Requires:   php-composer(fkooman/rest) < 0.10.0
 Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.6.1
