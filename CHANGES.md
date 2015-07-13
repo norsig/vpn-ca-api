@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1
+- update dependencies
+
 ## 0.3.0
 - update `fkooman/rest` and other dependencies
 - update default config for client and server
