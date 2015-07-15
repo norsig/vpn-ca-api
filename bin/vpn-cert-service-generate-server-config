@@ -8,37 +8,41 @@ use fkooman\Ini\IniReader;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\ConfigGenerator;
 
-// get common name from first parameter
-if (2 > $argc) {
-    printf('ERROR: provide a CN as parameter'.PHP_EOL);
+try {
+    // get common name from first parameter
+    if (2 > $argc) {
+        throw new Exception(sprintf('Syntax: %s [CN]', $argv[0]));
+    }
+    $commonName = $argv[1];
+
+    $iniReader = IniReader::fromFile(
+        dirname(__DIR__).'/config/config.ini'
+    );
+
+    $easyRsaTargetConfigPath = $iniReader->v('easyRsaConfigPath');
+
+    $pdo = new PDO(
+        $iniReader->v('PdoStorage', 'dsn'),
+        $iniReader->v('PdoStorage', 'username', false),
+        $iniReader->v('PdoStorage', 'password', false)
+    );
+    $pdoStorage = new PdoStorage($pdo);
+
+    $easyRsa = new EasyRsa($easyRsaTargetConfigPath, $pdoStorage, $iniReader->v('ca', 'key_size'));
+    $certKeyDh = $easyRsa->generateServerCert($commonName);
+    $tlsAuth = $easyRsa->getTlsAuthKey();
+
+    $configData = array(
+        'cn' => $commonName,
+        'ca' => $easyRsa->getCaCert(),
+        'cert' => $certKeyDh['cert'],
+        'key' => $certKeyDh['key'],
+        'dh' => $certKeyDh['dh'],
+        'ta' => $tlsAuth,
+    );
+    $configGenerator = new ConfigGenerator($configData);
+    echo $configGenerator->getConfig('server.twig');
+} catch (Exception $e) {
+    echo $e->getMessage().PHP_EOL;
     exit(1);
 }
-$commonName = $argv[1];
-
-$iniReader = IniReader::fromFile(
-    dirname(__DIR__).'/config/config.ini'
-);
-
-$easyRsaTargetConfigPath = $iniReader->v('easyRsaConfigPath');
-
-$pdo = new PDO(
-    $iniReader->v('PdoStorage', 'dsn'),
-    $iniReader->v('PdoStorage', 'username', false),
-    $iniReader->v('PdoStorage', 'password', false)
-);
-$pdoStorage = new PdoStorage($pdo);
-
-$easyRsa = new EasyRsa($easyRsaTargetConfigPath, $pdoStorage, $iniReader->v('ca', 'key_size'));
-$certKeyDh = $easyRsa->generateServerCert($commonName);
-$tlsAuth = $easyRsa->getTlsAuthKey();
-
-$configData = array(
-    'cn' => $commonName,
-    'ca' => $easyRsa->getCaCert(),
-    'cert' => $certKeyDh['cert'],
-    'key' => $certKeyDh['key'],
-    'dh' => $certKeyDh['dh'],
-    'ta' => $tlsAuth,
-);
-$configGenerator = new ConfigGenerator($configData);
-echo $configGenerator->getConfig('server.twig');
