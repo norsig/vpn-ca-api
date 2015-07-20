@@ -24,22 +24,24 @@ class CertService extends Service
         $this->easyRsa = $easyRsa;
         $this->remotes = $remotes;
 
-        // in PHP 5.3 we cannot use $this from a closure
-        $compatThis = &$this;
+        $this->registerRoutes();
+    }
 
+    public function registerRoutes()
+    {
         /* DELETE */
         $this->delete(
             '/config/:commonName',
-            function ($commonName) use ($compatThis) {
-                return $compatThis->revokeCert($commonName);
+            function ($commonName) {
+                return $this->revokeCert($commonName);
             }
         );
 
         /* POST */
         $this->post(
             '/config/',
-            function (Request $request) use ($compatThis) {
-                return $compatThis->generateCert(
+            function (Request $request) {
+                return $this->generateCert(
                     $request->getPostParameter('commonName')
                 );
             }
@@ -48,18 +50,18 @@ class CertService extends Service
         /* GET */
         $this->get(
             '/ca.crl',
-            function () use ($compatThis) {
-                return $compatThis->getCrl();
+            function () {
+                return $this->getCrl();
             },
             array(
-                'fkooman\Rest\Plugin\Basic\BasicAuthentication' => array('enabled' => false),
+                'fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication' => array('enabled' => false),
             )
         );
     }
 
     public function generateCert($commonName)
     {
-        $this->validateCommonName($commonName);
+        self::validateCommonName($commonName);
 
         if ($this->easyRsa->hasCert($commonName)) {
             throw new ForbiddenException('certificate with this common name already exists');
@@ -84,7 +86,7 @@ class CertService extends Service
 
     public function revokeCert($commonName)
     {
-        $this->validateCommonName($commonName);
+        self::validateCommonName($commonName);
 
         if (!$this->easyRsa->hasCert($commonName)) {
             throw new NotFoundException('certificate with this common name does not exist');
@@ -108,7 +110,7 @@ class CertService extends Service
         return $response;
     }
 
-    private function validateCommonName($commonName)
+    public static function validateCommonName($commonName)
     {
         if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {
             throw new BadRequestException('invalid common name syntax');

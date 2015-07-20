@@ -15,9 +15,8 @@ Source2:    vpn-cert-service-autoload.php
 
 BuildArch:  noarch
 
-Requires:   php(language) >= 5.3.3
+Requires:   php(language) >= 5.4
 Requires:   php-date
-Requires:   php-openssl
 Requires:   php-pcre
 Requires:   php-pdo
 
@@ -27,10 +26,12 @@ Requires:   openvpn
 
 Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
-Requires:   php-composer(fkooman/rest) >= 0.9.0
-Requires:   php-composer(fkooman/rest) < 0.10.0
-Requires:   php-composer(fkooman/rest-plugin-basic) >= 0.6.1
-Requires:   php-composer(fkooman/rest-plugin-basic) < 0.7.0
+Requires:   php-composer(fkooman/rest) >= 1.0.0
+Requires:   php-composer(fkooman/rest) < 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication) >= 1.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication) < 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 1.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 2.0.0
 
 Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
 Requires:   php-pear(pear.twig-project.org/Twig) < 2.0

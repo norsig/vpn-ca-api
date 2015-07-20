@@ -16,13 +16,13 @@
     "name": "fkooman/vpn-cert-service",
     "require": {
         "ext-date": "*",
-        "ext-openssl": "*",
         "ext-pcre": "*",
         "ext-pdo": "*",
-        "fkooman/ini": "~1.0.0",
-        "fkooman/rest": "~0.9.0",
-        "fkooman/rest-plugin-basic": "~0.6.1",
-        "php": ">=5.3.3",
+        "fkooman/ini": "^1.0.0",
+        "fkooman/rest": "^1.0.0",
+        "fkooman/rest-plugin-authentication": "^1.0.0",
+        "fkooman/rest-plugin-authentication-basic": "^1.0.0",
+        "php": ">=5.4",
         "twig/twig": "~1.15"
     }
 }
