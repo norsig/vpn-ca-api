@@ -2,7 +2,7 @@
 %global github_name      vpn-cert-service
 
 Name:       vpn-cert-service
-Version:    0.3.1
+Version:    1.0.0
 Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
@@ -104,38 +104,5 @@ fi
 %license COPYING
 
 %changelog
-* Mon Jul 13 2015 François Kooman <fkooman@tuxed.net> - 0.3.1-1
-- update to 0.3.1
-
-* Thu Jul 02 2015 François Kooman <fkooman@tuxed.net> - 0.3.0-1
-- update to 0.3.0
-
-* Fri May 15 2015 François Kooman <fkooman@tuxed.net> - 0.2.3-1
-- update to 0.2.3
-
-* Wed May 13 2015 François Kooman <fkooman@tuxed.net> - 0.2.2-1
-- update to 0.2.2
-
-* Mon Apr 13 2015 François Kooman <fkooman@tuxed.net> - 0.2.1-1
-- update to 0.2.1
-
-* Sun Mar 15 2015 François Kooman <fkooman@tuxed.net> - 0.2.0-1
-- update to 0.2.0
-
-* Mon Feb 09 2015 François Kooman <fkooman@tuxed.net> - 0.1.21-1
-- update to 0.1.21
-
-* Tue Jan 20 2015 François Kooman <fkooman@tuxed.net> - 0.1.20-1
-- update to 0.1.20
-- require at least php-fkooman-rest-plugin-basic 0.3.1 for 
-  PHP 5.3 support
-
-* Tue Jan 20 2015 François Kooman <fkooman@tuxed.net> - 0.1.19-1
-- update to 0.1.19
-- update php-fkooman-rest-plugin-basic >= 0.3.0
-
-* Mon Jan 19 2015 François Kooman <fkooman@tuxed.net> - 0.1.18-1
-- update to 0.1.18
-
-* Mon Jan 19 2015 François Kooman <fkooman@tuxed.net> - 0.1.17-1
-- update to 0.1.17
+* Mon Jul 20 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-1
+- update to 1.0.0
