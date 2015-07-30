@@ -5,7 +5,8 @@ generate a configuration and revoke a configuration.
 
 # Requirements
 This service requires a system running PHP and easy_rsa. This software was 
-tested on CentOS 6 20 with PHP, the PDO database abstraction and Apache.
+tested on CentOS 7 and Fedora 21 with PHP, the PDO database abstraction and 
+Apache.
 
     $ yum install php easy-rsa php-pdo openvpn
 
@@ -13,8 +14,11 @@ The software was designed to run with SELinux enabled. RPM packages are
 provided for CentOS (Red Hat Enterprise Linux).
 
 # Installation
-It is recommended to use the RPM of this software to install it.
+It is recommended to use the RPM of this software to install it. The RPMs can
+be found in [this](https://copr.fedoraproject.org/coprs/fkooman/vpn-management/) 
+COPR repository.
 
+# Development
 However, if you want to develop for the software or install it from source, 
 these are the steps. Make sure you have [Composer](https://getcomposer.org) to 
 install the dependencies.
@@ -36,13 +40,11 @@ Now you can run the init script to initialize the configuration and database:
 
     $ sudo -u apache bin/vpn-cert-service-init
 
-To generate the server configuration use the following. Please note that it
-will take a **really** long time to generate the DH keys.
+To generate the server configuration for use in your OpenVPN server use the 
+following. Please note that it will take a **really** long time to generate the
+DH keys.
 
     $ sudo -u apache bin/vpn-cert-service-generate-server-config vpn.example.org
-
-The second command will generate a server configuration file that can be 
-loaded in your OpenVPN server.
 
 You also need to store a hashed password for protecting the HTTP interface in
 `config/config.ini`. The default password is `s3cr3t`. You can generate your
@@ -51,8 +53,8 @@ own by using the `bin/vpn-cert-service-generate-password-hash yourpass`.
 **NOTE**: generate your own hash and put it in `config/config.ini`, do **NOT** 
 use the default.
 
-You can also place the templates for both the server and client templates in 
-the `config/views` directory, i.e. `config/views/server.twig` and 
+You can also place the templates for both the server and client configurations 
+in the `config/views` directory, i.e. `config/views/server.twig` and 
 `config/views/client.twig` folder.
 
 # Apache
@@ -67,7 +69,7 @@ The following configuration can be used in Apache, place it in
         SetEnvIfNoCase ^Authorization$ "(.+)" HTTP_AUTHORIZATION=$1
     </Directory>
 
-This will only allow access from `localhost`. This service MUST NOT be 
+This will only allow access from `localhost`. This service MUST NOT be directly
 accessible over the Internet!
 
 # API
@@ -79,7 +81,7 @@ The HTTP API currently supports three calls:
 
 These calls can be performed using e.g. `curl`:
 
-Generate a configuration:
+Generate a configuration (using HTTP POST):
 
     $ curl -u admin:s3cr3t -d 'commonName=user@example.org' http://localhost/vpn-cert-service/api.php/config/
 
@@ -92,13 +94,10 @@ Obtain the CRL:
     $ curl http://localhost/vpn-cert-service/api.php/ca.crl
 
 # SELinux
-If you use SELinux on CentOS > 6 or Fedora >= 20 you need to set an SELinux 
-boolean:
+If you use SELinux you need to set an SELinux boolean to allow PHP (running 
+under Apache to execute `pkitool` for generating certificates:
 
     $ sudo setsebool -P httpd_unified 1
-
-Otherwise Apache will not be able to execute `pkitool` for generating 
-certificates.
 
 # License
 Licensed under the Apache License, Version 2.0;
