@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.2 (2015-08-10)
+- fix fkooman/tpl-twig version constraint in spec file
+
 ## 1.0.1 (2015-08-10)
 - use `fkooman/tpl-twig`
 - update README.md
