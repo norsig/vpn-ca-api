@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 (...)
+- use `fkooman/tpl-twig`
+
 ## 1.0.0
 - update dependencies and API 
 

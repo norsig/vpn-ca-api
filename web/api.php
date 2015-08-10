@@ -7,6 +7,7 @@ use fkooman\Ini\IniReader;
 use fkooman\VPN\EasyRsa;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\CertService;
+use fkooman\Tpl\Twig\TwigTemplateManager;
 
 $iniReader = IniReader::fromFile(
     dirname(__DIR__).'/config/config.ini'
@@ -21,7 +22,15 @@ $pdo = new PDO(
 $pdoStorage = new PdoStorage($pdo);
 $easyRsa = new EasyRsa($iniReader->v('easyRsaConfigPath'), $pdoStorage, $iniReader->v('ca', 'key_size'));
 
-$service = new CertService($easyRsa, $iniReader->v('clients', 'remotes'));
+$templateManager = new TwigTemplateManager(
+    array(
+        dirname(__DIR__).'/views',
+        dirname(__DIR__).'/config/views',
+    ),
+    null
+);
+
+$service = new CertService($easyRsa, $templateManager, $iniReader->v('clients', 'remotes'));
 $service->getPluginRegistry()->registerDefaultPlugin(
     new BasicAuthentication(
         function ($userId) use ($iniReader) {

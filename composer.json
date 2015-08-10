@@ -21,7 +21,7 @@
         "fkooman/ini": "^1.0.0",
         "fkooman/rest": "^1.0.0",
         "fkooman/rest-plugin-authentication-basic": "^1.0.0",
-        "php": ">=5.4",
-        "twig/twig": "~1.15"
+        "fkooman/tpl-twig": "^1.0",
+        "php": ">=5.4"
     }
 }

@@ -30,9 +30,9 @@ Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 1.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 2.0.0
+Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
+Requires:   php-composer(fkooman/tpl-twig) >= 2.0.0
 
-Requires:   php-pear(pear.twig-project.org/Twig) >= 1.15
-Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
 Requires:   php-pear(pear.symfony.com/ClassLoader) >= 2.3.9
 Requires:   php-pear(pear.symfony.com/ClassLoader) < 3.0
 

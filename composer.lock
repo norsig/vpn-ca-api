@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46dace933d40aafed44159d9ceb86c0f",
+    "hash": "6dc5cb36d78f163bd3391f6691ef3ae0",
     "packages": [
         {
             "name": "fkooman/ini",
@@ -85,16 +85,16 @@
         },
         {
             "name": "fkooman/rest",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest.git",
-                "reference": "e4fa99403d4c43cfb7f737f0f91c1c00dc81c34b"
+                "reference": "0b1822e10cb5bf8f8f9f64c6802fffead8cc59d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/e4fa99403d4c43cfb7f737f0f91c1c00dc81c34b",
-                "reference": "e4fa99403d4c43cfb7f737f0f91c1c00dc81c34b",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest/zipball/0b1822e10cb5bf8f8f9f64c6802fffead8cc59d3",
+                "reference": "0b1822e10cb5bf8f8f9f64c6802fffead8cc59d3",
                 "shasum": ""
             },
             "require": {
@@ -127,7 +127,7 @@
                 }
             ],
             "description": "Simple PHP library for writing REST services.",
-            "time": "2015-07-20 09:13:02"
+            "time": "2015-08-05 15:53:36"
         },
         {
             "name": "fkooman/rest-plugin-authentication",
@@ -216,6 +216,81 @@
             "time": "2015-07-20 13:36:53"
         },
         {
+            "name": "fkooman/tpl",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-tpl.git",
+                "reference": "ce51fa8da33d231aaeefd4558f1d813a1edc5931"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-tpl/zipball/ce51fa8da33d231aaeefd4558f1d813a1edc5931",
+                "reference": "ce51fa8da33d231aaeefd4558f1d813a1edc5931",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Tpl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net"
+                }
+            ],
+            "description": "Simple Template Abstraction Library",
+            "time": "2015-08-10 11:04:40"
+        },
+        {
+            "name": "fkooman/tpl-twig",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fkooman/php-lib-tpl-twig.git",
+                "reference": "02c3e0e0a568990b54107f1f8dcf05216388aea2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fkooman/php-lib-tpl-twig/zipball/02c3e0e0a568990b54107f1f8dcf05216388aea2",
+                "reference": "02c3e0e0a568990b54107f1f8dcf05216388aea2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-spl": "*",
+                "fkooman/tpl": "^2.0.0",
+                "php": ">= 5.3.3",
+                "twig/twig": "^1.18"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "fkooman\\Tpl\\Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "François Kooman",
+                    "email": "fkooman@tuxed.net"
+                }
+            ],
+            "description": "Twig for Simple Template Abstraction Library",
+            "time": "2015-08-10 11:08:23"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
             "source": {
@@ -259,16 +334,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.18.2",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602"
+                "reference": "edbeaf43b0a606cdaadc32a11d2673614a377b90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e8e6575abf6102af53ec283f7f14b89e304fa602",
-                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/edbeaf43b0a606cdaadc32a11d2673614a377b90",
+                "reference": "edbeaf43b0a606cdaadc32a11d2673614a377b90",
                 "shasum": ""
             },
             "require": {
@@ -277,7 +352,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.18-dev"
+                    "dev-master": "1.19-dev"
                 }
             },
             "autoload": {
@@ -312,7 +387,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-06-06 23:31:24"
+            "time": "2015-07-31 13:45:26"
         }
     ],
     "packages-dev": [],

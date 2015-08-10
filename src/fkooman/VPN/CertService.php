@@ -8,20 +8,25 @@ use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
 use fkooman\Http\Exception\NotFoundException;
 use fkooman\Http\Exception\ForbiddenException;
+use fkooman\Tpl\TemplateManagerInterface;
 
 class CertService extends Service
 {
-    /** @var fkooman\VPN\EasyRsa */
+    /** @var EasyRsa */
     private $easyRsa;
+
+    /** @var \fkooman\Tpl\TemplateManagerInterface */
+    private $templateManager;
 
     /** @var array */
     private $remotes;
 
-    public function __construct(EasyRsa $easyRsa, array $remotes)
+    public function __construct(EasyRsa $easyRsa, TemplateManagerInterface $templateManager, array $remotes)
     {
         parent::__construct();
 
         $this->easyRsa = $easyRsa;
+        $this->templateManager = $templateManager;
         $this->remotes = $remotes;
 
         $this->registerRoutes();
@@ -77,9 +82,11 @@ class CertService extends Service
             'ta' => $this->easyRsa->getTlsAuthKey(),
             'remotes' => $this->remotes,
         );
-        $configGenerator = new ConfigGenerator($configData);
+
+        $configFile = $this->templateManager->render('client', $configData);
+
         $response = new Response(201, 'application/x-openvpn-profile');
-        $response->setBody($configGenerator->getConfig());
+        $response->setBody($configFile);
 
         return $response;
     }

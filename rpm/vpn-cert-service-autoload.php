@@ -17,6 +17,7 @@ $loader->registerNamespaces(
         'fkooman\\Json' => $vendorDir,
         'fkooman\\Http' => $vendorDir,
         'fkooman\\Ini' => $vendorDir,
+        'fkooman\\Tpl' => $vendorDir,
     )
 );
 $loader->registerPrefixes(

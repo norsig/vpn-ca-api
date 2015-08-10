@@ -6,7 +6,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use fkooman\VPN\EasyRsa;
 use fkooman\Ini\IniReader;
 use fkooman\VPN\PdoStorage;
-use fkooman\VPN\ConfigGenerator;
+use fkooman\Tpl\Twig\TwigTemplateManager;
 
 try {
     // get common name from first parameter
@@ -40,8 +40,14 @@ try {
         'dh' => $certKeyDh['dh'],
         'ta' => $tlsAuth,
     );
-    $configGenerator = new ConfigGenerator($configData);
-    echo $configGenerator->getConfig('server.twig');
+    $templateManager = new TwigTemplateManager(
+        array(
+            dirname(__DIR__).'/views',
+            dirname(__DIR__).'/config/views',
+        ),
+        null
+    );
+    echo $templateManager->render('server', $configData);
 } catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
     exit(1);
