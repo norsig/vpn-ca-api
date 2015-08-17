@@ -60,6 +60,9 @@ push "dhcp-option DISABLE-NBT"
 # also send a NTP server
 #push "dhcp-option NTP time.example.org"
 
+# allow client-to-client communication, see openvpn(8)
+#client-to-client
+
 <ca>
 {{ ca|e }}
 </ca>
