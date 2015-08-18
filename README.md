@@ -5,10 +5,10 @@ generate a configuration and revoke a configuration.
 
 # Requirements
 This service requires a system running PHP and easy_rsa. This software was 
-tested on CentOS 7 and Fedora 21 with PHP, the PDO database abstraction and 
+tested on CentOS 7 and Fedora 22 with PHP, the PDO database abstraction and 
 Apache.
 
-    $ yum install php easy-rsa php-pdo openvpn
+    $ sudo yum install php easy-rsa php-pdo openvpn
 
 The software was designed to run with SELinux enabled. RPM packages are 
 provided for CentOS (Red Hat Enterprise Linux).
@@ -17,6 +17,11 @@ provided for CentOS (Red Hat Enterprise Linux).
 It is recommended to use the RPM of this software to install it. The RPMs can
 be found in [this](https://copr.fedoraproject.org/coprs/fkooman/vpn-management/) 
 COPR repository.
+
+In case you want to use Apache and `mod_php` do not forget to install the `php` 
+package.
+
+Do not forget to follow the SELinux instructions below.
 
 # Development
 However, if you want to develop for the software or install it from source, 
