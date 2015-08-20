@@ -46,6 +46,7 @@ tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA3
 script-security 1
 
 # CRL, you MUST enable this in production, but first revoke a configuration
+# as OpenVPN chokes on empty CRL file
 #crl-verify /etc/openvpn/ca.crl
 
 # Use Google Public DNS by default
@@ -55,7 +56,8 @@ push "dhcp-option DNS 8.8.4.4"
 #push "dhcp-option DNS 2001:4860:4860::8888"
 #push "dhcp-option DNS 2001:4860:4860::8844"
 
-push "dhcp-option DISABLE-NBT"
+# disable "netbios", i.e. Windows file sharing over TCP/IP
+#push "dhcp-option DISABLE-NBT"
 
 # also send a NTP server
 #push "dhcp-option NTP time.example.org"
