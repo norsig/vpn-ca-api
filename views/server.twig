@@ -18,8 +18,10 @@ server 10.8.0.0 255.255.255.0
 push "redirect-gateway def1 block-local"
 
 # IPv6
-# Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address
-#server-ipv6 fd07:787e:63f9::/64 
+# Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
+# fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
+# addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
+#server-ipv6 2001:db8::/64
 #push "route-ipv6 2000::/3"
 
 topology subnet

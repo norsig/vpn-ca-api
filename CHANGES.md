@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 (2015-09-22)
+- update default configuration
+- update README
+
 ## 1.0.2 (2015-08-10)
 - fix fkooman/tpl-twig version constraint in spec file
 
