@@ -1,14 +1,15 @@
 # OpenVPN Client Configuration for {{ cn|e }}
 
-client
 dev tun
-tls-client
+client
+
 nobind
 persist-key
 persist-tun
 remote-cert-tls server
 comp-lzo
 verb 3
+redirect-gateway
 
 # do not pull route/DNS information from server
 #route-nopull

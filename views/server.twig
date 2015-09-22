@@ -9,12 +9,14 @@ port 1194
 
 # IPv4
 server 10.42.42.0 255.255.255.0
+push "redirect-gateway"
 
 # IPv6
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
 # fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
 # addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
-#server-ipv6 2001:db8::/64
+#server-ipv6 2001:db8:4242::/64
+#push "route-ipv6 2000::/3"
 
 topology subnet
 comp-lzo
