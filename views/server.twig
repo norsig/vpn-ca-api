@@ -1,28 +1,20 @@
 # OpenVPN Server Configuration for {{ cn|e }}
 
 dev tun
-
 proto udp
-#proto tcp-server
-
 port 1194
+
+#proto tcp-server
 #port 443
 
-tls-server
-
-# need to allow 7505 also with SELinux
-#management localhost 7505
-
 # IPv4
-server 10.8.0.0 255.255.255.0
-push "redirect-gateway"
+server 10.42.42.0 255.255.255.0
 
 # IPv6
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
 # fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
 # addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
 #server-ipv6 2001:db8::/64
-#push "route-ipv6 2000::/3"
 
 topology subnet
 comp-lzo
@@ -68,6 +60,9 @@ push "dhcp-option DNS 8.8.4.4"
 
 # allow client-to-client communication, see openvpn(8)
 #client-to-client
+
+# need to allow 7505 also with SELinux
+#management localhost 7505
 
 <ca>
 {{ ca|e }}
