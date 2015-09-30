@@ -3,7 +3,7 @@
 namespace fkooman\VPN;
 
 use PDO;
-use fkooman\VPN\Exception\PdoStorageException;
+use RuntimeException;
 
 class PdoStorage
 {
@@ -47,7 +47,7 @@ class PdoStorage
         $stmt->execute();
 
         if (1 !== $stmt->rowCount()) {
-            throw new PdoStorageException('unable to add cert');
+            throw new RuntimeException('unable to add cert');
         }
     }
 
@@ -63,7 +63,7 @@ class PdoStorage
         $stmt->execute();
 
         if (1 !== $stmt->rowCount()) {
-            throw new PdoStorageException('unable to delete cert');
+            throw new RuntimeException('unable to delete cert');
         }
     }
 
