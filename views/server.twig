@@ -8,14 +8,16 @@ port 1194
 #port 443
 
 # IPv4
+# Replace 42.42 with 2 random numbers between 0 and 255, e.g. 10.232.217.0 if
+# you do not have publically routable addresses
 server 10.42.42.0 255.255.255.0
-push "redirect-gateway"
+#push "redirect-gateway"
 
 # IPv6
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
 # fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
 # addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
-#server-ipv6 2001:db8:4242::/64
+server-ipv6 fd00:4242:4242::/64
 #push "route-ipv6 2000::/3"
 
 topology subnet
@@ -49,8 +51,8 @@ script-security 1
 
 # Use Google Public DNS by default
 # https://developers.google.com/speed/public-dns/
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
+#push "dhcp-option DNS 8.8.8.8"
+#push "dhcp-option DNS 8.8.4.4"
 #push "dhcp-option DNS 2001:4860:4860::8888"
 #push "dhcp-option DNS 2001:4860:4860::8844"
 
@@ -61,7 +63,7 @@ push "dhcp-option DNS 8.8.4.4"
 #push "dhcp-option NTP time.example.org"
 
 # allow client-to-client communication, see openvpn(8)
-#client-to-client
+client-to-client
 
 # need to allow 7505 also with SELinux
 #management localhost 7505
