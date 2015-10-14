@@ -9,7 +9,7 @@ persist-tun
 remote-cert-tls server
 comp-lzo
 verb 3
-redirect-gateway
+#redirect-gateway
 
 # do not pull route/DNS information from server
 #route-nopull
@@ -19,12 +19,12 @@ redirect-gateway
 # See RFC 7525 for TLS configuration recommendations
 # See https://bettercrypto.org for more OpenVPN configuration guidelines
 # OpenVPN does not support ECDHE (https://community.openvpn.net/openvpn/wiki/Hardening)
-
+# 
 auth SHA256
 prng SHA256 32
 cipher AES-256-CBC
 tls-version-min 1.2
-tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384
+tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-256-CBC-SHA
 
 key-direction 1
 script-security 1
