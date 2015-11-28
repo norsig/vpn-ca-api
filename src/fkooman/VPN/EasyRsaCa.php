@@ -22,7 +22,7 @@ class EasyRsaCa implements CaInterface
     /** @var string */
     private $easyRsaPath;
 
-    /** @var fkooman\VPN\PdoStorage */
+    /** @var PdoStorage */
     private $db;
 
     /** @var string */

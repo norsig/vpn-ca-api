@@ -21,7 +21,10 @@ class NullCa implements CaInterface
 {
     public function generateServerCert($commonName)
     {
-        return sprintf('ServerCert "%s"', $commonName);
+        return array(
+            'cert' => sprintf('ServerCert "%s"', $commonName),
+            'key' => sprintf('ServerCert "%s"', $commonName),
+        );
     }
 
     public function generateDh()
