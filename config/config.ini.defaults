@@ -22,9 +22,3 @@ key_city = 'SanFrancisco'
 key_org = 'Fort-Funston'
 key_email = 'me@myhost.mydomain'
 key_ou = 'MyOrganizationalUnit'
-
-[clients]
-; specify the remotes
-remotes[] = 'nl.example.org 1194 udp'
-;remotes[] = 'de.example.org 1194 udp'
-;remotes[] = 'xyz.example.org 443 tcp'

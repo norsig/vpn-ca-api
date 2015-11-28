@@ -8,6 +8,9 @@
 - change response coding to 400 from 403 in case a configuration with the 
   provided commonName already exists
 - update dependencies to new `fkooman/rest-plugin-authentication`
+- content negotiation to retrieve just the certificate information from the 
+  REST service instead of OpenVPN config
+- remote `remotes` configuration option, use template override instead
 
 ## 1.0.3 (2015-09-22)
 - update default configuration

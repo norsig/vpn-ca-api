@@ -23,6 +23,7 @@ use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
 use fkooman\Http\Exception\NotFoundException;
 use fkooman\Tpl\TemplateManagerInterface;
+use fkooman\Http\JsonResponse;
 
 class CertService extends Service
 {
@@ -32,17 +33,12 @@ class CertService extends Service
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
 
-    /** @var array */
-    private $remotes;
-
-    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, array $remotes)
+    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager)
     {
         parent::__construct();
 
         $this->ca = $ca;
         $this->templateManager = $templateManager;
-        $this->remotes = $remotes;
-
         $this->registerRoutes();
     }
 
@@ -60,9 +56,16 @@ class CertService extends Service
         $this->post(
             '/config/',
             function (Request $request) {
-                return $this->generateCert(
-                    $request->getPostParameter('commonName')
-                );
+                if (0 === strpos($request->getHeader('Accept'), 'application/json')) {
+                    return $this->generateCert(
+                        $request->getPostParameter('commonName'),
+                        true
+                    );
+                } else {
+                    return $this->generateCert(
+                        $request->getPostParameter('commonName')
+                    );
+                }
             }
         );
 
@@ -80,7 +83,7 @@ class CertService extends Service
         );
     }
 
-    public function generateCert($commonName)
+    public function generateCert($commonName, $returnJson = false)
     {
         self::validateCommonName($commonName);
 
@@ -96,11 +99,16 @@ class CertService extends Service
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],
             'ta' => $this->ca->getTlsAuthKey(),
-            'remotes' => $this->remotes,
         );
 
-        $configFile = $this->templateManager->render('client', $configData);
+        if ($returnJson) {
+            $response = new JsonResponse(201);
+            $response->setBody($configData);
 
+            return $response;
+        }
+
+        $configFile = $this->templateManager->render('client', $configData);
         $response = new Response(201, 'application/x-openvpn-profile');
         $response->setBody($configFile);
 

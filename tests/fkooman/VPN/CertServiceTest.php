@@ -33,9 +33,7 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
     {
         $ca = new TestCa();
         $tpl = new TestTemplateManager();
-        $remotes = array('10.10.10.1', '10.10.10.2');
-
-        $this->certService = new CertService($ca, $tpl, $remotes);
+        $this->certService = new CertService($ca, $tpl);
     }
 
     public function testGenerateCert()
@@ -60,9 +58,40 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 201 Created',
                 'Content-Type: application/x-openvpn-profile',
-                'Content-Length: 156',
+                'Content-Length: 114',
                 '',
-                '{"client":{"cn":"foobar","ca":"CaCert","cert":"ClientCert \"foobar\"","key":"ClientKey \"foobar\"","ta":"TlsAuthKey","remotes":["10.10.10.1","10.10.10.2"]}}',
+                '{"client":{"cn":"foobar","ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}}',
+            ),
+            $response->toArray()
+        );
+    }
+
+    public function testGenerateCertAsJson()
+    {
+        $request = new Request(
+            array(
+                'SERVER_NAME' => 'ca.example.org',
+                'SERVER_PORT' => 80,
+                'QUERY_STRING' => '',
+                'REQUEST_URI' => '/api.php/config/',
+                'SCRIPT_NAME' => '/api.php',
+                'PATH_INFO' => '/config/',
+                'REQUEST_METHOD' => 'POST',
+                'HTTP_ACCEPT' => 'application/json',
+            ),
+            array(
+                'commonName' => 'foobar',
+            )
+        );
+
+        $response = $this->certService->run($request);
+        $this->assertSame(
+            array(
+                'HTTP/1.1 201 Created',
+                'Content-Type: application/json',
+                'Content-Length: 103',
+                '',
+                '{"cn":"foobar","ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}',
             ),
             $response->toArray()
         );

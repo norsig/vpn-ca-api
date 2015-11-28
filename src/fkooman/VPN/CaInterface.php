@@ -65,7 +65,7 @@ interface CaInterface
     /**
      * Get the CA CRL last modified time.
      *
-     * @return string
+     * @return string the date as RFC 2822 string (GMT)
      */
     public function getCrlLastModifiedTime();
 

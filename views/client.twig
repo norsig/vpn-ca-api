@@ -30,9 +30,9 @@ key-direction 1
 script-security 1
 remote-random
 
-{% for remote in remotes %}
-remote {{ remote|e }}
-{% endfor %}
+remote nl.example.org 1194 udp
+remote de.example.org 1194 udp
+remote xyz.example.org 443 tcp
 
 <ca>
 {{ ca|e }}

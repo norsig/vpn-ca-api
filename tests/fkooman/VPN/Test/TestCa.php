@@ -23,7 +23,10 @@ class TestCa implements CaInterface
 {
     public function generateServerCert($commonName)
     {
-        return sprintf('ServerCert "%s"', $commonName);
+        return array(
+            'cert' => sprintf('ServerCert for %s', $commonName),
+            'key' => sprintf('ServerKey %s for', $commonName),
+        );
     }
 
     public function generateDh()
@@ -34,8 +37,8 @@ class TestCa implements CaInterface
     public function generateClientCert($commonName)
     {
         return array(
-            'cert' => sprintf('ClientCert "%s"', $commonName),
-            'key' => sprintf('ClientKey "%s"', $commonName),
+            'cert' => sprintf('ClientCert for %s', $commonName),
+            'key' => sprintf('ClientKey for %s', $commonName),
         );
     }
 
@@ -55,7 +58,7 @@ class TestCa implements CaInterface
 
     public function getCaCert()
     {
-        return 'CaCert';
+        return 'Ca';
     }
 
     public function getCrl()

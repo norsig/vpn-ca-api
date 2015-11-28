@@ -49,7 +49,7 @@ $templateManager = new TwigTemplateManager(
     null
 );
 
-$service = new CertService($ca, $templateManager, $iniReader->v('clients', 'remotes'));
+$service = new CertService($ca, $templateManager);
 
 $basicAuthentication = new BasicAuthentication(
     function ($userId) use ($iniReader) {
