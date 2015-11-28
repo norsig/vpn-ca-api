@@ -17,10 +17,11 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
+use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Ini\IniReader;
 use fkooman\VPN\EasyRsaCa;
-use fkooman\VPN\TestCa;
+use fkooman\VPN\NullCa;
 use fkooman\VPN\PdoStorage;
 use fkooman\VPN\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
@@ -38,7 +39,7 @@ $pdo = new PDO(
 $pdoStorage = new PdoStorage($pdo);
 
 $ca = new EasyRsaCa($iniReader->v('easyRsaConfigPath'), $pdoStorage, $iniReader->v('ca', 'key_size'));
-#$ca = new TestCa();
+#$ca = new NullCa();
 
 $templateManager = new TwigTemplateManager(
     array(
@@ -49,12 +50,14 @@ $templateManager = new TwigTemplateManager(
 );
 
 $service = new CertService($ca, $templateManager, $iniReader->v('clients', 'remotes'));
-$service->getPluginRegistry()->registerDefaultPlugin(
-    new BasicAuthentication(
-        function ($userId) use ($iniReader) {
-            return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
-        },
-        array('realm' => 'VPN Configuration Service')
-    )
+
+$basicAuthentication = new BasicAuthentication(
+    function ($userId) use ($iniReader) {
+        return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
+    },
+    array('realm' => 'VPN Configuration Service')
 );
+$authenticationPlugin = new AuthenticationPlugin();
+$authenticationPlugin->register($basicAuthentication, 'api');
+$service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
 $service->run()->send();

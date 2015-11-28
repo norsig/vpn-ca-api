@@ -22,7 +22,6 @@ use fkooman\Http\Request;
 use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
 use fkooman\Http\Exception\NotFoundException;
-use fkooman\Http\Exception\ForbiddenException;
 use fkooman\Tpl\TemplateManagerInterface;
 
 class CertService extends Service
@@ -74,7 +73,9 @@ class CertService extends Service
                 return $this->getCrl();
             },
             array(
-                'fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication' => array('enabled' => false),
+                'fkooman\Rest\Plugin\Authentication\AuthenticationPlugin' => array(
+                    'enabled' => false,
+                ),
             )
         );
     }
@@ -84,7 +85,7 @@ class CertService extends Service
         self::validateCommonName($commonName);
 
         if ($this->ca->hasCert($commonName)) {
-            throw new ForbiddenException('certificate with this common name already exists');
+            throw new BadRequestException('certificate with this common name already exists');
         }
 
         $certKey = $this->ca->generateClientCert($commonName);

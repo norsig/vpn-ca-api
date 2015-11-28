@@ -4,6 +4,10 @@
 - refactor some code to make it easier to implement other CA backends and make 
   testing easier
 - add license headers to source files
+- implement unit testing for CertService
+- change response coding to 400 from 403 in case a configuration with the 
+  provided commonName already exists
+- update dependencies to new `fkooman/rest-plugin-authentication`
 
 ## 1.0.3 (2015-09-22)
 - update default configuration

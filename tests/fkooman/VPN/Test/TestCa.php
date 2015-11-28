@@ -15,7 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace fkooman\VPN;
+namespace fkooman\VPN\Test;
+
+use fkooman\VPN\CaInterface;
 
 class TestCa implements CaInterface
 {
@@ -31,7 +33,10 @@ class TestCa implements CaInterface
 
     public function generateClientCert($commonName)
     {
-        return sprintf('ClientCert "%s"', $commonName);
+        return array(
+            'cert' => sprintf('ClientCert "%s"', $commonName),
+            'key' => sprintf('ClientKey "%s"', $commonName),
+        );
     }
 
     public function getTlsAuthKey()
@@ -60,7 +65,7 @@ class TestCa implements CaInterface
 
     public function getCrlLastModifiedTime()
     {
-        return gmdate('r', time());
+        return gmdate('r', 1234567890);
     }
 
     public function getCrlFileSize()
