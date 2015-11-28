@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4 (...)
+- refactor some code to make it easier to implement other CA backends and make 
+  testing easier
+- add license headers to source files
+
 ## 1.0.3 (2015-09-22)
 - update default configuration
 - update README

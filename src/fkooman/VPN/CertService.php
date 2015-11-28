@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * Copyright 2015 François Kooman <fkooman@tuxed.net>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 namespace fkooman\VPN;
 
 use fkooman\Rest\Service;
@@ -12,8 +27,8 @@ use fkooman\Tpl\TemplateManagerInterface;
 
 class CertService extends Service
 {
-    /** @var EasyRsa */
-    private $easyRsa;
+    /** @var CaInterface */
+    private $ca;
 
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
@@ -21,11 +36,11 @@ class CertService extends Service
     /** @var array */
     private $remotes;
 
-    public function __construct(EasyRsa $easyRsa, TemplateManagerInterface $templateManager, array $remotes)
+    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, array $remotes)
     {
         parent::__construct();
 
-        $this->easyRsa = $easyRsa;
+        $this->ca = $ca;
         $this->templateManager = $templateManager;
         $this->remotes = $remotes;
 
@@ -68,18 +83,18 @@ class CertService extends Service
     {
         self::validateCommonName($commonName);
 
-        if ($this->easyRsa->hasCert($commonName)) {
+        if ($this->ca->hasCert($commonName)) {
             throw new ForbiddenException('certificate with this common name already exists');
         }
 
-        $certKey = $this->easyRsa->generateClientCert($commonName);
+        $certKey = $this->ca->generateClientCert($commonName);
 
         $configData = array(
             'cn' => $commonName,
-            'ca' => $this->easyRsa->getCaCert(),
+            'ca' => $this->ca->getCaCert(),
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],
-            'ta' => $this->easyRsa->getTlsAuthKey(),
+            'ta' => $this->ca->getTlsAuthKey(),
             'remotes' => $this->remotes,
         );
 
@@ -95,11 +110,11 @@ class CertService extends Service
     {
         self::validateCommonName($commonName);
 
-        if (!$this->easyRsa->hasCert($commonName)) {
+        if (!$this->ca->hasCert($commonName)) {
             throw new NotFoundException('certificate with this common name does not exist');
         }
 
-        $this->easyRsa->revokeClientCert($commonName);
+        $this->ca->revokeClientCert($commonName);
 
         return new Response(200);
     }
@@ -108,9 +123,9 @@ class CertService extends Service
     {
         $response = new Response(200, 'application/pkix-crl');
 
-        $crlData = $this->easyRsa->getCrl();
+        $crlData = $this->ca->getCrl();
         if (null !== $crlData) {
-            $response->setHeader('Last-Modified', $this->easyRsa->getCrlLastModifiedTime());
+            $response->setHeader('Last-Modified', $this->ca->getCrlLastModifiedTime());
             $response->setBody($crlData);
         }
 

@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 
 /**
@@ -16,17 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require_once dirname(__DIR__).'/vendor/autoload.php';
+namespace fkooman\VPN;
 
-try {
-    // verify number of parameters
-    if (2 > $argc) {
-        throw new Exception(sprintf('Syntax: %s [password]', $argv[0]));
-    }
-
-    // generate the password hash
-    echo password_hash($argv[1], PASSWORD_DEFAULT).PHP_EOL;
-} catch (Exception $e) {
-    echo $e->getMessage().PHP_EOL;
-    exit(1);
+interface CaInterface
+{
+    public function generateServerCert($commonName);
+    public function generateDh();
+    public function generateClientCert($commonName);
+    public function getTlsAuthKey();
+    public function hasCert($commonName);
+    public function getCaCert();
+    public function getCrl();
+    public function getCrlLastModifiedTime();
+    public function getCrlFileSize();
+    public function revokeClientCert($commonName);
+    public function initCa();
 }
