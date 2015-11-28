@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/eduVPN/vpn-cert-service.svg)](https://travis-ci.org/eduVPN/vpn-cert-service)
+
 # Introduction
 This is a configuration generator for OpenVPN. It aims at providing a REST API
 that makes it easy to manage client configuration files. It is possible to 
