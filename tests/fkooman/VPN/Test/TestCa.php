@@ -25,11 +25,12 @@ class TestCa implements CaInterface
     {
         return array(
             'cert' => sprintf('ServerCert for %s', $commonName),
-            'key' => sprintf('ServerKey %s for', $commonName),
+            'key' => sprintf('ServerKey for %s', $commonName),
+            'dh' => sprintf('ServerDh for %s', $commonName),
         );
     }
 
-    public function generateDh()
+    public function generateDh(array $caConfig)
     {
         return 'Dh';
     }

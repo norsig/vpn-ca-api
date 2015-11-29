@@ -19,22 +19,37 @@ namespace fkooman\VPN;
 
 use RuntimeException;
 
-class EasyRsaCa implements CaInterface
+class EasyRsa2Ca implements CaInterface
 {
-    /** @var string */
-    private $easyRsaTargetPath;
+    /** @var array */
+    private $config;
 
-    /** @var string */
-    private $easyRsaSourcePath;
-
-    /** @var string */
-    private $openVpnPath;
-
-    public function __construct($easyRsaTargetPath)
+    public function __construct(array $config)
     {
-        $this->easyRsaTargetPath = $easyRsaTargetPath;
-        $this->easyRsaSourcePath = '/usr/share/easy-rsa/2.0';
-        $this->openVpnPath = '/usr/sbin/openvpn';
+        $this->config = array();
+        if(!array_key_exists('targetPath', $config)) {
+            throw new InvalidArgumentException('missing "targetPath" parameter');
+        }
+        $this->config['targetPath'] = $config['targetPath'];
+
+        if(!array_key_exists('sourcePath', $config)) {
+            $this->config['sourcePath'] = '/usr/share/easy-rsa/2.0';
+        } else {
+            $this->config['sourcePath'] = $config['sourcePath'];
+        }
+
+        if(!array_key_exists('openVpnPath', $config)) {
+            $this->config['openVpnPath'] = '/usr/sbin/openvpn';
+        } else {
+            $this->config['openVpnPath'] = $config['openVpnPath'];
+        }
+         
+        // create target directory if it does not exist   
+        if (!file_exists($this->config['targetPath'])) {
+            if (false === @mkdir($this->config['targetPath'], 0700, true)) {
+                throw new RuntimeException('folder "%s" could not be created', $this->config['targetPath']);
+            }
+        }
     }
 
     public function generateServerCert($commonName)
@@ -45,14 +60,14 @@ class EasyRsaCa implements CaInterface
         return $certKeyDh;
     }
 
-    public function generateDh()
+    public function generateDh($keySize)
     {
         $this->execute('./build-dh');
 
         $dhFile = sprintf(
             '%s/keys/dh%s.pem',
-            $this->easyRsaTargetPath,
-            $this->keySize
+            $this->config['targetPath'],
+            $keySize
         );
 
         return trim(file_get_contents($dhFile));
@@ -67,7 +82,7 @@ class EasyRsaCa implements CaInterface
     {
         $taFile = sprintf(
             '%s/keys/ta.key',
-            $this->easyRsaTargetPath
+            $this->config['targetPath']
         );
 
         return trim(file_get_contents($taFile));
@@ -77,13 +92,13 @@ class EasyRsaCa implements CaInterface
     {
         $taFile = sprintf(
             '%s/keys/ta.key',
-            $this->easyRsaTargetPath
+            $this->config['targetPath']
         );
 
         $this->execute(
             sprintf(
                 '%s --genkey --secret %s',
-                $this->openVpnPath,
+                $this->config['openVpnPath'],
                 $taFile
             )
         );
@@ -105,7 +120,7 @@ class EasyRsaCa implements CaInterface
 
     public function hasCert($commonName)
     {
-        $certFile = sprintf('%s/keys/%s.crt', $this->easyRsaTargetPath, $commonName);
+        $certFile = sprintf('%s/keys/%s.crt', $this->config['targetPath'], $commonName);
 
         return file_exists($certFile);
     }
@@ -119,7 +134,7 @@ class EasyRsaCa implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaTargetPath,
+            $this->config['targetPath']
             'crl.pem'
         );
 
@@ -134,7 +149,7 @@ class EasyRsaCa implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaTargetPath,
+            $this->config['targetPath']
             'crl.pem'
         );
 
@@ -149,7 +164,7 @@ class EasyRsaCa implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaTargetPath,
+            $this->config['targetPath']
             'crl.pem'
         );
 
@@ -169,7 +184,7 @@ class EasyRsaCa implements CaInterface
     {
         $certFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaTargetPath,
+            $this->config['targetPath']
             $certFile
         );
         // only return the certificate, strip junk before and after the actual
@@ -187,7 +202,7 @@ class EasyRsaCa implements CaInterface
     {
         $keyFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaTargetPath,
+            $this->config['targetPath']
             $keyFile
         );
 
@@ -196,21 +211,14 @@ class EasyRsaCa implements CaInterface
 
     public function initCa(array $caConfig)
     {
-        echo $this->easyRsaTargetPath;
-
-        if (!file_exists($this->easyRsaTargetPath)) {
-            if (false === @mkdir($this->easyRsaTargetPath, 0700, true)) {
-                throw new RuntimeException('folder "%s" could not be created', $this->easyRsaTargetPath);
-            }
+        if (!file_exists($this->config['sourcePath'])) {
+            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->config['sourcePath']));
         }
-        if (!file_exists($this->easyRsaSourcePath)) {
-            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->easyRsaSourcePath));
-        }
-        foreach (glob($this->easyRsaSourcePath.'/*') as $file) {
+        foreach (glob($this->config['sourcePath'].'/*') as $file) {
             $fp = fileperms($file);
-            copy($file, $this->easyRsaTargetPath.'/'.basename($file));
+            copy($file, $this->config['targetPath'].'/'.basename($file));
             // also keep file permissions
-            chmod($this->easyRsaTargetPath.'/'.basename($file), $fp);
+            chmod($this->config['targetPath'].'/'.basename($file), $fp);
         }
 
         # update the 'vars' file
@@ -236,7 +244,7 @@ class EasyRsaCa implements CaInterface
             sprintf('export KEY_EMAIL="%s"', $caConfig['key_email']),
             sprintf('export KEY_OU="%s"', $caConfig['key_ou']),
         );
-        $varsFile = $this->easyRsaTargetPath.'/vars';
+        $varsFile = $this->config['targetPath'].'/vars';
         $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
         file_put_contents($varsFile, $varsContent);
 
@@ -255,7 +263,7 @@ class EasyRsaCa implements CaInterface
 
         $cmd = sprintf(
             'cd %s && source ./vars >/dev/null 2>/dev/null && %s %s',
-            $this->easyRsaTargetPath,
+            $this->config['targetPath'],
             $command,
             $quietSuffix
         );

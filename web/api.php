@@ -20,8 +20,6 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Ini\IniReader;
-use fkooman\VPN\EasyRsaCa;
-use fkooman\VPN\NullCa;
 use fkooman\VPN\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 
@@ -29,14 +27,9 @@ $iniReader = IniReader::fromFile(
     dirname(__DIR__).'/config/config.ini'
 );
 
-$easyRsaTargetPath = $iniReader->v(
-    'EasyRsa2', 'targetPath',
-    false,
-    dirname(__DIR__).'/data/easy-rsa'
-);
-
-$ca = new EasyRsaCa($easyRsaTargetPath);
-#$ca = new NullCa();
+$caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
+$caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
+$ca = new $caBackendClass($iniReader->v($caBackend));
 
 $templateManager = new TwigTemplateManager(
     array(

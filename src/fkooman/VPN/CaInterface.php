@@ -24,12 +24,17 @@ interface CaInterface
      * 
      * @param string $commonName
      *
-     * @return array the certificate and key in array with keys 'cert' and
-     *               'key'
+     * @return array the certificate, key and dh parameters in array with keys 
+     *               'cert', 'key' and 'dh'
      */
     public function generateServerCert($commonName);
 
-    public function generateDh();
+    /**
+     * Generate DH parameters.
+     * 
+     * @param array $caConfig the CA configuration
+     */
+    public function generateDh(array $caConfig);
 
     /**
      * Generate a certificate for a VPN client.

@@ -18,7 +18,6 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use fkooman\VPN\EasyRsaCa;
 use fkooman\Ini\IniReader;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 
@@ -33,9 +32,10 @@ try {
         dirname(__DIR__).'/config/config.ini'
     );
 
-    $easyRsaTargetConfigPath = $iniReader->v('easyRsaConfigPath');
+    $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
+    $caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
+    $ca = new $caBackendClass($iniReader->v($caBackend));
 
-    $ca = new EasyRsaCa($easyRsaTargetPath);
     $certKeyDh = $ca->generateServerCert($commonName);
     $tlsAuth = $ca->getTlsAuthKey();
 
