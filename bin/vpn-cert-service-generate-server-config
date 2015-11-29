@@ -20,7 +20,6 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\VPN\EasyRsaCa;
 use fkooman\Ini\IniReader;
-use fkooman\VPN\PdoStorage;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 
 try {
