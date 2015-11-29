@@ -28,9 +28,10 @@ class EasyRsa2Ca implements CaInterface
     {
         $this->config = array();
         if(!array_key_exists('targetPath', $config)) {
-            throw new InvalidArgumentException('missing "targetPath" parameter');
+            $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(__DIR__))));
+        } else {
+            $this->config['targetPath'] = $config['targetPath'];
         }
-        $this->config['targetPath'] = $config['targetPath'];
 
         if(!array_key_exists('sourcePath', $config)) {
             $this->config['sourcePath'] = '/usr/share/easy-rsa/2.0';
@@ -60,14 +61,14 @@ class EasyRsa2Ca implements CaInterface
         return $certKeyDh;
     }
 
-    public function generateDh($keySize)
+    public function generateDh(array $caConfig)
     {
         $this->execute('./build-dh');
 
         $dhFile = sprintf(
             '%s/keys/dh%s.pem',
             $this->config['targetPath'],
-            $keySize
+            $caConfig['key_size']
         );
 
         return trim(file_get_contents($dhFile));
@@ -134,7 +135,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->config['targetPath']
+            $this->config['targetPath'],
             'crl.pem'
         );
 
@@ -149,7 +150,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->config['targetPath']
+            $this->config['targetPath'],
             'crl.pem'
         );
 
@@ -164,7 +165,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->config['targetPath']
+            $this->config['targetPath'],
             'crl.pem'
         );
 
@@ -184,7 +185,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $certFile = sprintf(
             '%s/keys/%s',
-            $this->config['targetPath']
+            $this->config['targetPath'],
             $certFile
         );
         // only return the certificate, strip junk before and after the actual
@@ -202,7 +203,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $keyFile = sprintf(
             '%s/keys/%s',
-            $this->config['targetPath']
+            $this->config['targetPath'],
             $keyFile
         );
 
