@@ -36,7 +36,7 @@ try {
     $caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
     $ca = new $caBackendClass($iniReader->v($caBackend));
 
-    $certKeyDh = $ca->generateServerCert($commonName);
+    $certKeyDh = $ca->generateServerCert($commonName, $iniReader->v('CA', 'key_size'));
     $tlsAuth = $ca->getTlsAuthKey();
 
     $configData = array(

@@ -27,24 +27,24 @@ class EasyRsa2Ca implements CaInterface
     public function __construct(array $config)
     {
         $this->config = array();
-        if(!array_key_exists('targetPath', $config)) {
+        if (!array_key_exists('targetPath', $config)) {
             $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(__DIR__))));
         } else {
             $this->config['targetPath'] = $config['targetPath'];
         }
 
-        if(!array_key_exists('sourcePath', $config)) {
+        if (!array_key_exists('sourcePath', $config)) {
             $this->config['sourcePath'] = '/usr/share/easy-rsa/2.0';
         } else {
             $this->config['sourcePath'] = $config['sourcePath'];
         }
 
-        if(!array_key_exists('openVpnPath', $config)) {
+        if (!array_key_exists('openVpnPath', $config)) {
             $this->config['openVpnPath'] = '/usr/sbin/openvpn';
         } else {
             $this->config['openVpnPath'] = $config['openVpnPath'];
         }
-         
+
         // create target directory if it does not exist   
         if (!file_exists($this->config['targetPath'])) {
             if (false === @mkdir($this->config['targetPath'], 0700, true)) {
@@ -53,22 +53,22 @@ class EasyRsa2Ca implements CaInterface
         }
     }
 
-    public function generateServerCert($commonName)
+    public function generateServerCert($commonName, $dhSize)
     {
         $certKeyDh = $this->generateCert($commonName, true);
-        $certKeyDh['dh'] = $this->generateDh();
+        $certKeyDh['dh'] = $this->generateDh($dhSize);
 
         return $certKeyDh;
     }
 
-    public function generateDh(array $caConfig)
+    private function generateDh($dhSize)
     {
         $this->execute('./build-dh');
 
         $dhFile = sprintf(
             '%s/keys/dh%s.pem',
             $this->config['targetPath'],
-            $caConfig['key_size']
+            $dhSize
         );
 
         return trim(file_get_contents($dhFile));
@@ -270,7 +270,7 @@ class EasyRsa2Ca implements CaInterface
         );
         $output = array();
         $returnValue = 0;
-        // FIXME: check return value, log output?
+        // XXX: check return value, log output?
         exec($cmd, $output, $returnValue);
 
         return $output;

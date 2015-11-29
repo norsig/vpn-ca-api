@@ -17,10 +17,8 @@
  */
 namespace fkooman\VPN;
 
-require_once __DIR__.'/Test/TestCa.php';
 require_once __DIR__.'/Test/TestTemplateManager.php';
 
-use fkooman\VPN\Test\TestCa;
 use fkooman\VPN\Test\TestTemplateManager;
 use PHPUnit_Framework_TestCase;
 use fkooman\Http\Request;
@@ -31,7 +29,7 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $ca = new TestCa();
+        $ca = new NullCa();
         $tpl = new TestTemplateManager();
         $this->certService = new CertService($ca, $tpl);
     }

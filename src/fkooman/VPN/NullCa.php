@@ -19,18 +19,13 @@ namespace fkooman\VPN;
 
 class NullCa implements CaInterface
 {
-    public function generateServerCert($commonName)
+    public function generateServerCert($commonName, $dhSize)
     {
         return array(
             'cert' => sprintf('ServerCert for %s', $commonName),
             'key' => sprintf('ServerCert for %s', $commonName),
             'dh' => sprintf('ServerDh for %s', $commonName),
         );
-    }
-
-    public function generateDh(array $caConfig)
-    {
-        return 'Dh';
     }
 
     public function generateClientCert($commonName)
@@ -57,7 +52,7 @@ class NullCa implements CaInterface
 
     public function getCaCert()
     {
-        return 'CaCert';
+        return 'Ca';
     }
 
     public function getCrl()
