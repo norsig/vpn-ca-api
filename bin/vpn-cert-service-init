@@ -27,22 +27,29 @@ try {
         dirname(__DIR__).'/config/config.ini'
     );
 
-    $pdo = new PDO(
-        $iniReader->v('PdoStorage', 'dsn'),
-        $iniReader->v('PdoStorage', 'username', false),
-        $iniReader->v('PdoStorage', 'password', false)
-    );
-    $pdoStorage = new PdoStorage($pdo);
-
     $easyRsaTargetPath = $iniReader->v(
         'easyRsaTargetPath',
         false,
         dirname(__DIR__).'/data/easy-rsa'
     );
 
+    if (!file_exists($easyRsaTargetPath)) {
+        if (false === @mkdir($easyRsaTargetPath, 0700, true)) {
+            throw new RuntimeException(sprintf('unable to create directory "%s"', $easyRsaTargetPath));
+        }
+    }
+
+    $pdo = new PDO(
+        $iniReader->v('PdoStorage', 'dsn', false, sprintf('sqlite:%s/data/certs.sqlite', dirname(__DIR__))),
+        $iniReader->v('PdoStorage', 'username', false),
+        $iniReader->v('PdoStorage', 'password', false)
+    );
+    $pdoStorage = new PdoStorage($pdo);
+
     $ca = new EasyRsaCa($pdoStorage, $easyRsaTargetPath);
     $ca->initCa($iniReader->v('ca'));
 } catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
+    echo $e->getTraceAsString().PHP_EOL;
     exit(1);
 }

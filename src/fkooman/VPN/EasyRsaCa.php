@@ -202,6 +202,8 @@ class EasyRsaCa implements CaInterface
 
     public function initCa(array $caConfig)
     {
+        echo $this->easyRsaTargetPath;
+
         if (!file_exists($this->easyRsaTargetPath)) {
             if (false === @mkdir($this->easyRsaTargetPath, 0700, true)) {
                 throw new RuntimeException('folder "%s" could not be created', $this->easyRsaTargetPath);
