@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 (...)
+## 2.0.0 (2015-11-29)
 - refactor some code to make it easier to implement other CA backends and make 
   testing easier
 - add license headers to source files
