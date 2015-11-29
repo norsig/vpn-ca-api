@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.4 (...)
+## 2.0.0 (...)
 - refactor some code to make it easier to implement other CA backends and make 
   testing easier
 - add license headers to source files
@@ -10,7 +10,17 @@
 - update dependencies to new `fkooman/rest-plugin-authentication`
 - content negotiation to retrieve just the certificate information from the 
   REST service instead of OpenVPN config
-- remote `remotes` configuration option, use template override instead
+- remove `remotes` configuration option, use template override instead
+- implement NullCa for testing and to have already a CA in preparation for
+  EasyRsa3Ca if we get around to implementing that one
+- remove the PDO database, the CA already provides a database, no need to 
+  duplicate that
+- change configuration file layout:
+  - introduce `[EasyRsa2Ca]` section with `targetPath` to replace 
+    `easyRsaConfigPath`, default is `data/easy-rsa`
+  - rename `[ca]` section to `[CA]`
+  - introduce `caBackend` to select the CA backend, default is `EasyRsa2Ca`
+  - remove `[PdoStorage]`
 
 ## 1.0.3 (2015-09-22)
 - update default configuration
