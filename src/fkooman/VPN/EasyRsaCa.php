@@ -85,7 +85,7 @@ class EasyRsaCa implements CaInterface
                 '%s --genkey --secret %s',
                 $this->openVpnPath,
                 $taFile
-            ),
+            )
         );
     }
 
@@ -105,10 +105,9 @@ class EasyRsaCa implements CaInterface
 
     public function hasCert($commonName)
     {
-        // XXX use tools to figure out if cert exists already
-        return false;
+        $certFile = sprintf('%s/keys/%s.crt', $this->easyRsaTargetPath, $commonName);
 
-#        return null !== $this->db->getCert($commonName);
+        return file_exists($certFile);
     }
 
     public function getCaCert()
