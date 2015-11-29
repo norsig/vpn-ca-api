@@ -23,31 +23,36 @@ use fkooman\Ini\IniReader;
 use fkooman\VPN\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 
-$iniReader = IniReader::fromFile(
-    dirname(__DIR__).'/config/config.ini'
-);
+try {
+    $iniReader = IniReader::fromFile(
+        dirname(__DIR__).'/config/config.ini'
+    );
 
-$caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
-$caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
-$ca = new $caBackendClass($iniReader->v($caBackend));
+    $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
+    $caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
+    $ca = new $caBackendClass($iniReader->v($caBackend));
 
-$templateManager = new TwigTemplateManager(
-    array(
-        dirname(__DIR__).'/views',
-        dirname(__DIR__).'/config/views',
-    ),
-    null
-);
+    $templateManager = new TwigTemplateManager(
+        array(
+            dirname(__DIR__).'/views',
+            dirname(__DIR__).'/config/views',
+        ),
+        null
+    );
 
-$service = new CertService($ca, $templateManager);
+    $service = new CertService($ca, $templateManager);
 
-$basicAuthentication = new BasicAuthentication(
-    function ($userId) use ($iniReader) {
-        return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
-    },
-    array('realm' => 'VPN Configuration Service')
-);
-$authenticationPlugin = new AuthenticationPlugin();
-$authenticationPlugin->register($basicAuthentication, 'api');
-$service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
-$service->run()->send();
+    $basicAuthentication = new BasicAuthentication(
+        function ($userId) use ($iniReader) {
+            return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
+        },
+        array('realm' => 'VPN Configuration Service')
+    );
+    $authenticationPlugin = new AuthenticationPlugin();
+    $authenticationPlugin->register($basicAuthentication, 'api');
+    $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
+    $service->run()->send();
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    die(sprintf('ERROR: %s', $e->getMessage()));
+}
