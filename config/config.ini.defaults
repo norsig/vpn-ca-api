@@ -1,4 +1,4 @@
-easyRsaConfigPath = '/var/lib/vpn-cert-service/easy-rsa'
+#easyRsaTargetPath = '/var/lib/vpn-cert-service/easy-rsa'
 
 ; Use provided 'vpn-cert-service-generate-password-hash' script to generate 
 ; basicPass, default hash is for the password 's3cr3t'
@@ -16,9 +16,9 @@ dsn = "sqlite:/var/lib/vpn-cert-service/certs.sqlite"
 key_size = 4096 
 ca_expire = 1826
 key_expire = 365
-key_country = 'US'
-key_province = 'CA'
-key_city = 'SanFrancisco'
-key_org = 'Fort-Funston'
-key_email = 'me@myhost.mydomain'
-key_ou = 'MyOrganizationalUnit'
+;key_country = 'US'
+;key_province = 'CA'
+;key_city = 'SanFrancisco'
+;key_org = 'Fort-Funston'
+;key_email = 'me@myhost.mydomain'
+;key_ou = 'MyOrganizationalUnit'

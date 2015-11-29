@@ -79,7 +79,7 @@ class NullCa implements CaInterface
         // NOP
     }
 
-    public function initCa()
+    public function initCa(array $caConfig)
     {
         // NOP
     }

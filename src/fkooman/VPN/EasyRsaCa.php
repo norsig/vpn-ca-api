@@ -17,26 +17,29 @@
  */
 namespace fkooman\VPN;
 
+use RuntimeException;
+
 class EasyRsaCa implements CaInterface
 {
-    /** @var string */
-    private $easyRsaPath;
-
     /** @var PdoStorage */
     private $db;
 
     /** @var string */
-    private $keySize;
+    private $easyRsaTargetPath;
 
     /** @var string */
-    private $pathToOpenVpn;
+    private $easyRsaSourcePath;
 
-    public function __construct($easyRsaPath, PdoStorage $db, $keySize, $pathToOpenVpn = '/usr/sbin/openvpn')
+    /** @var string */
+    private $openVpnPath;
+
+    public function __construct(PdoStorage $db, $easyRsaTargetPath)
     {
-        $this->easyRsaPath = $easyRsaPath;
         $this->db = $db;
-        $this->keySize = $keySize;
-        $this->pathToOpenVpn = $pathToOpenVpn;
+        $this->easyRsaTargetPath = $easyRsaTargetPath;
+
+        $this->easyRsaSourcePath = '/usr/share/easy-rsa/2.0';
+        $this->openVpnPath = '/usr/sbin/openvpn';
     }
 
     public function generateServerCert($commonName)
@@ -53,7 +56,7 @@ class EasyRsaCa implements CaInterface
 
         $dhFile = sprintf(
             '%s/keys/dh%s.pem',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             $this->keySize
         );
 
@@ -69,7 +72,7 @@ class EasyRsaCa implements CaInterface
     {
         $taFile = sprintf(
             '%s/keys/ta.key',
-            $this->easyRsaPath
+            $this->easyRsaTargetPath
         );
 
         return trim(file_get_contents($taFile));
@@ -79,13 +82,13 @@ class EasyRsaCa implements CaInterface
     {
         $taFile = sprintf(
             '%s/keys/ta.key',
-            $this->easyRsaPath
+            $this->easyRsaTargetPath
         );
 
         $this->execute(
             sprintf(
                 '%s --genkey --secret %s',
-                $this->pathToOpenVpn,
+                $this->openVpnPath,
                 $taFile
             )
         );
@@ -121,7 +124,7 @@ class EasyRsaCa implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             'crl.pem'
         );
 
@@ -136,7 +139,7 @@ class EasyRsaCa implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             'crl.pem'
         );
 
@@ -151,7 +154,7 @@ class EasyRsaCa implements CaInterface
     {
         $crlFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             'crl.pem'
         );
 
@@ -172,7 +175,7 @@ class EasyRsaCa implements CaInterface
     {
         $certFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             $certFile
         );
         // only return the certificate, strip junk before and after the actual
@@ -190,15 +193,57 @@ class EasyRsaCa implements CaInterface
     {
         $keyFile = sprintf(
             '%s/keys/%s',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             $keyFile
         );
 
         return trim(file_get_contents($keyFile));
     }
 
-    public function initCa()
+    public function initCa(array $caConfig)
     {
+        if (!file_exists($this->easyRsaTargetPath)) {
+            if (false === @mkdir($this->easyRsaTargetPath, 0700, true)) {
+                throw new RuntimeException('folder "%s" could not be created', $this->easyRsaTargetPath);
+            }
+        }
+        if (!file_exists($this->easyRsaSourcePath)) {
+            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->easyRsaSourcePath));
+        }
+        foreach (glob($this->easyRsaSourcePath.'/*') as $file) {
+            $fp = fileperms($file);
+            copy($file, $this->easyRsaTargetPath.'/'.basename($file));
+            // also keep file permissions
+            chmod($this->easyRsaTargetPath.'/'.basename($file), $fp);
+        }
+
+        # update the 'vars' file
+        $search = array(
+            'export KEY_SIZE=2048',
+            'export CA_EXPIRE=3650',
+            'export KEY_EXPIRE=3650',
+            'export KEY_COUNTRY="US"',
+            'export KEY_PROVINCE="CA"',
+            'export KEY_CITY="SanFrancisco"',
+            'export KEY_ORG="Fort-Funston"',
+            'export KEY_EMAIL="me@myhost.mydomain"',
+            'export KEY_OU="MyOrganizationalUnit"',
+        );
+        $replace = array(
+            sprintf('export KEY_SIZE=%d', $caConfig['key_size']),
+            sprintf('export CA_EXPIRE=%d', $caConfig['ca_expire']),
+            sprintf('export KEY_EXPIRE=%d', $caConfig['key_expire']),
+            'export KEY_COUNTRY="."',
+            'export KEY_PROVINCE="."',
+            'export KEY_CITY="."',
+            'export KEY_ORG="."',
+            'export KEY_EMAIL="."',
+            'export KEY_OU="."',
+        );
+        $varsFile = $this->easyRsaTargetPath.'/vars';
+        $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
+        file_put_contents($varsFile, $varsContent);
+
         $this->execute('clean-all');
         $this->execute('pkitool --initca');
         $this->generateTlsAuthKey();
@@ -215,7 +260,7 @@ class EasyRsaCa implements CaInterface
 
         $cmd = sprintf(
             'cd %s && source ./vars >/dev/null 2>/dev/null && %s %s',
-            $this->easyRsaPath,
+            $this->easyRsaTargetPath,
             $command,
             $quietSuffix
         );

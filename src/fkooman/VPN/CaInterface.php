@@ -81,6 +81,8 @@ interface CaInterface
 
     /**
      * Initialize the CA.
+     *
+     * @param array $caConfig the CA configuration
      */
-    public function initCa();
+    public function initCa(array $caConfig);
 }
