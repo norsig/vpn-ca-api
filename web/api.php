@@ -22,7 +22,6 @@ use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Ini\IniReader;
 use fkooman\VPN\EasyRsaCa;
 use fkooman\VPN\NullCa;
-use fkooman\VPN\PdoStorage;
 use fkooman\VPN\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 
@@ -30,15 +29,13 @@ $iniReader = IniReader::fromFile(
     dirname(__DIR__).'/config/config.ini'
 );
 
-$pdo = new PDO(
-    $iniReader->v('PdoStorage', 'dsn'),
-    $iniReader->v('PdoStorage', 'username', false),
-    $iniReader->v('PdoStorage', 'password', false)
+$easyRsaTargetPath = $iniReader->v(
+    'EasyRsa2', 'targetPath',
+    false,
+    dirname(__DIR__).'/data/easy-rsa'
 );
 
-$pdoStorage = new PdoStorage($pdo);
-
-$ca = new EasyRsaCa($iniReader->v('easyRsaConfigPath'), $pdoStorage, $iniReader->v('ca', 'key_size'));
+$ca = new EasyRsaCa($easyRsaTargetPath);
 #$ca = new NullCa();
 
 $templateManager = new TwigTemplateManager(

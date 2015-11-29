@@ -1,24 +1,20 @@
-#easyRsaTargetPath = '/var/lib/vpn-cert-service/easy-rsa'
-
 ; Use provided 'vpn-cert-service-generate-password-hash' script to generate 
 ; basicPass, default hash is for the password 's3cr3t'
 authUser = 'admin'
 authPass = '$2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2'
 
-[PdoStorage]
-dsn = "sqlite:/var/lib/vpn-cert-service/certs.sqlite"
-;dsn = "mysql:host=localhost;dbname=vpn-cert-service"
-;username = "vpn-cert-service"
-;password = "s3cr3t"
-;dsn = "pgsql:host=localhost;port=5432;dbname=XYZ;user=ABC;password=DEF"
+[EasyRsa2]
+targetPath = '/var/lib/vpn-cert-service/easy-rsa'
+;sourcePath = '/usr/share/easy-rsa/2.0'
+;openVpnPath = '/usr/sbin/openvpn'
 
-[ca]
+[CA]
 key_size = 4096 
 ca_expire = 1826
 key_expire = 365
-;key_country = 'US'
-;key_province = 'CA'
-;key_city = 'SanFrancisco'
-;key_org = 'Fort-Funston'
-;key_email = 'me@myhost.mydomain'
-;key_ou = 'MyOrganizationalUnit'
+key_country = 'US'
+key_province = 'CA'
+key_city = 'SanFrancisco'
+key_org = 'Fort-Funston'
+key_email = 'me@myhost.mydomain'
+key_ou = 'MyOrganizationalUnit'

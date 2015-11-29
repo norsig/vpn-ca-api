@@ -21,9 +21,6 @@ use RuntimeException;
 
 class EasyRsaCa implements CaInterface
 {
-    /** @var PdoStorage */
-    private $db;
-
     /** @var string */
     private $easyRsaTargetPath;
 
@@ -33,11 +30,9 @@ class EasyRsaCa implements CaInterface
     /** @var string */
     private $openVpnPath;
 
-    public function __construct(PdoStorage $db, $easyRsaTargetPath)
+    public function __construct($easyRsaTargetPath)
     {
-        $this->db = $db;
         $this->easyRsaTargetPath = $easyRsaTargetPath;
-
         $this->easyRsaSourcePath = '/usr/share/easy-rsa/2.0';
         $this->openVpnPath = '/usr/sbin/openvpn';
     }
@@ -90,14 +85,12 @@ class EasyRsaCa implements CaInterface
                 '%s --genkey --secret %s',
                 $this->openVpnPath,
                 $taFile
-            )
+            ),
         );
     }
 
     private function generateCert($commonName, $isServer = false)
     {
-        $this->db->addCert($commonName);
-
         if ($isServer) {
             $this->execute(sprintf('pkitool --server %s', $commonName));
         } else {
@@ -112,7 +105,10 @@ class EasyRsaCa implements CaInterface
 
     public function hasCert($commonName)
     {
-        return null !== $this->db->getCert($commonName);
+        // XXX use tools to figure out if cert exists already
+        return false;
+
+#        return null !== $this->db->getCert($commonName);
     }
 
     public function getCaCert()
@@ -167,7 +163,6 @@ class EasyRsaCa implements CaInterface
 
     public function revokeClientCert($commonName)
     {
-        $this->db->deleteCert($commonName);
         $this->execute(sprintf('revoke-full %s', $commonName));
     }
 
@@ -235,12 +230,12 @@ class EasyRsaCa implements CaInterface
             sprintf('export KEY_SIZE=%d', $caConfig['key_size']),
             sprintf('export CA_EXPIRE=%d', $caConfig['ca_expire']),
             sprintf('export KEY_EXPIRE=%d', $caConfig['key_expire']),
-            'export KEY_COUNTRY="."',
-            'export KEY_PROVINCE="."',
-            'export KEY_CITY="."',
-            'export KEY_ORG="."',
-            'export KEY_EMAIL="."',
-            'export KEY_OU="."',
+            sprintf('export KEY_COUNTRY="%s"', $caConfig['key_country']),
+            sprintf('export KEY_PROVINCE="%s"', $caConfig['key_province']),
+            sprintf('export KEY_CITY="%s"', $caConfig['key_city']),
+            sprintf('export KEY_ORG="%s"', $caConfig['key_org']),
+            sprintf('export KEY_EMAIL="%s"', $caConfig['key_email']),
+            sprintf('export KEY_OU="%s"', $caConfig['key_ou']),
         );
         $varsFile = $this->easyRsaTargetPath.'/vars';
         $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
@@ -249,7 +244,6 @@ class EasyRsaCa implements CaInterface
         $this->execute('clean-all');
         $this->execute('pkitool --initca');
         $this->generateTlsAuthKey();
-        $this->db->initDatabase();
     }
 
     private function execute($command, $isQuiet = true)
