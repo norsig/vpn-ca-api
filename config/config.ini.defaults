@@ -3,6 +3,10 @@
 authUser = 'admin'
 authPass = '$2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2'
 
+; Here you can select the CA backend, NullCa is for testing ONLY!
+caBackend = EasyRsa2Ca
+;caBackend = NullCa
+
 [EasyRsa2]
 targetPath = '/var/lib/vpn-cert-service/easy-rsa'
 ;sourcePath = '/usr/share/easy-rsa/2.0'
