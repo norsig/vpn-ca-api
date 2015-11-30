@@ -21,6 +21,8 @@
   - rename `[ca]` section to `[CA]`
   - introduce `caBackend` to select the CA backend, default is `EasyRsa2Ca`
   - remove `[PdoStorage]`
+  - no longer have `remotes` in configuration file, but use template override
+    now in `config/views/client.twig`
 
 ## 1.0.3 (2015-09-22)
 - update default configuration
