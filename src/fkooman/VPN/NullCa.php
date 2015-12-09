@@ -46,6 +46,12 @@ class NullCa implements CaInterface
         if ('foo' === $commonName) {
             return true;
         }
+        if ('foo_foo' === $commonName) {
+            return true;
+        }
+        if ('foo_bar' === $commonName) {
+            return true;
+        }
 
         return false;
     }
