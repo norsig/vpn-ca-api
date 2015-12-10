@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1 (...)
+- change the line endings of the OpenVPN configuration templates to "Windows"
+
 ## 2.0.0 (2015-11-29)
 - refactor some code to make it easier to implement other CA backends and make 
   testing easier
