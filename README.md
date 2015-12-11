@@ -51,7 +51,7 @@ You should also update at least `config/views/client.twig` to specify the
 correct server to connect to as this template will be used for all client 
 configuration downloads.
 
-# Apache
+### Apache
 
 The following configuration can be used in Apache, place it in 
 `/etc/httpd/conf.d/vpn-config-api.conf`:
