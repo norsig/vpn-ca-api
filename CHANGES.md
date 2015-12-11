@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 (...)
+## 3.0.0 (2015-12-11)
 - restructure and rename the project
 - assorted cleanups
 - **BREAKING**: the configuration format changed, now using 
