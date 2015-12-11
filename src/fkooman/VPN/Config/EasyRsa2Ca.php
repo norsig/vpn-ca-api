@@ -48,7 +48,12 @@ class EasyRsa2Ca implements CaInterface
         // create target directory if it does not exist   
         if (!file_exists($this->config['targetPath'])) {
             if (false === @mkdir($this->config['targetPath'], 0700, true)) {
-                throw new RuntimeException('folder "%s" could not be created', $this->config['targetPath']);
+                throw new RuntimeException(
+                    sprintf(
+                        'folder "%s" could not be created',
+                        $this->config['targetPath']
+                    )
+                );
             }
         }
     }

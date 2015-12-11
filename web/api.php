@@ -48,6 +48,7 @@ try {
             if (!array_key_exists($userId, $userList)) {
                 return false;
             }
+
             return $userList[$userId];
         },
         array('realm' => 'VPN Config API')
