@@ -8,12 +8,12 @@
     ],
     "autoload": {
         "psr-0": {
-            "fkooman\\VPN\\": "src/"
+            "fkooman\\VPN\\Config\\": "src/"
         }
     },
-    "description": "OpenVPN configuration manager written in PHP",
+    "description": "REST service to manage OpenVPN client configurations",
     "license": "Apache-2.0",
-    "name": "fkooman/vpn-cert-service",
+    "name": "eduVPN/vpn-config-api",
     "require": {
         "ext-date": "*",
         "ext-pcre": "*",

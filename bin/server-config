@@ -33,7 +33,7 @@ try {
     );
 
     $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
-    $caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
+    $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
     $ca = new $caBackendClass($iniReader->v($caBackend));
 
     $certKeyDh = $ca->generateServerCert($commonName, $iniReader->v('CA', 'key_size'));

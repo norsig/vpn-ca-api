@@ -18,14 +18,18 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-try {
-    // verify number of parameters
-    if (2 > $argc) {
-        throw new Exception(sprintf('Syntax: %s [password]', $argv[0]));
-    }
+use fkooman\Ini\IniReader;
 
-    // generate the password hash
-    echo password_hash($argv[1], PASSWORD_DEFAULT).PHP_EOL;
+try {
+    $iniReader = IniReader::fromFile(
+        dirname(__DIR__).'/config/config.ini'
+    );
+
+    $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
+    $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
+    $ca = new $caBackendClass($iniReader->v($caBackend));
+
+    $ca->initCa($iniReader->v('CA'));
 } catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
     exit(1);

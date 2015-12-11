@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace fkooman\VPN;
+namespace fkooman\VPN\Config;
 
 require_once __DIR__.'/Test/TestTemplateManager.php';
 
-use fkooman\VPN\Test\TestTemplateManager;
+use fkooman\VPN\Config\Test\TestTemplateManager;
 use PHPUnit_Framework_TestCase;
 use fkooman\Http\Request;
 

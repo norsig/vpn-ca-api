@@ -20,7 +20,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Ini\IniReader;
-use fkooman\VPN\CertService;
+use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 
 try {
@@ -29,7 +29,7 @@ try {
     );
 
     $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
-    $caBackendClass = sprintf('\\fkooman\\VPN\\%s', $caBackend);
+    $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
     $ca = new $caBackendClass($iniReader->v($caBackend));
 
     $templateManager = new TwigTemplateManager(
@@ -42,14 +42,19 @@ try {
 
     $service = new CertService($ca, $templateManager);
 
-    $basicAuthentication = new BasicAuthentication(
+    $auth = new BasicAuthentication(
         function ($userId) use ($iniReader) {
-            return $userId === $iniReader->v('authUser') ? $iniReader->v('authPass') : false;
+            $userList = $iniReader->v('BasicAuthentication');
+            if (!array_key_exists($userId, $userList)) {
+                return false;
+            }
+            return $userList[$userId];
         },
-        array('realm' => 'VPN Configuration Service')
+        array('realm' => 'VPN Config API')
     );
+
     $authenticationPlugin = new AuthenticationPlugin();
-    $authenticationPlugin->register($basicAuthentication, 'api');
+    $authenticationPlugin->register($auth, 'api');
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     $service->run()->send();
 } catch (Exception $e) {

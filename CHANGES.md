@@ -1,7 +1,11 @@
 # Changelog
 
-## 2.0.1 (...)
-- change the line endings of the OpenVPN configuration templates to "Windows"
+## 3.0.0 (...)
+- restructure and rename the project
+- assorted cleanups
+- **BREAKING**: the configuration format changed, now using 
+  `[BasicAuthentication]` instead of `authUser` and `authPass`
+- update README
 
 ## 2.0.0 (2015-11-29)
 - refactor some code to make it easier to implement other CA backends and make 

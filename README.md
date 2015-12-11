@@ -1,111 +1,89 @@
-[![Build Status](https://travis-ci.org/eduVPN/vpn-cert-service.svg)](https://travis-ci.org/eduVPN/vpn-cert-service)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eduVPN/vpn-cert-service/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eduVPN/vpn-cert-service/?branch=master)
+[![Build Status](https://travis-ci.org/eduVPN/vpn-config-api.svg)](https://travis-ci.org/eduVPN/vpn-config-api)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eduVPN/vpn-config-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eduVPN/vpn-config-api/?branch=master)
 
 # Introduction
+
 This is a configuration generator for OpenVPN. It aims at providing a REST API
 that makes it easy to manage client configuration files. It is possible to 
 generate a configuration and revoke a configuration.
 
-# Requirements
-This service requires a system running PHP and easy_rsa. This software was 
-tested on CentOS 7 and Fedora 22 with PHP, the PDO database abstraction and 
-Apache.
+# Production
 
-    $ sudo yum install php easy-rsa php-pdo openvpn
-
-The software was designed to run with SELinux enabled. RPM packages are 
-provided for CentOS (Red Hat Enterprise Linux).
-
-# Installation
-It is recommended to use the RPM of this software to install it. The RPMs can
-be found in [this](https://copr.fedoraproject.org/coprs/fkooman/vpn-management/) 
-COPR repository.
-
-In case you want to use Apache and `mod_php` do not forget to install the `php` 
-package.
-
-Do not forget to follow the SELinux instructions below.
+See the [documentation](https://github.com/eduVPN/documentation) repository.
 
 # Development
-However, if you want to develop for the software or install it from source, 
-these are the steps. Make sure you have [Composer](https://getcomposer.org) to 
-install the dependencies.
+
+## Installation
 
     $ cd /var/www
-    $ sudo mkdir vpn-cert-service
-    $ sudo chown fkooman.fkooman vpn-cert-service
-    $ git clone https://github.com/fkooman/vpn-cert-service.git
-    $ cd vpn-cert-service
+    $ sudo mkdir vpn-config-api
+    $ sudo chown fkooman.fkooman vpn-config-api
+    $ git clone https://github.com/eduVPN/vpn-config-api.git
+    $ cd vpn-config-api
     $ /path/to/composer.phar install
     $ mkdir -p data
     $ sudo chown -R apache.apache data
-    $ sudo semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/vpn-cert-service/data(/.*)?'
-    $ sudo restorecon -R /var/www/vpn-cert-service/data
+    $ sudo semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/vpn-config-api/data(/.*)?'
+    $ sudo restorecon -R /var/www/vpn-config-api/data
     $ cp config/config.ini.defaults config/config.ini
+    $ mkdir config/views
+    $ cp views/* config/views
+    $ sudo setsebool -P httpd_unified 1
 
-# Configuration
-Now you can run the init script to initialize the configuration and database:
+## Configuration
+Optionally, modify `config/config.ini`.
 
-    $ sudo -u apache bin/vpn-cert-service-init
+Now you can run the init script to initialize the CA:
+
+    $ sudo -u apache bin/init
 
 To generate the server configuration for use in your OpenVPN server use the 
 following. Please note that it will take a **really** long time to generate the
 DH keys.
 
-    $ sudo -u apache bin/vpn-cert-service-generate-server-config vpn.example.org
+    $ sudo -u apache bin/server-config vpn.example.org
 
-You also need to store a hashed password for protecting the HTTP interface in
-`config/config.ini`. The default password is `s3cr3t`. You can generate your
-own by using the `bin/vpn-cert-service-generate-password-hash yourpass`. 
+To update the password, use this command to generate a new hash:
 
-**NOTE**: generate your own hash and put it in `config/config.ini`, do **NOT** 
-use the default.
+    $ php -r "require_once 'vendor/autoload.php'; echo password_hash('s3cr3t', PASSWORD_DEFAULT) . PHP_EOL;"
 
-You can also place the templates for both the server and client configurations 
-in the `config/views` directory, i.e. `config/views/server.twig` and 
-`config/views/client.twig` folder.
+You should also update at least `config/views/client.twig` to specify the 
+correct server to connect to as this template will be used for all client 
+configuration downloads.
 
 # Apache
+
 The following configuration can be used in Apache, place it in 
-`/etc/httpd/conf.d/vpn-cert-service.conf`:
+`/etc/httpd/conf.d/vpn-config-api.conf`:
 
-    Alias /vpn-cert-service /var/www/vpn-cert-service/web
+    Alias /vpn-config-api /var/www/vpn-config-api/web
 
-    <Directory /var/www/vpn-cert-service/web>
+    <Directory /var/www/vpn-config-api/web>
         AllowOverride None
         Require local
         SetEnvIfNoCase ^Authorization$ "(.+)" HTTP_AUTHORIZATION=$1
     </Directory>
 
-This will only allow access from `localhost`. This service MUST NOT be directly
-accessible over the Internet!
-
 # API
 The HTTP API currently supports three calls:
 
 - Generate a new configuration file for a client
-- Revoke a certificate
+- Revoke a configuration
 - Obtain the CRL
 
 These calls can be performed using e.g. `curl`:
 
 Generate a configuration (using HTTP POST):
 
-    $ curl -u admin:s3cr3t -d 'commonName=user@example.org' http://localhost/vpn-cert-service/api.php/config/
+    $ curl -u admin:s3cr3t -d 'commonName=user@example.org' http://localhost/vpn-config-api/api.php/config/
 
 Delete (revoke) a configuration:
 
-    $ curl -u admin:s3cr3t -X DELETE http://localhost/vpn-cert-service/api.php/config/user@example.org
+    $ curl -u admin:s3cr3t -X DELETE http://localhost/vpn-config-api/api.php/config/user@example.org
 
 Obtain the CRL:
 
-    $ curl http://localhost/vpn-cert-service/api.php/ca.crl
-
-# SELinux
-If you use SELinux you need to set an SELinux boolean to allow PHP (running 
-under Apache to execute `pkitool` for generating certificates:
-
-    $ sudo setsebool -P httpd_unified 1
+    $ curl http://localhost/vpn-config-api/api.php/ca.crl
 
 # License
 Licensed under the Apache License, Version 2.0;

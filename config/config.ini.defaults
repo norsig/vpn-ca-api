@@ -1,14 +1,12 @@
-; Use provided 'vpn-cert-service-generate-password-hash' script to generate 
-; basicPass, default hash is for the password 's3cr3t'
-authUser = 'admin'
-authPass = '$2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2'
-
 ; Here you can select the CA backend, NullCa is for testing ONLY!
 caBackend = EasyRsa2Ca
 ;caBackend = NullCa
 
+[BasicAuthentication]
+admin = '$2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2'
+
 [EasyRsa2Ca]
-;targetPath = '/var/lib/vpn-cert-service/easy-rsa'
+;targetPath = '/var/lib/vpn-config-api/easy-rsa'
 ;sourcePath = '/usr/share/easy-rsa/2.0'
 ;openVpnPath = '/usr/sbin/openvpn'
 
