@@ -28,7 +28,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $this->config = array();
         if (!array_key_exists('targetPath', $config)) {
-            $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(__DIR__))));
+            $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(dirname(__DIR__)))));
         } else {
             $this->config['targetPath'] = $config['targetPath'];
         }
