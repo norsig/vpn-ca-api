@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.1 (2015-12-11)
+- fix some minor bugs
+
 ## 3.0.0 (2015-12-11)
 - restructure and rename the project
 - assorted cleanups
