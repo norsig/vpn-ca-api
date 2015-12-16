@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.2 (2015-12-16)
+- update `server.twig` to fix iOS in default gateway configuration
+
 ## 3.0.1 (2015-12-11)
 - fix some minor bugs
 
