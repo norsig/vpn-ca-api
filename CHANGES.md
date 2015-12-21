@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.3 (2015-12-21)
+- update `server.twig` to suggest port sharing
+
 ## 3.0.2 (2015-12-16)
 - update `server.twig` to fix iOS in default gateway configuration
 
