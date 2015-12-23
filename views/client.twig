@@ -28,11 +28,16 @@ tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA3
 
 key-direction 1
 script-security 1
-#remote-random
 
-remote nl.example.org 1194 udp
-remote de.example.org 1194 udp
-remote xyz.example.org 443 tcp
+# if UDP connections do no work, wait for 30 seconds before trying the 
+# next server in the list
+keepalive 10 30
+
+#remote-random
+remote vpn.example 1194 udp
+remote vpn.example 443 tcp
+#remote vpn.example 1194 udp6
+#remote vpn.example 443 tcp6
 
 <ca>
 {{ ca|e }}
