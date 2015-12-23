@@ -6,8 +6,19 @@ dev tun
 proto udp
 port 1194
 
+# UDP6 (works also for UDP)
+#proto udp6
+#port 1194
+
 # TCP
 #proto tcp-server
+#port 443
+#port-share localhost 8443
+
+# TCP6
+# does not work with port-share in OpenVPN 2.3.8/2.3.9, 
+# see https://community.openvpn.net/openvpn/ticket/336
+#proto tcp6-server
 #port 443
 #port-share localhost 8443
 
