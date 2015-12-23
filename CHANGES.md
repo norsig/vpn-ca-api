@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.4 (2015-12-23)
+- update `client.twig` and `server.twig` with better defaults
+
 ## 3.0.3 (2015-12-21)
 - update `server.twig` to suggest port sharing
 
