@@ -16,7 +16,7 @@ port 1194
 #port-share localhost 8443
 
 # TCP6
-# does not work with port-share in OpenVPN 2.3.8/2.3.9, 
+# does not work with port-share (tested with OpenVPN 2.3.8 and 2.3.9)
 # see https://community.openvpn.net/openvpn/ticket/336
 #proto tcp6-server
 #port 443
@@ -26,7 +26,8 @@ port 1194
 # Replace 42.42 with 2 random numbers between 0 and 255, e.g. 10.232.217.0 if
 # you do not have publically routable addresses
 server 10.42.42.0 255.255.255.0
-push "redirect-gateway"
+push "redirect-gateway def1"
+push "redirect-gateway bypass-dhcp"
 
 # IPv6
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
@@ -39,7 +40,7 @@ push "redirect-gateway ipv6"
 push "route-ipv6 2000::/3"
 
 topology subnet
-comp-lzo
+comp-lzo yes
 persist-key
 persist-tun
 verb 3
@@ -47,7 +48,6 @@ max-clients 100
 keepalive 10 30
 user openvpn
 group openvpn
-key-direction 0
 
 # CRYPTO
 #
@@ -56,7 +56,6 @@ key-direction 0
 # OpenVPN does not support ECDHE (https://community.openvpn.net/openvpn/wiki/Hardening)
 
 auth SHA256
-prng SHA256 32
 cipher AES-256-CBC
 tls-version-min 1.2
 tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384
@@ -64,8 +63,14 @@ tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA3
 script-security 1
 
 # CRL, you MUST enable this in production, but first revoke a configuration
-# as OpenVPN chokes on empty CRL file
-#crl-verify /etc/openvpn/ca.crl
+# as OpenVPN chokes on empty CRL files
+#crl-verify /var/lib/vpn-server-api/ca.crl
+
+# ask the client to tell the server when it disconnects
+push "explicit-exit-notify"
+
+# enable comp-lzo
+push "comp-lzo yes"
 
 # Use Google Public DNS by default
 # https://developers.google.com/speed/public-dns/
@@ -98,6 +103,7 @@ push "dhcp-option DNS 8.8.4.4"
 <dh>
 {{ dh|e }}
 </dh>
+key-direction 0
 <tls-auth>
 {{ ta|e }}
 </tls-auth>
