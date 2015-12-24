@@ -23,8 +23,9 @@ use fkooman\Ini\IniReader;
 use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Exception\InternalServerErrorException;
+use fkooman\VPN\Config\SimpleError;
 
-set_error_handler(array('fkooman\Rest\Service', 'handleErrors'));
+SimpleError::register();
 
 try {
     $iniReader = IniReader::fromFile(
