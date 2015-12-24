@@ -25,7 +25,7 @@ class SimpleError
     {
         set_error_handler(
             array(
-                'fkooman\VPN\Server\SimpleError',
+                'fkooman\VPN\Config\SimpleError',
                 'handleErrors',
             )
         );
