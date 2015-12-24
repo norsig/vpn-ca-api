@@ -22,6 +22,9 @@ use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Ini\IniReader;
 use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
+use fkooman\Http\Exception\InternalServerErrorException;
+
+set_error_handler(array('fkooman\Rest\Service', 'handleErrors'));
 
 try {
     $iniReader = IniReader::fromFile(
@@ -59,6 +62,8 @@ try {
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     $service->run()->send();
 } catch (Exception $e) {
-    error_log($e->getMessage());
-    die(sprintf('ERROR: %s', $e->getMessage()));
+    // internal server error
+    error_log($e->__toString());
+    $e = new InternalServerErrorException($e->getMessage());
+    $e->getJsonResponse()->send();
 }
