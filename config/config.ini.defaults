@@ -6,8 +6,12 @@ caBackend = EasyRsa2Ca
 admin = '$2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2'
 
 [EasyRsa2Ca]
-;targetPath = '/var/lib/vpn-config-api/easy-rsa'
+# CentOS (default)
 ;sourcePath = '/usr/share/easy-rsa/2.0'
+# Debian
+;sourcePath = '/usr/share/easy-rsa'
+
+;targetPath = '/var/lib/vpn-config-api/easy-rsa'
 ;openVpnPath = '/usr/sbin/openvpn'
 
 [CA]
