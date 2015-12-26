@@ -1,4 +1,4 @@
 /vendor
 /data
-/config/*.ini
+/config/*.yaml
 /config/views

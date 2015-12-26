@@ -19,7 +19,8 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
-use fkooman\Ini\IniReader;
+use fkooman\Config\Reader;
+use fkooman\Config\YamlFile;
 use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Exception\InternalServerErrorException;
@@ -28,13 +29,13 @@ use fkooman\VPN\Config\SimpleError;
 SimpleError::register();
 
 try {
-    $iniReader = IniReader::fromFile(
-        dirname(__DIR__).'/config/config.ini'
+    $reader = new Reader(
+        new YamlFile(dirname(__DIR__).'/config/config.yaml')
     );
 
-    $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
+    $caBackend = $reader->v('caBackend', false, 'EasyRsa2');
     $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
-    $ca = new $caBackendClass($iniReader->v($caBackend));
+    $ca = new $caBackendClass($reader->v($caBackend));
 
     $templateManager = new TwigTemplateManager(
         array(
@@ -48,7 +49,7 @@ try {
 
     $auth = new BasicAuthentication(
         function ($userId) use ($iniReader) {
-            $userList = $iniReader->v('BasicAuthentication');
+            $userList = $reader->v('BasicAuthentication');
             if (!array_key_exists($userId, $userList)) {
                 return false;
             }

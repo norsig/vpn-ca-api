@@ -18,18 +18,19 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use fkooman\Ini\IniReader;
+use fkooman\Config\Reader;
+use fkooman\Config\YamlFile;
 
 try {
-    $iniReader = IniReader::fromFile(
-        dirname(__DIR__).'/config/config.ini'
+    $reader = new Reader(
+        new YamlFile(dirname(__DIR__).'/config/config.yaml')
     );
 
-    $caBackend = $iniReader->v('caBackend', false, 'EasyRsa2');
+    $caBackend = $reader->v('caBackend', false, 'EasyRsa2');
     $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
-    $ca = new $caBackendClass($iniReader->v($caBackend));
+    $ca = new $caBackendClass($reader->v($caBackend));
 
-    $ca->initCa($iniReader->v('CA'));
+    $ca->initCa($reader->v('CA'));
 } catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
     exit(1);
