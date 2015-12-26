@@ -268,7 +268,7 @@ class EasyRsa2Ca implements CaInterface
         $quietSuffix = $isQuiet ? ' >/dev/null 2>/dev/null' : '';
 
         $cmd = sprintf(
-            'cd %s && source ./vars >/dev/null 2>/dev/null && %s %s',
+            'cd %s && . ./vars >/dev/null 2>/dev/null && %s %s',
             $this->config['targetPath'],
             $command,
             $quietSuffix
