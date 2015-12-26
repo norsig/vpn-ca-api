@@ -48,7 +48,7 @@ try {
     $service = new CertService($ca, $templateManager);
 
     $auth = new BasicAuthentication(
-        function ($userId) use ($iniReader) {
+        function ($userId) use ($reader) {
             $userList = $reader->v('BasicAuthentication');
             if (!array_key_exists($userId, $userList)) {
                 return false;
