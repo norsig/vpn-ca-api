@@ -19,7 +19,7 @@ namespace fkooman\VPN\Config;
 
 use RuntimeException;
 
-class EasyRsa2Ca implements CaInterface
+class EasyRsa3Ca implements CaInterface
 {
     /** @var array */
     private $config;
@@ -34,7 +34,7 @@ class EasyRsa2Ca implements CaInterface
         }
 
         if (!array_key_exists('sourcePath', $config)) {
-            $this->config['sourcePath'] = '/usr/share/easy-rsa/2.0';
+            $this->config['sourcePath'] = '/usr/share/easy-rsa/3.0.0';
         } else {
             $this->config['sourcePath'] = $config['sourcePath'];
         }
@@ -58,22 +58,64 @@ class EasyRsa2Ca implements CaInterface
         }
     }
 
+    public function initCa(array $caConfig)
+    {
+        if (!file_exists($this->config['sourcePath']) || !is_dir($this->config['sourcePath'])) {
+            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->config['sourcePath']));
+        }
+
+        self::copyDir($this->config['sourcePath'], $this->config['targetPath']);
+
+        $config = array(
+            sprintf('set_var EASYRSA_KEY_SIZE %d', $caConfig['key_size']),
+            sprintf('set_var EASYRSA_CA_EXPIRE %d', $caConfig['ca_expire']),
+            sprintf('set_var EASYRSA_CERT_EXPIRE %d', $caConfig['cert_expire']),
+            sprintf('set_var EASYRSA_REQ_CN	"%s"', $caConfig['ca_cn']),
+            sprintf('set_var EASYRSA_BATCH "1"'),
+        );
+        $varsTargetFile = $this->config['targetPath'].'/vars';
+        if (false === @file_put_contents($varsTargetFile, implode("\n", $config)."\n")) {
+            throw new RuntimeException('unable to write "vars" file');
+        }
+
+        $this->execute('easyrsa init-pki');
+        $this->execute('easyrsa build-ca nopass');
+        $this->execute('easyrsa gen-crl');
+        $this->generateTlsAuthKey();
+    }
+
+    private function generateTlsAuthKey()
+    {
+        $taFile = sprintf(
+            '%s/pki/ta.key',
+            $this->config['targetPath']
+        );
+
+        $this->execute(
+            sprintf(
+                '%s --genkey --secret %s',
+                $this->config['openVpnPath'],
+                $taFile
+            )
+        );
+    }
+
     public function generateServerCert($commonName, $dhSize)
     {
+        // we ignore $dhSize here, only for EasyRSA 2
         $certKeyDh = $this->generateCert($commonName, true);
-        $certKeyDh['dh'] = $this->generateDh($dhSize);
+        $certKeyDh['dh'] = $this->generateDh();
 
         return $certKeyDh;
     }
 
-    private function generateDh($dhSize)
+    private function generateDh()
     {
-        $this->execute('./build-dh');
+        $this->execute('easyrsa gen-dh');
 
         $dhFile = sprintf(
-            '%s/keys/dh%s.pem',
-            $this->config['targetPath'],
-            $dhSize
+            '%s/pki/dh.pem',
+            $this->config['targetPath']
         );
 
         return trim(file_get_contents($dhFile));
@@ -87,35 +129,19 @@ class EasyRsa2Ca implements CaInterface
     public function getTlsAuthKey()
     {
         $taFile = sprintf(
-            '%s/keys/ta.key',
+            '%s/pki/ta.key',
             $this->config['targetPath']
         );
 
         return trim(file_get_contents($taFile));
     }
 
-    private function generateTlsAuthKey()
-    {
-        $taFile = sprintf(
-            '%s/keys/ta.key',
-            $this->config['targetPath']
-        );
-
-        $this->execute(
-            sprintf(
-                '%s --genkey --secret %s',
-                $this->config['openVpnPath'],
-                $taFile
-            )
-        );
-    }
-
     private function generateCert($commonName, $isServer = false)
     {
         if ($isServer) {
-            $this->execute(sprintf('pkitool --server %s', $commonName));
+            $this->execute(sprintf('easyrsa build-server-full %s nopass', $commonName));
         } else {
-            $this->execute(sprintf('pkitool %s', $commonName));
+            $this->execute(sprintf('easyrsa build-client-full %s nopass', $commonName));
         }
 
         return array(
@@ -126,7 +152,7 @@ class EasyRsa2Ca implements CaInterface
 
     public function hasCert($commonName)
     {
-        $certFile = sprintf('%s/keys/%s.crt', $this->config['targetPath'], $commonName);
+        $certFile = sprintf('%s/pki/issued/%s.crt', $this->config['targetPath'], $commonName);
 
         return file_exists($certFile);
     }
@@ -139,14 +165,9 @@ class EasyRsa2Ca implements CaInterface
     public function getCrl()
     {
         $crlFile = sprintf(
-            '%s/keys/%s',
-            $this->config['targetPath'],
-            'crl.pem'
+            '%s/pki/crl.pem',
+            $this->config['targetPath']
         );
-
-        if (!file_exists($crlFile)) {
-            return;
-        }
 
         return file_get_contents($crlFile);
     }
@@ -154,14 +175,9 @@ class EasyRsa2Ca implements CaInterface
     public function getCrlLastModifiedTime()
     {
         $crlFile = sprintf(
-            '%s/keys/%s',
-            $this->config['targetPath'],
-            'crl.pem'
+            '%s/pki/crl.pem',
+            $this->config['targetPath']
         );
-
-        if (!file_exists($crlFile)) {
-            return;
-        }
 
         return gmdate('r', filemtime($crlFile));
     }
@@ -169,33 +185,33 @@ class EasyRsa2Ca implements CaInterface
     public function getCrlFileSize()
     {
         $crlFile = sprintf(
-            '%s/keys/%s',
-            $this->config['targetPath'],
-            'crl.pem'
+            '%s/pki/crl.pem',
+            $this->config['targetPath']
         );
-
-        if (!file_exists($crlFile)) {
-            return;
-        }
 
         return filesize($crlFile);
     }
 
     public function revokeClientCert($commonName)
     {
-        $this->execute(sprintf('revoke-full %s', $commonName));
+        $this->execute(sprintf('easyrsa revoke %s', $commonName));
+        $this->execute('easyrsa gen-crl');
     }
 
     private function getCertFile($certFile)
     {
-        $certFile = sprintf(
-            '%s/keys/%s',
-            $this->config['targetPath'],
-            $certFile
-        );
+        if ('ca.crt' === $certFile) {
+            $certFile = sprintf('%s/pki/ca.crt', $this->config['targetPath']);
+        } else {
+            $certFile = sprintf(
+                '%s/pki/issued/%s',
+                $this->config['targetPath'],
+                $certFile
+            );
+        }
+
         // only return the certificate, strip junk before and after the actual
         // certificate
-
         $pattern = '/(-----BEGIN CERTIFICATE-----.*-----END CERTIFICATE-----)/msU';
         if (1 === preg_match($pattern, file_get_contents($certFile), $matches)) {
             return $matches[1];
@@ -207,58 +223,12 @@ class EasyRsa2Ca implements CaInterface
     private function getKeyFile($keyFile)
     {
         $keyFile = sprintf(
-            '%s/keys/%s',
+            '%s/pki/private/%s',
             $this->config['targetPath'],
             $keyFile
         );
 
         return trim(file_get_contents($keyFile));
-    }
-
-    public function initCa(array $caConfig)
-    {
-        if (!file_exists($this->config['sourcePath']) || !is_dir($this->config['sourcePath'])) {
-            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->config['sourcePath']));
-        }
-        foreach (glob($this->config['sourcePath'].'/*') as $file) {
-            $fp = fileperms($file);
-            copy($file, $this->config['targetPath'].'/'.basename($file));
-            // also keep file permissions
-            chmod($this->config['targetPath'].'/'.basename($file), $fp);
-        }
-
-        # update the 'vars' file
-        $search = array(
-            'export KEY_SIZE=2048',
-            'export CA_EXPIRE=3650',
-            'export KEY_EXPIRE=3650',
-            'export KEY_COUNTRY="US"',
-            'export KEY_PROVINCE="CA"',
-            'export KEY_CITY="SanFrancisco"',
-            'export KEY_ORG="Fort-Funston"',
-            'export KEY_EMAIL="me@myhost.mydomain"',
-            'export KEY_OU="MyOrganizationalUnit"',
-        );
-        $replace = array(
-            sprintf('export KEY_SIZE=%d', $caConfig['key_size']),
-            sprintf('export CA_EXPIRE=%d', $caConfig['ca_expire']),
-            sprintf('export KEY_EXPIRE=%d', $caConfig['key_expire']),
-            sprintf('export KEY_COUNTRY="%s"', $caConfig['key_country']),
-            sprintf('export KEY_PROVINCE="%s"', $caConfig['key_province']),
-            sprintf('export KEY_CITY="%s"', $caConfig['key_city']),
-            sprintf('export KEY_ORG="%s"', $caConfig['key_org']),
-            sprintf('export KEY_EMAIL="%s"', $caConfig['key_email']),
-            sprintf('export KEY_OU="%s"', $caConfig['key_ou']),
-        );
-        $varsFile = $this->config['targetPath'].'/vars';
-        $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
-
-        if (false === @file_put_contents($varsFile, $varsContent)) {
-            throw new RuntimeException('unable to write "vars" file');
-        }
-        $this->execute('clean-all');
-        $this->execute('pkitool --initca');
-        $this->generateTlsAuthKey();
     }
 
     private function execute($command, $isQuiet = true)
@@ -270,7 +240,7 @@ class EasyRsa2Ca implements CaInterface
         $quietSuffix = $isQuiet ? ' >/dev/null 2>/dev/null' : '';
 
         $cmd = sprintf(
-            'cd %s && . ./vars >/dev/null 2>/dev/null && %s %s',
+            'cd %s && %s %s',
             $this->config['targetPath'],
             $command,
             $quietSuffix
@@ -281,5 +251,20 @@ class EasyRsa2Ca implements CaInterface
         exec($cmd, $output, $returnValue);
 
         return $output;
+    }
+
+    private static function copyDir($source, $target)
+    {
+        foreach (glob($source.'/*') as $file) {
+            if (is_file($file)) {
+                $fp = fileperms($file);
+                copy($file, $target.'/'.basename($file));
+                chmod($target.'/'.basename($file), $fp);
+            }
+            if (is_dir($file)) {
+                @mkdir($target.'/'.basename($file));
+                self::copyDir($file, $target.'/'.basename($file));
+            }
+        }
     }
 }

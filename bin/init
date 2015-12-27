@@ -30,7 +30,7 @@ try {
     $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
     $ca = new $caBackendClass($reader->v($caBackend));
 
-    $ca->initCa($reader->v('CA'));
+    $ca->initCa($reader->v($caBackend, 'CA'));
 } catch (Exception $e) {
     echo $e->getMessage().PHP_EOL;
     exit(1);
