@@ -95,6 +95,7 @@ class CertService extends Service
 
         $configData = array(
             'cn' => $commonName,
+            'timestamp' => time(),
             'ca' => $this->ca->getCaCert(),
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],

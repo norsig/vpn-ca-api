@@ -1,4 +1,5 @@
 # OpenVPN Client Configuration for {{ cn|e }}
+# Generated {{ timestamp|e|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})
 
 dev tun
 client
@@ -16,6 +17,9 @@ verb 3
 #redirect-gateway
 # do not pull route/DNS information from server
 #route-nopull
+
+# tell the server more about this client (version, OS)
+push-peer-info
 
 # REMOTES 
 # wait this long (seconds) before trying the next server in the list
@@ -41,10 +45,10 @@ cipher AES-256-CBC
 tls-version-min 1.2
 tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384
 
-ca [inline]
-cert [inline]
-key [inline]
-tls-auth [inline] 1
+#ca ca.crt
+#cert client.crt
+#key client.key
+#tls-auth ta.key 1
 
 <ca>
 {{ ca|e }}
@@ -55,6 +59,7 @@ tls-auth [inline] 1
 <key>
 {{ key|e }}
 </key>
+key-direction 1
 <tls-auth>
 {{ ta|e }}
 </tls-auth>
