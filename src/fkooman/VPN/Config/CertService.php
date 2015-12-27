@@ -24,6 +24,7 @@ use fkooman\Http\Exception\BadRequestException;
 use fkooman\Http\Exception\NotFoundException;
 use fkooman\Tpl\TemplateManagerInterface;
 use fkooman\Http\JsonResponse;
+use fkooman\IO\IO;
 
 class CertService extends Service
 {
@@ -33,12 +34,20 @@ class CertService extends Service
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
 
-    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager)
+    /** @var \fkooman\IO\IO */
+    private $io;
+
+    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, IO $io = null)
     {
         parent::__construct();
 
         $this->ca = $ca;
         $this->templateManager = $templateManager;
+        if (null === $io) {
+            $io = new IO();
+        }
+        $this->io = $io;
+
         $this->registerRoutes();
     }
 
@@ -95,7 +104,7 @@ class CertService extends Service
 
         $configData = array(
             'cn' => $commonName,
-            'timestamp' => time(),
+            'timestamp' => $this->io->getTime(),
             'ca' => $this->ca->getCaCert(),
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],

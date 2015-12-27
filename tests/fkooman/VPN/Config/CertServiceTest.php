@@ -31,7 +31,13 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
     {
         $ca = new NullCa();
         $tpl = new TestTemplateManager();
-        $this->certService = new CertService($ca, $tpl);
+
+        $ioStub = $this->getMockBuilder('fkooman\IO\IO')
+                     ->getMock();
+        $ioStub->method('getTime')
+             ->will($this->returnValue(12345678));
+
+        $this->certService = new CertService($ca, $tpl, $ioStub);
     }
 
     public function testGenerateCert()
@@ -56,9 +62,9 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 201 Created',
                 'Content-Type: application/x-openvpn-profile',
-                'Content-Length: 114',
+                'Content-Length: 135',
                 '',
-                '{"client":{"cn":"foobar","ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}}',
+                '{"client":{"cn":"foobar","timestamp":12345678,"ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}}',
             ),
             $response->toArray()
         );
@@ -87,9 +93,9 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 201 Created',
                 'Content-Type: application/json',
-                'Content-Length: 103',
+                'Content-Length: 124',
                 '',
-                '{"cn":"foobar","ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}',
+                '{"cn":"foobar","timestamp":12345678,"ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}',
             ),
             $response->toArray()
         );
