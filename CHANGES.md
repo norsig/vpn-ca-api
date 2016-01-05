@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0 (2016-01-05)
+- use YAML instead of INI for configuration
+- implement EasyRsa3Ca backend
+- fixes for Debian
+- update default OpenVPN configuration files
+
 ## 3.0.4 (2015-12-23)
 - update `client.twig` and `server.twig` with better defaults
 
