@@ -33,11 +33,11 @@ try {
         new YamlFile(dirname(__DIR__).'/config/config.yaml')
     );
 
-    $caBackend = $reader->v('caBackend', false, 'EasyRsa2');
+    $caBackend = $reader->v('caBackend', false, 'EasyRsa2Ca');
     $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
     $ca = new $caBackendClass($reader->v($caBackend));
 
-    $certKeyDh = $ca->generateServerCert($commonName, $reader->v('CA', 'key_size'));
+    $certKeyDh = $ca->generateServerCert($commonName, $reader->v($caBackend, 'CA', 'key_size'));
     $tlsAuth = $ca->getTlsAuthKey();
 
     $configData = array(

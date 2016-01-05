@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1 (2016-01-06)
+- fix small bug when generating server configuration
+
 ## 4.0.0 (2016-01-05)
 - use YAML instead of INI for configuration
 - implement EasyRsa3Ca backend
