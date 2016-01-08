@@ -27,16 +27,17 @@ class EasyRsa3Ca implements CaInterface
     public function __construct(array $config)
     {
         $this->config = array();
-        if (!array_key_exists('targetPath', $config)) {
-            $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(dirname(__DIR__)))));
-        } else {
-            $this->config['targetPath'] = $config['targetPath'];
-        }
 
         if (!array_key_exists('sourcePath', $config)) {
             $this->config['sourcePath'] = '/usr/share/easy-rsa/3.0.0';
         } else {
             $this->config['sourcePath'] = $config['sourcePath'];
+        }
+
+        if (!array_key_exists('targetPath', $config)) {
+            $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(dirname(__DIR__)))));
+        } else {
+            $this->config['targetPath'] = $config['targetPath'];
         }
 
         if (!array_key_exists('openVpnPath', $config)) {
@@ -64,9 +65,9 @@ class EasyRsa3Ca implements CaInterface
             throw new RuntimeException(sprintf('folder "%s" does not exist', $this->config['sourcePath']));
         }
 
-        self::copyDir($this->config['sourcePath'], $this->config['targetPath']);
-
         $config = array(
+            sprintf('set_var EASYRSA %s', $this->config['sourcePath']),
+            sprintf('set_var EASYRSA_PKI %s/pki', $this->config['targetPath']),
             sprintf('set_var EASYRSA_KEY_SIZE %d', $caConfig['key_size']),
             sprintf('set_var EASYRSA_CA_EXPIRE %d', $caConfig['ca_expire']),
             sprintf('set_var EASYRSA_CERT_EXPIRE %d', $caConfig['cert_expire']),
@@ -78,9 +79,9 @@ class EasyRsa3Ca implements CaInterface
             throw new RuntimeException('unable to write "vars" file');
         }
 
-        $this->execute('easyrsa init-pki');
-        $this->execute('easyrsa build-ca nopass');
-        $this->execute('easyrsa gen-crl');
+        $this->execEasyRsa('init-pki');
+        $this->execEasyRsa('build-ca nopass');
+        $this->execEasyRsa('gen-crl');
         $this->generateTlsAuthKey();
     }
 
@@ -91,12 +92,8 @@ class EasyRsa3Ca implements CaInterface
             $this->config['targetPath']
         );
 
-        $this->execute(
-            sprintf(
-                '%s --genkey --secret %s',
-                $this->config['openVpnPath'],
-                $taFile
-            )
+        $this->execOpenVpn(
+            sprintf('--genkey --secret %s', $taFile)
         );
     }
 
@@ -111,7 +108,7 @@ class EasyRsa3Ca implements CaInterface
 
     private function generateDh()
     {
-        $this->execute('easyrsa gen-dh');
+        $this->execEasyRsa('gen-dh');
 
         $dhFile = sprintf(
             '%s/pki/dh.pem',
@@ -139,9 +136,9 @@ class EasyRsa3Ca implements CaInterface
     private function generateCert($commonName, $isServer = false)
     {
         if ($isServer) {
-            $this->execute(sprintf('easyrsa build-server-full %s nopass', $commonName));
+            $this->execEasyRsa(sprintf('build-server-full %s nopass', $commonName));
         } else {
-            $this->execute(sprintf('easyrsa build-client-full %s nopass', $commonName));
+            $this->execEasyRsa(sprintf('build-client-full %s nopass', $commonName));
         }
 
         return array(
@@ -194,8 +191,8 @@ class EasyRsa3Ca implements CaInterface
 
     public function revokeClientCert($commonName)
     {
-        $this->execute(sprintf('easyrsa revoke %s', $commonName));
-        $this->execute('easyrsa gen-crl');
+        $this->execEasyRsa(sprintf('revoke %s', $commonName));
+        $this->execEasyRsa('gen-crl');
     }
 
     private function getCertFile($certFile)
@@ -231,40 +228,19 @@ class EasyRsa3Ca implements CaInterface
         return trim(file_get_contents($keyFile));
     }
 
-    private function execute($command, $isQuiet = true)
+    private function execOpenVpn($args)
     {
-        // if not absolute path, prepend with './'
-        $command = 0 !== strpos($command, '/') ? sprintf('./%s', $command) : $command;
-
-        // by default we are quiet
-        $quietSuffix = $isQuiet ? ' >/dev/null 2>/dev/null' : '';
-
-        $cmd = sprintf(
-            'cd %s && %s %s',
-            $this->config['targetPath'],
-            $command,
-            $quietSuffix
-        );
-        $output = array();
-        $returnValue = 0;
-        // XXX: check return value, log output?
-        exec($cmd, $output, $returnValue);
+        $cmd = sprintf('%s %s >/dev/null 2>/dev/null', $this->config['openVpnPath'], $args);
+        exec($cmd, $output);
 
         return $output;
     }
 
-    private static function copyDir($source, $target)
+    private function execEasyRsa($args)
     {
-        foreach (glob($source.'/*') as $file) {
-            if (is_file($file)) {
-                $fp = fileperms($file);
-                copy($file, $target.'/'.basename($file));
-                chmod($target.'/'.basename($file), $fp);
-            }
-            if (is_dir($file)) {
-                @mkdir($target.'/'.basename($file));
-                self::copyDir($file, $target.'/'.basename($file));
-            }
-        }
+        $cmd = sprintf('%s/easyrsa --vars=%s/vars %s >/dev/null 2>/dev/null', $this->config['sourcePath'], $this->config['targetPath'], $args);
+        exec($cmd, $output);
+
+        return $output;
     }
 }
