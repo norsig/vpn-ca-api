@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.2 (...)
+- do not copy the easy-rsa code over anymore for EasyRsa3, simplify 
+  `EasyRsa3Ca a lot`
+
 ## 4.0.1 (2016-01-06)
 - fix small bug when generating server configuration
 
