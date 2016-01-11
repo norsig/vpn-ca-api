@@ -67,7 +67,9 @@ cipher AES-256-CBC
 tls-version-min 1.2
 tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384
 
-script-security 1
+script-security 2
+#client-connect /usr/bin/vpn-server-api-client-connect
+#client-disconnect /usr/bin/vpn-server-api-client-disconnect
 
 # CRL, you MUST enable this in production, but first revoke a configuration
 # as OpenVPN chokes on empty CRL files
