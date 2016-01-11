@@ -2,7 +2,7 @@
 
 ## 4.0.2 (...)
 - do not copy the easy-rsa code over anymore for EasyRsa3, simplify 
-  `EasyRsa3Ca a lot`
+  `EasyRsa3Ca` a lot
 - implement basic logging to syslog for API calls
 - update testing to also add authentication plugin as the logging 
   code requires an API user
