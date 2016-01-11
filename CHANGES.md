@@ -9,6 +9,8 @@
 - rename configuration keys for EasyRsa3Ca:
   - `sourcePath` -> `easyRsaPath`
   - `targetPath` -> `caPath`
+- add `client-connect` and `client-disconnect` to server template
+  as examples
  
 ## 4.0.1 (2016-01-06)
 - fix small bug when generating server configuration
