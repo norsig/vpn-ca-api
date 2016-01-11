@@ -28,16 +28,18 @@ class EasyRsa3Ca implements CaInterface
     {
         $this->config = array();
 
-        if (!array_key_exists('sourcePath', $config)) {
-            $this->config['sourcePath'] = '/usr/share/easy-rsa/3.0.0';
+        // where easy-rsa (3) is installed
+        if (!array_key_exists('easyRsaPath', $config)) {
+            $this->config['easyRsaPath'] = '/usr/share/easy-rsa/3.0.0';
         } else {
-            $this->config['sourcePath'] = $config['sourcePath'];
+            $this->config['easyRsaPath'] = $config['easyRsaPath'];
         }
 
-        if (!array_key_exists('targetPath', $config)) {
-            $this->config['targetPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(dirname(__DIR__)))));
+        // where the CA data is stored
+        if (!array_key_exists('caPath', $config)) {
+            $this->config['caPath'] = sprintf('%s/data/easy-rsa', dirname(dirname(dirname(dirname(__DIR__)))));
         } else {
-            $this->config['targetPath'] = $config['targetPath'];
+            $this->config['caPath'] = $config['caPath'];
         }
 
         if (!array_key_exists('openVpnPath', $config)) {
@@ -47,12 +49,12 @@ class EasyRsa3Ca implements CaInterface
         }
 
         // create target directory if it does not exist   
-        if (!file_exists($this->config['targetPath'])) {
-            if (false === @mkdir($this->config['targetPath'], 0700, true)) {
+        if (!file_exists($this->config['caPath'])) {
+            if (false === @mkdir($this->config['caPath'], 0700, true)) {
                 throw new RuntimeException(
                     sprintf(
                         'folder "%s" could not be created',
-                        $this->config['targetPath']
+                        $this->config['caPath']
                     )
                 );
             }
@@ -61,20 +63,20 @@ class EasyRsa3Ca implements CaInterface
 
     public function initCa(array $caConfig)
     {
-        if (!file_exists($this->config['sourcePath']) || !is_dir($this->config['sourcePath'])) {
-            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->config['sourcePath']));
+        if (!file_exists($this->config['easyRsaPath']) || !is_dir($this->config['easyRsaPath'])) {
+            throw new RuntimeException(sprintf('folder "%s" does not exist', $this->config['easyRsaPath']));
         }
 
         $config = array(
-            sprintf('set_var EASYRSA %s', $this->config['sourcePath']),
-            sprintf('set_var EASYRSA_PKI %s/pki', $this->config['targetPath']),
+            sprintf('set_var EASYRSA %s', $this->config['easyRsaPath']),
+            sprintf('set_var EASYRSA_PKI %s/pki', $this->config['caPath']),
             sprintf('set_var EASYRSA_KEY_SIZE %d', $caConfig['key_size']),
             sprintf('set_var EASYRSA_CA_EXPIRE %d', $caConfig['ca_expire']),
             sprintf('set_var EASYRSA_CERT_EXPIRE %d', $caConfig['cert_expire']),
             sprintf('set_var EASYRSA_REQ_CN	"%s"', $caConfig['ca_cn']),
             sprintf('set_var EASYRSA_BATCH "1"'),
         );
-        $varsTargetFile = $this->config['targetPath'].'/vars';
+        $varsTargetFile = $this->config['caPath'].'/vars';
         if (false === @file_put_contents($varsTargetFile, implode("\n", $config)."\n")) {
             throw new RuntimeException('unable to write "vars" file');
         }
@@ -89,7 +91,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $taFile = sprintf(
             '%s/pki/ta.key',
-            $this->config['targetPath']
+            $this->config['caPath']
         );
 
         $this->execOpenVpn(
@@ -112,7 +114,7 @@ class EasyRsa3Ca implements CaInterface
 
         $dhFile = sprintf(
             '%s/pki/dh.pem',
-            $this->config['targetPath']
+            $this->config['caPath']
         );
 
         return trim(file_get_contents($dhFile));
@@ -127,7 +129,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $taFile = sprintf(
             '%s/pki/ta.key',
-            $this->config['targetPath']
+            $this->config['caPath']
         );
 
         return trim(file_get_contents($taFile));
@@ -149,7 +151,7 @@ class EasyRsa3Ca implements CaInterface
 
     public function hasCert($commonName)
     {
-        $certFile = sprintf('%s/pki/issued/%s.crt', $this->config['targetPath'], $commonName);
+        $certFile = sprintf('%s/pki/issued/%s.crt', $this->config['caPath'], $commonName);
 
         return file_exists($certFile);
     }
@@ -163,7 +165,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $crlFile = sprintf(
             '%s/pki/crl.pem',
-            $this->config['targetPath']
+            $this->config['caPath']
         );
 
         return file_get_contents($crlFile);
@@ -173,7 +175,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $crlFile = sprintf(
             '%s/pki/crl.pem',
-            $this->config['targetPath']
+            $this->config['caPath']
         );
 
         return gmdate('r', filemtime($crlFile));
@@ -183,7 +185,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $crlFile = sprintf(
             '%s/pki/crl.pem',
-            $this->config['targetPath']
+            $this->config['caPath']
         );
 
         return filesize($crlFile);
@@ -198,11 +200,11 @@ class EasyRsa3Ca implements CaInterface
     private function getCertFile($certFile)
     {
         if ('ca.crt' === $certFile) {
-            $certFile = sprintf('%s/pki/ca.crt', $this->config['targetPath']);
+            $certFile = sprintf('%s/pki/ca.crt', $this->config['caPath']);
         } else {
             $certFile = sprintf(
                 '%s/pki/issued/%s',
-                $this->config['targetPath'],
+                $this->config['caPath'],
                 $certFile
             );
         }
@@ -221,7 +223,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $keyFile = sprintf(
             '%s/pki/private/%s',
-            $this->config['targetPath'],
+            $this->config['caPath'],
             $keyFile
         );
 
@@ -238,7 +240,7 @@ class EasyRsa3Ca implements CaInterface
 
     private function execEasyRsa($args)
     {
-        $cmd = sprintf('%s/easyrsa --vars=%s/vars %s >/dev/null 2>/dev/null', $this->config['sourcePath'], $this->config['targetPath'], $args);
+        $cmd = sprintf('%s/easyrsa --vars=%s/vars %s >/dev/null 2>/dev/null', $this->config['easyRsaPath'], $this->config['caPath'], $args);
         exec($cmd, $output);
 
         return $output;
