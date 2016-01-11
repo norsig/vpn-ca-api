@@ -18,10 +18,14 @@
 namespace fkooman\VPN\Config;
 
 require_once __DIR__.'/Test/TestTemplateManager.php';
+require_once __DIR__.'/Test/TestAuthentication.php';
+require_once __DIR__.'/Test/TestUserInfo.php';
 
 use fkooman\VPN\Config\Test\TestTemplateManager;
 use PHPUnit_Framework_TestCase;
 use fkooman\Http\Request;
+use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
+use fkooman\VPN\Config\Test\TestAuthentication;
 
 class CertServiceTest extends PHPUnit_Framework_TestCase
 {
@@ -37,7 +41,10 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
         $ioStub->method('getTime')
              ->will($this->returnValue(12345678));
 
-        $this->certService = new CertService($ca, $tpl, $ioStub);
+        $this->certService = new CertService($ca, $tpl, null, $ioStub);
+        $authenticationPlugin = new AuthenticationPlugin();
+        $authenticationPlugin->register(new TestAuthentication(), 'api');
+        $this->certService->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     }
 
     public function testGenerateCert()

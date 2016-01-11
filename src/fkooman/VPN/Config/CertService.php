@@ -25,6 +25,8 @@ use fkooman\Http\Exception\NotFoundException;
 use fkooman\Tpl\TemplateManagerInterface;
 use fkooman\Http\JsonResponse;
 use fkooman\IO\IO;
+use fkooman\Rest\Plugin\Authentication\UserInfoInterface;
+use Monolog\Logger;
 
 class CertService extends Service
 {
@@ -34,10 +36,13 @@ class CertService extends Service
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
 
+    /** @var \Monolog\Logger */
+    private $logger;
+
     /** @var \fkooman\IO\IO */
     private $io;
 
-    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, IO $io = null)
+    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, Logger $logger = null, IO $io = null)
     {
         parent::__construct();
 
@@ -46,6 +51,7 @@ class CertService extends Service
         if (null === $io) {
             $io = new IO();
         }
+        $this->logger = $logger;
         $this->io = $io;
 
         $this->registerRoutes();
@@ -53,32 +59,33 @@ class CertService extends Service
 
     public function registerRoutes()
     {
-        /* DELETE */
         $this->delete(
             '/config/:commonName',
-            function ($commonName) {
+            function ($commonName, UserInfoInterface $userInfo) {
+                Utils::validateCommonName($commonName);
+
+                $this->logInfo('revoking config', array('api_user' => $userInfo->getUserId(), 'cn' => $commonName));
+
                 return $this->revokeCert($commonName);
             }
         );
 
-        /* POST */
         $this->post(
             '/config/',
-            function (Request $request) {
-                if (0 === strpos($request->getHeader('Accept'), 'application/json')) {
-                    return $this->generateCert(
-                        $request->getPostParameter('commonName'),
-                        true
-                    );
-                } else {
-                    return $this->generateCert(
-                        $request->getPostParameter('commonName')
-                    );
+            function (Request $request, UserInfoInterface $userInfo) {
+                $commonName = $request->getPostParameter('commonName');
+                Utils::validateCommonName($commonName);
+
+                $this->logInfo('creating config', array('api_user' => $userInfo->getUserId(), 'cn' => $commonName));
+
+                if (false !== strpos($request->getHeader('Accept'), 'application/json')) {
+                    return $this->generateCert($commonName, true);
                 }
+
+                return $this->generateCert($commonName);
             }
         );
 
-        /* GET */
         $this->get(
             '/ca.crl',
             function () {
@@ -94,8 +101,6 @@ class CertService extends Service
 
     public function generateCert($commonName, $returnJson = false)
     {
-        self::validateCommonName($commonName);
-
         if ($this->ca->hasCert($commonName)) {
             throw new BadRequestException('certificate with this common name already exists');
         }
@@ -127,8 +132,6 @@ class CertService extends Service
 
     public function revokeCert($commonName)
     {
-        self::validateCommonName($commonName);
-
         if (!$this->ca->hasCert($commonName)) {
             throw new NotFoundException('certificate with this common name does not exist');
         }
@@ -151,10 +154,10 @@ class CertService extends Service
         return $response;
     }
 
-    public static function validateCommonName($commonName)
+    private function logInfo($m, array $context)
     {
-        if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {
-            throw new BadRequestException('invalid common name syntax');
+        if (!is_null($this->logger)) {
+            $this->logger->addInfo($m, $context);
         }
     }
 }

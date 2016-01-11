@@ -25,6 +25,9 @@ use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Exception\InternalServerErrorException;
 use fkooman\VPN\Config\SimpleError;
+use Monolog\Logger;
+use Monolog\Handler\SyslogHandler;
+use Monolog\Formatter\LineFormatter;
 
 SimpleError::register();
 
@@ -45,7 +48,13 @@ try {
         null
     );
 
-    $service = new CertService($ca, $templateManager);
+    $logger = new Logger('vpn-config-api');
+    $syslog = new SyslogHandler('vpn-config-api', 'user');
+    $formatter = new LineFormatter();
+    $syslog->setFormatter($formatter);
+    $logger->pushHandler($syslog);
+
+    $service = new CertService($ca, $templateManager, $logger);
 
     $auth = new BasicAuthentication(
         function ($userId) use ($reader) {

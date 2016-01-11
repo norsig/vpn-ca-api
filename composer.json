@@ -26,6 +26,7 @@
         "fkooman/rest-plugin-authentication-basic": "^2.0.0",
         "fkooman/tpl": "^2.0.0",
         "fkooman/tpl-twig": "^1.0.0",
+        "monolog/monolog": "^1.17",
         "php": ">=5.4"
     }
 }
