@@ -6,7 +6,10 @@
 - implement basic logging to syslog for API calls
 - update testing to also add authentication plugin as the logging 
   code requires an API user
-
+- rename configuration keys for EasyRsa3Ca:
+  - `sourcePath` -> `easyRsaPath`
+  - `targetPath` -> `caPath`
+ 
 ## 4.0.1 (2016-01-06)
 - fix small bug when generating server configuration
 
