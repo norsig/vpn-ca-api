@@ -26,6 +26,10 @@ class Utils
             throw new BadRequestException('invalid characters in common name');
         }
 
+        if (64 < strlen($commonName)) {
+            throw new BadRequestException('common name too long');
+        }
+
         // MUST NOT be '..'
         if ('..' === $commonName) {
             throw new BadRequestException('common name cannot be ".."');

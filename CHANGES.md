@@ -1,6 +1,7 @@
 # Changelog
 
-## 4.0.2 (...)
+## 4.0.2 (2016-01-13)
+- BUG: test for commonName length, it MUST not exceed 64
 - do not copy the easy-rsa code over anymore for EasyRsa3, simplify 
   `EasyRsa3Ca` a lot
 - implement basic logging to syslog for API calls
