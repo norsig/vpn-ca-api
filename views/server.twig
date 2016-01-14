@@ -71,9 +71,8 @@ script-security 2
 #client-connect /usr/bin/vpn-server-api-client-connect
 #client-disconnect /usr/bin/vpn-server-api-client-disconnect
 
-# CRL, you MUST enable this in production, but first revoke a configuration
-# as OpenVPN chokes on empty CRL files
-#crl-verify /var/lib/vpn-server-api/ca.crl
+# Certificate Revocation List
+crl-verify /var/lib/vpn-server-api/ca.crl
 
 # ask client to tell us on disconnect
 push "explicit-exit-notify 3"
