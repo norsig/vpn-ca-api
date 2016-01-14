@@ -167,7 +167,13 @@ class EasyRsa2Ca implements CaInterface
 
     public function revokeClientCert($commonName)
     {
-        $this->execute(sprintf('revoke-full %s', $commonName));
+        // revoke-full always returns the status code 2, even when successful,
+        // so we assume it always succeeds
+        try {
+            $this->execute(sprintf('revoke-full %s', $commonName));
+        } catch (RuntimeException $e) {
+            // NOP
+        }
     }
 
     private function getCertFile($certFile)
