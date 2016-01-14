@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.0.3 (...)
+- cleanup the CA backends, make them more robust
+- generate a cert and revoke it in the EasyRsa2Ca backend when running
+  init to immediately have a valid CRL available
+
 ## 4.0.2 (2016-01-13)
 - BUG: test for commonName length, it MUST not exceed 64
 - do not copy the easy-rsa code over anymore for EasyRsa3, simplify 
