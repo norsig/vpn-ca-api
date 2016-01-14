@@ -243,6 +243,9 @@ class EasyRsa2Ca implements CaInterface
         $this->execute('clean-all');
         $this->execute('pkitool --initca');
         $this->generateTlsAuthKey();
+        // generate a client config and revoke it to get a CRL
+        $this->generateCert('revoke@example.org');
+        $this->revokeClientCert('revoke@example.org');
     }
 
     private function execute($command, $isQuiet = true)
