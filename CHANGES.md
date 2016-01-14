@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.0.3 (...)
+## 4.0.3 (2016-01-14)
 - cleanup the CA backends, make them more robust
 - generate a cert and revoke it in the EasyRsa2Ca backend when running
   init to immediately have a valid CRL available
