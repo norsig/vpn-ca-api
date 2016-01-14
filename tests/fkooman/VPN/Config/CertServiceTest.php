@@ -117,7 +117,7 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
                 'QUERY_STRING' => '',
                 'REQUEST_URI' => '/api.php/config/foo',
                 'SCRIPT_NAME' => '/api.php',
-                'PATH_INFO' => '/config/foo',
+                'PATH_INFO' => '/config/already_revoked',
                 'REQUEST_METHOD' => 'DELETE',
             )
         );
@@ -126,9 +126,10 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
-                'Content-Type: text/html;charset=UTF-8',
+                'Content-Type: application/json',
+                'Content-Length: 12',
                 '',
-                '',
+                '{"ok":false}',
             ),
             $response->toArray()
         );

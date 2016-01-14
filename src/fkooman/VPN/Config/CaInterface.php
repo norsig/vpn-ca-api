@@ -40,6 +40,11 @@ interface CaInterface
      */
     public function generateClientCert($commonName);
 
+    /**
+     * Get the TLS Auth Key.
+     *
+     * @return string the TLS Auth Key
+     */
     public function getTlsAuthKey();
 
     /** 
@@ -47,31 +52,31 @@ interface CaInterface
      *
      * @param string $commonName
      *
-     * @return bool whether or not the commonName already has a certificate
+     * @return bool whether or not the commonName already has a certificate,
+     *              also true for revoked certificates
      */
     public function hasCert($commonName);
 
     /**
      * Get the CA root certificate.
+     *
+     * @return string the CA certificate in PEM format
      */
     public function getCaCert();
 
     /**
      * Get the CA CRL.
+     *
+     * @return string the CRL in PEM format
      */
     public function getCrl();
 
     /**
      * Get the CA CRL last modified time.
      *
-     * @return string the date as RFC 2822 string (GMT)
+     * @return int unix timestamp of last modified time
      */
     public function getCrlLastModifiedTime();
-
-    /**
-     * Get the file size of the CA CRL.
-     */
-    public function getCrlFileSize();
 
     /**
      * Revoke a VPN client certificate.

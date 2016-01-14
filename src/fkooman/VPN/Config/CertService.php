@@ -27,6 +27,7 @@ use fkooman\Http\JsonResponse;
 use fkooman\IO\IO;
 use fkooman\Rest\Plugin\Authentication\UserInfoInterface;
 use Monolog\Logger;
+use RuntimeException;
 
 class CertService extends Service
 {
@@ -136,20 +137,33 @@ class CertService extends Service
             throw new NotFoundException('certificate with this common name does not exist');
         }
 
-        $this->ca->revokeClientCert($commonName);
+        $ok = true;
+        try {
+            $this->ca->revokeClientCert($commonName);
+        } catch (RuntimeException $e) {
+            $ok = false;
+        }
 
-        return new Response(200);
+        $response = new JsonResponse(200);
+        $response->setBody(
+            array(
+                'ok' => $ok,
+            )
+        );
+
+        return $response;
     }
 
     public function getCrl()
     {
-        $response = new Response(200, 'application/pkix-crl');
-
         $crlData = $this->ca->getCrl();
-        if (null !== $crlData) {
-            $response->setHeader('Last-Modified', $this->ca->getCrlLastModifiedTime());
-            $response->setBody($crlData);
+        if (false === $crlData || 0 === strlen($crlData)) {
+            throw new NotFoundException('crl not available');
         }
+
+        $response = new Response(200, 'application/pkix-crl');
+        $response->setHeader('Last-Modified', gmdate('r', $this->ca->getCrlLastModifiedTime()));
+        $response->setBody($crlData);
 
         return $response;
     }

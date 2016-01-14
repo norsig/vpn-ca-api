@@ -17,6 +17,8 @@
  */
 namespace fkooman\VPN\Config;
 
+use RuntimeException;
+
 class NullCa implements CaInterface
 {
     public function generateServerCert($commonName, $dhSize)
@@ -52,6 +54,9 @@ class NullCa implements CaInterface
         if ('foo_bar' === $commonName) {
             return true;
         }
+        if ('already_revoked' === $commonName) {
+            return true;
+        }
 
         return false;
     }
@@ -68,17 +73,14 @@ class NullCa implements CaInterface
 
     public function getCrlLastModifiedTime()
     {
-        return gmdate('r', 1234567890);
-    }
-
-    public function getCrlFileSize()
-    {
-        return 1234;
+        return 1234567890;
     }
 
     public function revokeClientCert($commonName)
     {
-        // NOP
+        if ('already_revoked' === $commonName) {
+            throw new RuntimeException('already revoked');
+        }
     }
 
     public function initCa(array $caConfig)

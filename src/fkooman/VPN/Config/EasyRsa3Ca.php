@@ -117,7 +117,7 @@ class EasyRsa3Ca implements CaInterface
             $this->config['caPath']
         );
 
-        return trim(file_get_contents($dhFile));
+        return trim(Utils::getFile($dhFile));
     }
 
     public function generateClientCert($commonName)
@@ -132,7 +132,7 @@ class EasyRsa3Ca implements CaInterface
             $this->config['caPath']
         );
 
-        return trim(file_get_contents($taFile));
+        return trim(Utils::getFile($taFile));
     }
 
     private function generateCert($commonName, $isServer = false)
@@ -153,7 +153,7 @@ class EasyRsa3Ca implements CaInterface
     {
         $certFile = sprintf('%s/pki/issued/%s.crt', $this->config['caPath'], $commonName);
 
-        return file_exists($certFile);
+        return @file_exists($certFile);
     }
 
     public function getCaCert()
@@ -168,7 +168,7 @@ class EasyRsa3Ca implements CaInterface
             $this->config['caPath']
         );
 
-        return file_get_contents($crlFile);
+        return Utils::getFile($crlFile);
     }
 
     public function getCrlLastModifiedTime()
@@ -178,22 +178,21 @@ class EasyRsa3Ca implements CaInterface
             $this->config['caPath']
         );
 
-        return gmdate('r', filemtime($crlFile));
-    }
+        $fileTime = @filemtime($crlFile);
+        if (false === $fileTime) {
+            throw new RuntimeException(
+                sprintf('unable to determine file modification time of "%s"', $crlFile)
+            );
+        }
 
-    public function getCrlFileSize()
-    {
-        $crlFile = sprintf(
-            '%s/pki/crl.pem',
-            $this->config['caPath']
-        );
-
-        return filesize($crlFile);
+        return $fileTime;
     }
 
     public function revokeClientCert($commonName)
     {
-        $this->execEasyRsa(sprintf('revoke %s', $commonName));
+        $this->execEasyRsa(
+            sprintf('revoke %s', $commonName)
+        );
         $this->execEasyRsa('gen-crl');
     }
 
@@ -212,11 +211,11 @@ class EasyRsa3Ca implements CaInterface
         // only return the certificate, strip junk before and after the actual
         // certificate
         $pattern = '/(-----BEGIN CERTIFICATE-----.*-----END CERTIFICATE-----)/msU';
-        if (1 === preg_match($pattern, file_get_contents($certFile), $matches)) {
+        if (1 === preg_match($pattern, Utils::getFile($certFile), $matches)) {
             return $matches[1];
         }
 
-        return;
+        return false;
     }
 
     private function getKeyFile($keyFile)
@@ -227,22 +226,18 @@ class EasyRsa3Ca implements CaInterface
             $keyFile
         );
 
-        return trim(file_get_contents($keyFile));
+        return trim(Utils::getFile($keyFile));
     }
 
     private function execOpenVpn($args)
     {
         $cmd = sprintf('%s %s >/dev/null 2>/dev/null', $this->config['openVpnPath'], $args);
-        exec($cmd, $output);
-
-        return $output;
+        Utils::exec($cmd);
     }
 
     private function execEasyRsa($args)
     {
         $cmd = sprintf('%s/easyrsa --vars=%s/vars %s >/dev/null 2>/dev/null', $this->config['easyRsaPath'], $this->config['caPath'], $args);
-        exec($cmd, $output);
-
-        return $output;
+        Utils::exec($cmd);
     }
 }

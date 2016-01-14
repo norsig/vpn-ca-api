@@ -17,6 +17,7 @@
 namespace fkooman\VPN\Config;
 
 use fkooman\Http\Exception\BadRequestException;
+use RuntimeException;
 
 class Utils
 {
@@ -34,5 +35,28 @@ class Utils
         if ('..' === $commonName) {
             throw new BadRequestException('common name cannot be ".."');
         }
+    }
+
+    public static function exec($cmd)
+    {
+        exec($cmd, $output, $returnValue);
+
+        if (0 !== $returnValue) {
+            throw new RuntimeException(
+                sprintf('command "%s" did not complete successfully', $cmd)
+            );
+        }
+    }
+
+    public static function getFile($filePath)
+    {
+        $fileContent = @file_get_contents($filePath);
+        if (false === $fileContent) {
+            throw new RuntimeException(
+                sprintf('unable to read "%s"', $filePath)
+            );
+        }
+
+        return $fileContent;
     }
 }

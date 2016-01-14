@@ -76,7 +76,7 @@ class EasyRsa2Ca implements CaInterface
             $dhSize
         );
 
-        return trim(file_get_contents($dhFile));
+        return trim(Utils::getFile($dhFile));
     }
 
     public function generateClientCert($commonName)
@@ -91,7 +91,7 @@ class EasyRsa2Ca implements CaInterface
             $this->config['targetPath']
         );
 
-        return trim(file_get_contents($taFile));
+        return trim(Utils::getFile($taFile));
     }
 
     private function generateTlsAuthKey()
@@ -144,11 +144,7 @@ class EasyRsa2Ca implements CaInterface
             'crl.pem'
         );
 
-        if (!file_exists($crlFile)) {
-            return;
-        }
-
-        return file_get_contents($crlFile);
+        return Utils::getFile($crlFile);
     }
 
     public function getCrlLastModifiedTime()
@@ -159,26 +155,14 @@ class EasyRsa2Ca implements CaInterface
             'crl.pem'
         );
 
-        if (!file_exists($crlFile)) {
-            return;
+        $fileTime = @filemtime($crlFile);
+        if (false === $fileTime) {
+            throw new RuntimeException(
+                sprintf('unable to determine file modification time of "%s"', $crlFile)
+            );
         }
 
-        return gmdate('r', filemtime($crlFile));
-    }
-
-    public function getCrlFileSize()
-    {
-        $crlFile = sprintf(
-            '%s/keys/%s',
-            $this->config['targetPath'],
-            'crl.pem'
-        );
-
-        if (!file_exists($crlFile)) {
-            return;
-        }
-
-        return filesize($crlFile);
+        return $fileTime;
     }
 
     public function revokeClientCert($commonName)
@@ -197,7 +181,7 @@ class EasyRsa2Ca implements CaInterface
         // certificate
 
         $pattern = '/(-----BEGIN CERTIFICATE-----.*-----END CERTIFICATE-----)/msU';
-        if (1 === preg_match($pattern, file_get_contents($certFile), $matches)) {
+        if (1 === preg_match($pattern, Utils::getFile($certFile), $matches)) {
             return $matches[1];
         }
 
@@ -212,7 +196,7 @@ class EasyRsa2Ca implements CaInterface
             $keyFile
         );
 
-        return trim(file_get_contents($keyFile));
+        return trim(Utils::getFile($keyFile));
     }
 
     public function initCa(array $caConfig)
@@ -251,7 +235,7 @@ class EasyRsa2Ca implements CaInterface
             sprintf('export KEY_OU="%s"', $caConfig['key_ou']),
         );
         $varsFile = $this->config['targetPath'].'/vars';
-        $varsContent = str_replace($search, $replace, file_get_contents($varsFile));
+        $varsContent = str_replace($search, $replace, Utils::getFile($varsFile));
 
         if (false === @file_put_contents($varsFile, $varsContent)) {
             throw new RuntimeException('unable to write "vars" file');
@@ -275,11 +259,7 @@ class EasyRsa2Ca implements CaInterface
             $command,
             $quietSuffix
         );
-        $output = array();
-        $returnValue = 0;
-        // XXX: check return value, log output?
-        exec($cmd, $output, $returnValue);
 
-        return $output;
+        Utils::exec($cmd);
     }
 }
