@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.4 (2016-01-21)
+- small server configuration template update
+
 ## 4.0.3 (2016-01-14)
 - cleanup the CA backends, make them more robust
 - generate a cert and revoke it in the EasyRsa2Ca backend when running
