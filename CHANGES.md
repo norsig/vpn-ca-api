@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.0 (...)
+- use actual "valid_from" and "valid_to" datetimes in configuration files so 
+  user knows when the configuration was created and when it expires
+- **DEPRECATE** the use of 'timestamp' in the 'client.twig' template
+
 ## 4.0.4 (2016-01-21)
 - small server configuration template update
 

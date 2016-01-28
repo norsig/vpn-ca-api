@@ -46,6 +46,8 @@ try {
         'cert' => $certKeyDh['cert'],
         'key' => $certKeyDh['key'],
         'dh' => $certKeyDh['dh'],
+        'valid_from' => $certKeyDh['valid_from'],
+        'valid_to' => $certKeyDh['valid_to'],
         'ta' => $tlsAuth,
     );
     $templateManager = new TwigTemplateManager(

@@ -26,7 +26,7 @@ interface CaInterface
      * @param int    $dhSize     the size of the DH parameter
      *
      * @return array the certificate, key and dh parameters in array with keys 
-     *               'cert', 'key' and 'dh'
+     *               'cert', 'key', 'dh', 'valid_from' and 'valid_to'
      */
     public function generateServerCert($commonName, $dhSize);
 
@@ -35,8 +35,8 @@ interface CaInterface
      * 
      * @param string $commonName
      *
-     * @return array the certificate and key in array with keys 'cert' and
-     *               'key'
+     * @return array the certificate and key in array with keys 'cert', 'key',
+     *               'valid_from' and 'valid_to'
      */
     public function generateClientCert($commonName);
 

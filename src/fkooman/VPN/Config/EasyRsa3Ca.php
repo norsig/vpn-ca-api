@@ -143,9 +143,15 @@ class EasyRsa3Ca implements CaInterface
             $this->execEasyRsa(sprintf('build-client-full %s nopass', $commonName));
         }
 
+        $certFile = $this->getCertFile(sprintf('%s.crt', $commonName));
+        $keyFile = $this->getKeyFile(sprintf('%s.key', $commonName));
+        $parsedCert = openssl_x509_parse($certFile);
+
         return array(
-            'cert' => $this->getCertFile(sprintf('%s.crt', $commonName)),
-            'key' => $this->getKeyFile(sprintf('%s.key', $commonName)),
+            'cert' => $certFile,
+            'key' => $keyFile,
+            'valid_from' => $parsedCert['validFrom_time_t'],
+            'valid_to' => $parsedCert['validTo_time_t'],
         );
     }
 

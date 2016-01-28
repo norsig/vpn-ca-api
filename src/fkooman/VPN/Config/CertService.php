@@ -110,7 +110,9 @@ class CertService extends Service
 
         $configData = array(
             'cn' => $commonName,
-            'timestamp' => $this->io->getTime(),
+            'timestamp' => $certKey['valid_from'],  // DEPRECATED
+            'valid_from' => $certKey['valid_from'],
+            'valid_to' => $certKey['valid_to'],
             'ca' => $this->ca->getCaCert(),
             'cert' => $certKey['cert'],
             'key' => $certKey['key'],

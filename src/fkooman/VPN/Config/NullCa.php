@@ -27,6 +27,8 @@ class NullCa implements CaInterface
             'cert' => sprintf('ServerCert for %s', $commonName),
             'key' => sprintf('ServerCert for %s', $commonName),
             'dh' => sprintf('ServerDh for %s', $commonName),
+            'valid_from' => 1234567890,
+            'valid_to' => 2345678901,
         );
     }
 
@@ -35,6 +37,8 @@ class NullCa implements CaInterface
         return array(
             'cert' => sprintf('ClientCert for %s', $commonName),
             'key' => sprintf('ClientKey for %s', $commonName),
+            'valid_from' => 1234567890,
+            'valid_to' => 2345678901,
         );
     }
 

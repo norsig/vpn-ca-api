@@ -69,9 +69,10 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 201 Created',
                 'Content-Type: application/x-openvpn-profile',
-                'Content-Length: 135',
+                'Content-Length: 183',
                 '',
-                '{"client":{"cn":"foobar","timestamp":12345678,"ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}}',
+                '{"client":{"cn":"foobar","timestamp":1234567890,"valid_from":1234567890,"valid_to":2345678901,"ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}}',
+
             ),
             $response->toArray()
         );
@@ -100,9 +101,9 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 201 Created',
                 'Content-Type: application/json',
-                'Content-Length: 124',
+                'Content-Length: 172',
                 '',
-                '{"cn":"foobar","timestamp":12345678,"ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}',
+                '{"cn":"foobar","timestamp":1234567890,"valid_from":1234567890,"valid_to":2345678901,"ca":"Ca","cert":"ClientCert for foobar","key":"ClientKey for foobar","ta":"TlsAuthKey"}',
             ),
             $response->toArray()
         );

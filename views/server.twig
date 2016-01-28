@@ -1,4 +1,6 @@
 # OpenVPN Server Configuration for {{ cn|e }}
+# Valid From: {{ valid_from|e|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})
+# Valid To  : {{ valid_to|e|date('Y-m-d H:i:s') }} ({{ date()|date('T') }})
 
 dev tun
 
