@@ -16,6 +16,7 @@
     "name": "eduVPN/vpn-config-api",
     "require": {
         "ext-date": "*",
+        "ext-openssl": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
         "fkooman/config": "^1.0.0",
