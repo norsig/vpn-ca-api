@@ -1,7 +1,7 @@
 # Here you can select the CA backend
 # NullCa is for testing ONLY!
-caBackend: EasyRsa2Ca
-#caBackend: EasyRsa3Ca
+caBackend: EasyRsa3Ca
+#caBackend: EasyRsa2Ca
 #caBackend: NullCa
 
 BasicAuthentication:

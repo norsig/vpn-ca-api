@@ -1,6 +1,8 @@
 # Changelog
 
 ## 4.1.0 (...)
+- switch default CA backend to `EasyRSA3Ca`, `EasyRsa2Ca` will keep working,
+  but should not be used for new deployments anymore
 - use actual "valid_from" and "valid_to" datetimes in configuration files so 
   user knows when the configuration was created and when it expires
 - **DEPRECATE** the use of 'timestamp' in the 'client.twig' template
