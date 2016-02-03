@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.1.0 (...)
+## 4.1.0 (2016-02-03)
 - switch default CA backend to `EasyRSA3Ca`, `EasyRsa2Ca` will keep working,
   but should not be used for new deployments anymore
 - use actual "valid_from" and "valid_to" datetimes in configuration files so 
