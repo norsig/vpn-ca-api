@@ -66,7 +66,7 @@ class IndexParser
 
             $certTable[$userName][] = array(
                 'name' => $configName,
-                'active' => 'V' === $buffer[0],
+                'state' => $buffer[0],  // R(revoked), V(alid), E(xpired)
                 'exp' => $expDateTimeStamp,
                 'rev' => $revDateTimeStamp,
             );
