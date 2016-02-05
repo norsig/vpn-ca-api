@@ -60,11 +60,8 @@ class IndexParser
                 $revDateTimeStamp = false;
             }
 
-            if (!array_key_exists($userName, $certTable)) {
-                $certTable[$userName] = array();
-            }
-
-            $certTable[$userName][] = array(
+            $certTable[] = array(
+                'user_id' => $userName,
                 'name' => $configName,
                 'state' => $buffer[0],  // R(revoked), V(alid), E(xpired)
                 'exp' => $expDateTimeStamp,
