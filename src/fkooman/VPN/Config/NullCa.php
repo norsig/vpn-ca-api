@@ -70,6 +70,14 @@ class NullCa implements CaInterface
         return 'Ca';
     }
 
+    public function getCertList($userId = null)
+    {
+        return array(
+            'ok' => true,
+            'items' => array()
+        );
+    }
+
     public function getCrl()
     {
         return 'Crl';
