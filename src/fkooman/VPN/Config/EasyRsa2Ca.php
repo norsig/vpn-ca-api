@@ -211,6 +211,18 @@ class EasyRsa2Ca implements CaInterface
         return trim(Utils::getFile($keyFile));
     }
 
+    public function getCertList($userId = null)
+    {
+        $indexFile = sprintf(
+            '%s/keys/index.txt',
+            $this->config['targetPath']
+        );
+
+        $indexParser = new IndexParser($indexFile);
+
+        return $indexParser->getCertList($userId);
+    }
+
     public function initCa(array $caConfig)
     {
         if (!file_exists($this->config['sourcePath']) || !is_dir($this->config['sourcePath'])) {

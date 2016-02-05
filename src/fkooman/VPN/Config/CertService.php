@@ -88,6 +88,16 @@ class CertService extends Service
         );
 
         $this->get(
+            '/config',
+            function (Request $request) {
+                $userFilter = $request->getUrl()->getQueryParameter('user');
+                Utils::validateUserId($userFilter);
+
+                return $this->getCertList($userFilter);
+            }
+        );
+
+        $this->get(
             '/ca.crl',
             function () {
                 return $this->getCrl();
@@ -150,6 +160,21 @@ class CertService extends Service
         $response->setBody(
             array(
                 'ok' => $ok,
+            )
+        );
+
+        return $response;
+    }
+
+    public function getCertList($userFilter)
+    {
+        $certList = $this->ca->getCertList($userFilter);
+
+        $response = new JsonResponse(200);
+        $response->setBody(
+            array(
+                'ok' => true,
+                'items' => $certList,
             )
         );
 

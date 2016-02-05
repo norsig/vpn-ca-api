@@ -202,6 +202,18 @@ class EasyRsa3Ca implements CaInterface
         $this->execEasyRsa('gen-crl');
     }
 
+    public function getCertList($userId = null)
+    {
+        $indexFile = sprintf(
+            '%s/pki/index.txt',
+            $this->config['caPath']
+        );
+
+        $indexParser = new IndexParser($indexFile);
+
+        return $indexParser->getCertList($userId);
+    }
+
     private function getCertFile($certFile)
     {
         if ('ca.crt' === $certFile) {
