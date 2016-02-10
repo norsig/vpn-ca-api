@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0 (2016-02-10)
+- implement OpenSSL `index.txt` CA database parser and RO API so we can move 
+  state away from the VPN User Portal
+
 ## 4.1.0 (2016-02-03)
 - switch default CA backend to `EasyRSA3Ca`, `EasyRsa2Ca` will keep working,
   but should not be used for new deployments anymore
