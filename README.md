@@ -81,6 +81,14 @@ Delete (revoke) a configuration:
 
     $ curl -u admin:s3cr3t -X DELETE http://localhost/vpn-config-api/api.php/config/user@example.org
 
+Get a list of configurations:
+
+    $ curl -u admin:s3cr3t http://localhost/vpn-config-api/api.php/config
+
+Or for a particular user:
+
+    $ curl -u admin:s3cr3t http://localhost/vpn-config-api/api.php/config?userId=foo
+
 Obtain the CRL:
 
     $ curl http://localhost/vpn-config-api/api.php/ca.crl
