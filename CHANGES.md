@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.1 (2016-02-13)
+- update `server.twig` to solve the IPv6 situation and remove port sharing
+
 ## 4.2.0 (2016-02-10)
 - implement OpenSSL `index.txt` CA database parser and RO API so we can move 
   state away from the VPN User Portal
