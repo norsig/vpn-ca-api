@@ -27,7 +27,7 @@ push "route 0.0.0.0 0.0.0.0"
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
 # fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
 # addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
-server-ipv6 fd00:4242:4242::/64
+server-ipv6 fd00:4242:4242:1194::/64
 # for iOS we need this OpenVPN 2.4 "ipv6" flag to redirect-gateway
 # See https://docs.openvpn.net/docs/openvpn-connect/openvpn-connect-ios-faq.html
 push "redirect-gateway ipv6"
