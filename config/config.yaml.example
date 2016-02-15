@@ -26,7 +26,7 @@ EasyRsa2Ca:
 
 EasyRsa3Ca:
     # Fedora (default)
-    easyRsaPath: /usr/share/easy-rsa/3.0.0
+    easyRsaPath: /usr/share/easy-rsa/3.0
     caPath: /var/lib/vpn-config-api/easy-rsa
     openVpnPath: /usr/sbin/openvpn
     CA:

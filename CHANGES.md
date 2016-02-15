@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.3 (2016-02-15)
+- fix default easy-rsa path
+
 ## 4.2.2 (2016-02-15)
 - update `server.twig`
 
