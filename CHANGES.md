@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.3.0 (2016-02-18)
+- update `server.twig` template for new vpn-server-api
+  - remove CCD
+  - `keepalive 10 60`
+  - disable IP pool, now handled by `client-connect` and `client-disconnect`
+  - use `2000::/3` instead of `::/0` as default IPv6 route
+
 ## 4.2.3 (2016-02-15)
 - fix default easy-rsa path
 

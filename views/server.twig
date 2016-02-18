@@ -15,7 +15,7 @@ port 1194
 # IPv4
 # Replace 42.42 with 2 random numbers between 0 and 255, e.g. 10.232.217.0 if
 # you do not have publically routable addresses
-server 10.42.42.0 255.255.255.0
+server 10.42.42.0 255.255.255.0 nopool
 push "redirect-gateway def1 bypass-dhcp"
 
 # for Windows clients we need this extra route to mark the TAP adapter as 
@@ -27,11 +27,17 @@ push "route 0.0.0.0 0.0.0.0"
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
 # fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
 # addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
-server-ipv6 fd00:4242:4242:1194::/64
+ifconfig-ipv6 fd00:4242:4242:4242::1/64 fd00:4242:4242:4242::1
+tun-ipv6
+push "tun-ipv6"
+
 # for iOS we need this OpenVPN 2.4 "ipv6" flag to redirect-gateway
 # See https://docs.openvpn.net/docs/openvpn-connect/openvpn-connect-ios-faq.html
 push "redirect-gateway ipv6"
-push "route-ipv6 ::/0"
+# we use 2000::/3 instead of ::/0 because it seems to break on native IPv6 
+# networks where the ::/0 default router already exists
+push "route-ipv6 2000::/3"
+#push "route-ipv6 ::/0"
 
 topology subnet
 # enable comp-lzo
@@ -41,7 +47,7 @@ persist-key
 persist-tun
 verb 3
 max-clients 100
-keepalive 10 30
+keepalive 10 60
 user openvpn
 group openvpn
 remote-cert-tls client
@@ -87,10 +93,6 @@ push "dhcp-option DNS 8.8.4.4"
 
 # allow client-to-client communication, see openvpn(8)
 #client-to-client
-
-# load client specific configuration (for handling e.g. "disable" or custom
-# routes)
-#client-config-dir /var/lib/vpn-server-api/ccd
 
 # need to allow 7505 also with SELinux
 management localhost 7505
