@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.1 (...)
+- give the tunnel a better name in `server.twig`
+
 ## 4.3.0 (2016-02-18)
 - update `server.twig` template for new vpn-server-api
   - remove CCD
