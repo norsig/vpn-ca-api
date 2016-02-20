@@ -27,7 +27,7 @@ push "route 0.0.0.0 0.0.0.0"
 # Use `openssl rand -hex 5` to uniquely generate 40 bits for a ULA address in
 # fd00::/8, e.g. fd07:787e:63f9::/64 if you do not have publically routable
 # addresses, see: https://en.wikipedia.org/wiki/Unique_local_address 
-ifconfig-ipv6 fd00:4242:4242:4242::1/64 fd00:4242:4242:4242::1
+ifconfig-ipv6 fd00:4242:4242:1194:10:42:42:1/64 fd00:4242:4242:1194:10:42:42:1
 tun-ipv6
 push "tun-ipv6"
 
