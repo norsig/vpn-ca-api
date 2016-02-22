@@ -24,12 +24,9 @@ use fkooman\Config\YamlFile;
 use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Exception\InternalServerErrorException;
-use fkooman\VPN\Config\SimpleError;
 use Monolog\Logger;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Formatter\LineFormatter;
-
-SimpleError::register();
 
 try {
     $reader = new Reader(
