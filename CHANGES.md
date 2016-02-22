@@ -1,8 +1,10 @@
 # Changelog
 
-## 4.3.1 (...)
+## 4.3.1 (2016-02-22)
 - give the tunnel a better name in `server.twig`
 - put the IPv4 address in the IPv6 address as the last 64 bits
+- remove `SimpleError`
+- update dependencies
 
 ## 4.3.0 (2016-02-18)
 - update `server.twig` template for new vpn-server-api
