@@ -1,15 +1,14 @@
-# Here you can select the CA backend
-# NullCa is for testing ONLY!
+# CA backend
 caBackend: EasyRsa3Ca
 #caBackend: EasyRsa2Ca
-#caBackend: NullCa
 
 BasicAuthentication:
     admin: $2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2
 
 EasyRsa2Ca:
-    # CentOS (default)
-    # for Debian use /usr/share/easy-rsa    
+    # DEPRECATED, USE EasyRsa3Ca
+    # CentOS: /usr/share/easy-rsa/2.0
+    # Debian: /usr/share/easy-rsa    
     sourcePath: /usr/share/easy-rsa/2.0
     targetPath: /var/lib/vpn-config-api/easy-rsa
     openVpnPath: /usr/sbin/openvpn
@@ -25,7 +24,7 @@ EasyRsa2Ca:
         key_ou: MyOrganizationalUnit
 
 EasyRsa3Ca:
-    # Fedora (default)
+    # Fedora/CentOS (default)
     easyRsaPath: /usr/share/easy-rsa/3.0
     caPath: /var/lib/vpn-config-api/easy-rsa
     openVpnPath: /usr/sbin/openvpn
