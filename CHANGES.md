@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.4.0 (...)
+- refactoring and code cleanup
+- add more tests
+
 ## 4.3.1 (2016-02-22)
 - give the tunnel a better name in `server.twig`
 - put the IPv4 address in the IPv6 address as the last 64 bits

@@ -24,9 +24,7 @@ use fkooman\Http\Exception\BadRequestException;
 use fkooman\Http\Exception\NotFoundException;
 use fkooman\Tpl\TemplateManagerInterface;
 use fkooman\Http\JsonResponse;
-use fkooman\IO\IO;
-use fkooman\Rest\Plugin\Authentication\UserInfoInterface;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class CertService extends Service
@@ -37,24 +35,15 @@ class CertService extends Service
     /** @var \fkooman\Tpl\TemplateManagerInterface */
     private $templateManager;
 
-    /** @var \Monolog\Logger */
+    /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var \fkooman\IO\IO */
-    private $io;
-
-    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, Logger $logger = null, IO $io = null)
+    public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, LoggerInterface $logger)
     {
         parent::__construct();
-
         $this->ca = $ca;
         $this->templateManager = $templateManager;
-        if (null === $io) {
-            $io = new IO();
-        }
         $this->logger = $logger;
-        $this->io = $io;
-
         $this->registerRoutes();
     }
 
@@ -62,10 +51,10 @@ class CertService extends Service
     {
         $this->delete(
             '/config/:commonName',
-            function ($commonName, UserInfoInterface $userInfo) {
+            function ($commonName) {
                 Utils::validateCommonName($commonName);
 
-                $this->logInfo('revoking config', array('api_user' => $userInfo->getUserId(), 'cn' => $commonName));
+                $this->logger->info('revoking config', array('cn' => $commonName));
 
                 return $this->revokeCert($commonName);
             }
@@ -73,11 +62,11 @@ class CertService extends Service
 
         $this->post(
             '/config/',
-            function (Request $request, UserInfoInterface $userInfo) {
+            function (Request $request) {
                 $commonName = $request->getPostParameter('commonName');
                 Utils::validateCommonName($commonName);
 
-                $this->logInfo('creating config', array('api_user' => $userInfo->getUserId(), 'cn' => $commonName));
+                $this->logger->info('creating config', array('cn' => $commonName));
 
                 if (false !== strpos($request->getHeader('Accept'), 'application/json')) {
                     return $this->generateCert($commonName, true);
@@ -193,12 +182,5 @@ class CertService extends Service
         $response->setBody($crlData);
 
         return $response;
-    }
-
-    private function logInfo($m, array $context)
-    {
-        if (!is_null($this->logger)) {
-            $this->logger->addInfo($m, $context);
-        }
     }
 }

@@ -87,7 +87,7 @@ interface CaInterface
      * Get the list of all certificates.
      *
      * @param string $userId only return certificates for a particular
-     *                           user with the given CN (the part before the underscore)
+     *                       user with the given CN (the part before the underscore)
      */
     public function getCertList($userId = null);
 

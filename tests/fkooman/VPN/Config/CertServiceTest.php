@@ -18,14 +18,13 @@
 namespace fkooman\VPN\Config;
 
 require_once __DIR__.'/Test/TestTemplateManager.php';
-require_once __DIR__.'/Test/TestAuthentication.php';
-require_once __DIR__.'/Test/TestUserInfo.php';
 
 use fkooman\VPN\Config\Test\TestTemplateManager;
 use PHPUnit_Framework_TestCase;
 use fkooman\Http\Request;
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
-use fkooman\VPN\Config\Test\TestAuthentication;
+use fkooman\Rest\Plugin\Authentication\Dummy\DummyAuthentication;
+use Psr\Log\NullLogger;
 
 class CertServiceTest extends PHPUnit_Framework_TestCase
 {
@@ -35,15 +34,9 @@ class CertServiceTest extends PHPUnit_Framework_TestCase
     {
         $ca = new NullCa();
         $tpl = new TestTemplateManager();
-
-        $ioStub = $this->getMockBuilder('fkooman\IO\IO')
-                     ->getMock();
-        $ioStub->method('getTime')
-             ->will($this->returnValue(12345678));
-
-        $this->certService = new CertService($ca, $tpl, null, $ioStub);
+        $this->certService = new CertService($ca, $tpl, new NullLogger());
         $authenticationPlugin = new AuthenticationPlugin();
-        $authenticationPlugin->register(new TestAuthentication(), 'api');
+        $authenticationPlugin->register(new DummyAuthentication('test-user'), 'api');
         $this->certService->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     }
 

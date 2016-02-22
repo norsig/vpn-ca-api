@@ -74,7 +74,7 @@ class NullCa implements CaInterface
     {
         return array(
             'ok' => true,
-            'items' => array()
+            'items' => array(),
         );
     }
 
