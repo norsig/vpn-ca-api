@@ -49,10 +49,14 @@ class CertService extends Service
 
     public function registerRoutes()
     {
+        // XXX change to "common_name" query parameter
         $this->delete(
             '/config/:commonName',
             function ($commonName) {
-                Utils::validateCommonName($commonName);
+                $commonName = InputValidation::commonName(
+                    $commonName,
+                    true // REQUIRED
+                );
 
                 $this->logger->info('revoking config', array('cn' => $commonName));
 
@@ -60,11 +64,14 @@ class CertService extends Service
             }
         );
 
+        // XXX change to "common_name" POST body
         $this->post(
             '/config/',
             function (Request $request) {
-                $commonName = $request->getPostParameter('commonName');
-                Utils::validateCommonName($commonName);
+                $commonName = InputValidation::commonName(
+                    $request->getPostParameter('commonName'),
+                    true // REQUIRED
+                );
 
                 $this->logger->info('creating config', array('cn' => $commonName));
 
@@ -76,11 +83,14 @@ class CertService extends Service
             }
         );
 
+        // XXX change to "user_id" query parameter
         $this->get(
             '/config',
             function (Request $request) {
-                $userId = $request->getUrl()->getQueryParameter('userId');
-                Utils::validateUserId($userId);
+                $commonName = InputValidation::commonName(
+                    $request->getUrl()->getQueryParameter('userId'),
+                    true // REQUIRED
+                );
 
                 return $this->getCertList($userId);
             }
@@ -90,12 +100,7 @@ class CertService extends Service
             '/ca.crl',
             function () {
                 return $this->getCrl();
-            },
-            array(
-                'fkooman\Rest\Plugin\Authentication\AuthenticationPlugin' => array(
-                    'enabled' => false,
-                ),
-            )
+            }
         );
     }
 
@@ -109,7 +114,7 @@ class CertService extends Service
 
         $configData = array(
             'cn' => $commonName,
-            'timestamp' => $certKey['valid_from'],  // DEPRECATED
+            'timestamp' => $certKey['valid_from'],  // XXX: DEPRECATED
             'valid_from' => $certKey['valid_from'],
             'valid_to' => $certKey['valid_to'],
             'ca' => $this->ca->getCaCert(),

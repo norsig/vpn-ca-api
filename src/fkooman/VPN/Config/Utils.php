@@ -16,45 +16,10 @@
  */
 namespace fkooman\VPN\Config;
 
-use fkooman\Http\Exception\BadRequestException;
 use RuntimeException;
 
 class Utils
 {
-    public static function validateCommonName($commonName)
-    {
-        if (0 === preg_match('/^[a-zA-Z0-9-_.@]+$/', $commonName)) {
-            throw new BadRequestException('invalid characters in common name');
-        }
-
-        if (64 < strlen($commonName)) {
-            throw new BadRequestException('common name too long');
-        }
-
-        // MUST NOT be '..'
-        if ('..' === $commonName) {
-            throw new BadRequestException('common name cannot be ".."');
-        }
-    }
-
-    public static function validateUserId($userId)
-    {
-        if (!is_null($userId)) {
-            if (0 === preg_match('/^[a-zA-Z0-9-.@]+$/', $userId)) {
-                throw new BadRequestException('invalid characters in user id');
-            }
-
-            if (64 < strlen($userId)) {
-                throw new BadRequestException('user id too long');
-            }
-
-            // MUST NOT be '..'
-            if ('..' === $userId) {
-                throw new BadRequestException('user id cannot be ".."');
-            }
-        }
-    }
-
     public static function exec($cmd)
     {
         exec($cmd, $output, $returnValue);
