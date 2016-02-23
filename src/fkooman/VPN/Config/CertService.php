@@ -87,9 +87,9 @@ class CertService extends Service
         $this->get(
             '/config',
             function (Request $request) {
-                $commonName = InputValidation::commonName(
+                $userId = InputValidation::userId(
                     $request->getUrl()->getQueryParameter('userId'),
-                    true // REQUIRED
+                    false // REQUIRED
                 );
 
                 return $this->getCertList($userId);
