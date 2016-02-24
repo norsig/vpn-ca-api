@@ -18,8 +18,9 @@
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
-use fkooman\Rest\Plugin\Authentication\Basic\BasicAuthentication;
 use fkooman\Config\Reader;
+use fkooman\VPN\Config\BearerValidator;
+use fkooman\Rest\Plugin\Authentication\Bearer\BearerAuthentication;
 use fkooman\Config\YamlFile;
 use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
@@ -53,20 +54,17 @@ try {
 
     $service = new CertService($ca, $templateManager, $logger);
 
-    $auth = new BasicAuthentication(
-        function ($userId) use ($reader) {
-            $userList = $reader->v('BasicAuthentication');
-            if (!array_key_exists($userId, $userList)) {
-                return false;
-            }
-
-            return $userList[$userId];
-        },
-        array('realm' => 'VPN Config API')
-    );
+    // API authentication
+    // XXX move BearerValidator to fkooman/rest-plugin-authentication-bearer
+    $apiAuth = new BearerAuthentication(
+        new BearerValidator(
+            $reader->v('Api')
+        ),
+        ['realm' => 'VPN Config API']
+     );
 
     $authenticationPlugin = new AuthenticationPlugin();
-    $authenticationPlugin->register($auth, 'api');
+    $authenticationPlugin->register($apiAuth, 'api');
     $service->getPluginRegistry()->registerDefaultPlugin($authenticationPlugin);
     $service->run()->send();
 } catch (Exception $e) {

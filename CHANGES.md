@@ -3,6 +3,8 @@
 ## 4.4.0 (...)
 - refactoring and code cleanup
 - add more tests
+- switch to Bearer authentication from Basic Authentication to improve
+  performance (*BREAKING CONFIG*)
 
 ## 4.3.1 (2016-02-22)
 - give the tunnel a better name in `server.twig`

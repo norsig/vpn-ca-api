@@ -2,8 +2,9 @@
 caBackend: EasyRsa3Ca
 #caBackend: EasyRsa2Ca
 
-BasicAuthentication:
-    admin: $2y$10$QAmpESWTDujaLOlZ/FUwBO6EnmP797QPmz8bYRf9UCRyVmI494Vd2
+# API credentials
+Api:
+    - 11223344556677889900
 
 EasyRsa2Ca:
     # DEPRECATED, USE EasyRsa3Ca
