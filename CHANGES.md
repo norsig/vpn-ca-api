@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.4.0 (...)
+## 4.4.0 (2016-02-24)
 - refactoring and code cleanup
 - add more tests
 - switch to Bearer authentication from Basic Authentication to improve
