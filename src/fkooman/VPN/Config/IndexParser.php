@@ -4,6 +4,7 @@ namespace fkooman\VPN\Config;
 
 use RuntimeException;
 use DateTime;
+use DateTimeZone;
 
 /**
  * OpenSSL index.txt parser.
@@ -51,10 +52,12 @@ class IndexParser
 
             $configName = explode('_', $commonName, 2)[1];
 
-            $expDateTime = DateTime::createFromFormat('ymdHis?', $buffer[1]);
+            $dateTimeZone = new DateTimeZone(date_default_timezone_get());
+
+            $expDateTime = DateTime::createFromFormat('ymdHis?', $buffer[1], $dateTimeZone);
             $expDateTimeStamp = $expDateTime->getTimeStamp();
             if (!empty($buffer[2])) {
-                $revDateTime = DateTime::createFromFormat('ymdHis?', $buffer[2]);
+                $revDateTime = DateTime::createFromFormat('ymdHis?', $buffer[2], $dateTimeZone);
                 $revDateTimeStamp = $revDateTime->getTimeStamp();
             } else {
                 $revDateTimeStamp = false;
