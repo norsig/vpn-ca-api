@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.4.1 (2016-02-25)
+- use external ArrayBearerValidator
+
 ## 4.4.0 (2016-02-24)
 - refactoring and code cleanup
 - add more tests

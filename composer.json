@@ -24,7 +24,7 @@
         "fkooman/io": "^1.0.0",
         "fkooman/rest": "^1.0.0",
         "fkooman/rest-plugin-authentication": "^2.0.0",
-        "fkooman/rest-plugin-authentication-bearer": "^2.1.0",
+        "fkooman/rest-plugin-authentication-bearer": "^2.2.0",
         "fkooman/tpl": "^2.0.0",
         "fkooman/tpl-twig": "^1.0.0",
         "monolog/monolog": "^1.17",
