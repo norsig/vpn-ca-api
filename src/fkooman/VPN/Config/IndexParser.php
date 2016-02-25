@@ -52,7 +52,7 @@ class IndexParser
 
             $configName = explode('_', $commonName, 2)[1];
 
-            $dateTimeZone = new DateTimeZone(date_default_timezone_get());
+            $dateTimeZone = new DateTimeZone('UTC');
 
             $expDateTime = DateTime::createFromFormat('ymdHis?', $buffer[1], $dateTimeZone);
             $expDateTimeStamp = $expDateTime->getTimeStamp();
