@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.2 (2016-02-25)
+- consider timezone for expiry/revoke datetime for certificates, 
+  correctly convert to the timezone of the server
+- remove EasyRsa2Ca from the config template, should not be used 
+  in new setups
+
 ## 4.4.1 (2016-02-25)
 - use external ArrayBearerValidator
 
