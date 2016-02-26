@@ -21,13 +21,15 @@ use fkooman\Http\Exception\BadRequestException;
 class InputValidation
 {
     const COMMON_NAME_PATTERN = '/^[a-zA-Z0-9-_.@]+$/';
-    const USER_ID_PATTERN = '/^[a-zA-Z0-9-_.@]+$/';
+    const USER_ID_PATTERN = '/^[a-zA-Z0-9-.@]+$/';  // like common_name, but no "_"
 
-    public static function commonName($commonName, $isRequired)
+    public static function commonName($commonName)
     {
-        $commonName = !empty($commonName) ? $commonName : null;
-        if (!$isRequired && is_null($commonName)) {
-            return;
+        if (!is_string($commonName)) {
+            throw new BadRequestException('invalid type for "common_name"');
+        }
+        if (0 === strlen($commonName)) {
+            throw new BadRequestException('empty "common_name"');
         }
         if (0 === preg_match(self::COMMON_NAME_PATTERN, $commonName)) {
             throw new BadRequestException('invalid value for "common_name"');
@@ -39,11 +41,13 @@ class InputValidation
         return $commonName;
     }
 
-    public static function userId($userId, $isRequired)
+    public static function userId($userId)
     {
-        $userId = !empty($userId) ? $userId : null;
-        if (!$isRequired && is_null($userId)) {
-            return;
+        if (!is_string($userId)) {
+            throw new BadRequestException('invalid type for "user_id"');
+        }
+        if (0 === strlen($userId)) {
+            throw new BadRequestException('empty "user_id"');
         }
         if (0 === preg_match(self::USER_ID_PATTERN, $userId)) {
             throw new BadRequestException('invalid value for "user_id"');
@@ -53,5 +57,14 @@ class InputValidation
         }
 
         return $userId;
+    }
+
+    public static function certType($certType)
+    {
+        if ('client' !== $certType && 'server' != $certType) {
+            throw new BadRequestException('invalid "cert_type"');
+        }
+
+        return $certType;
     }
 }

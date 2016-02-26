@@ -47,32 +47,35 @@ class CertificateModule implements ServiceModuleInterface
         $service->post(
             '/certificate/',
             function (Request $request, TokenInfo $tokenInfo) {
-                if (!$tokenInfo->getScope()->hasScope('issue_client')) {
-                    throw new ForbiddenException('insufficient_scope', 'issue_client');
-                }
-
+                $certType = InputValidation::certType(
+                    $request->getPostParameter('cert_type')
+                );
                 $commonName = InputValidation::commonName(
-                    $request->getPostParameter('common_name'),
-                    true // REQUIRED
+                    $request->getPostParameter('common_name')
                 );
 
-                $this->logger->info('issueing certificate', array('cn' => $commonName));
+                if ('client' === $certType) {
+                    self::requireScope($tokenInfo, 'issue_client');
+                    $this->logger->info('issuing client certificate', array('cn' => $commonName));
 
-                return $this->generateCert($commonName);
+                    return $this->generateCert($commonName, false);
+                } elseif ('server' === $certType) {
+                    self::requireScope($tokenInfo, 'issue_server');
+                    $this->logger->info('issuing server certificate', array('cn' => $commonName));
+
+                    return $this->generateCert($commonName, true);
+                }
+
+                throw new BadRequestException('invalid "cert_type"');
             }
         );
 
         $service->delete(
             '/certificate/:commonName',
             function ($commonName, TokenInfo $tokenInfo) {
-                if (!$tokenInfo->getScope()->hasScope('revoke_client')) {
-                    throw new ForbiddenException('insufficient_scope', 'revoke_client');
-                }
+                self::requireScope($tokenInfo, 'revoke_client');
 
-                $commonName = InputValidation::commonName(
-                    $commonName,
-                    true // REQUIRED
-                );
+                $commonName = InputValidation::commonName($commonName);
 
                 $this->logger->info('revoking certificate', array('cn' => $commonName));
 
@@ -83,14 +86,9 @@ class CertificateModule implements ServiceModuleInterface
         $service->get(
             '/certificate/:userId',
             function ($userId, TokenInfo $tokenInfo) {
-                if (!$tokenInfo->getScope()->hasScope('list')) {
-                    throw new ForbiddenException('insufficient_scope', 'list');
-                }
+                self::requireScope($tokenInfo, 'list');
 
-                $userId = InputValidation::userId(
-                    $userId,
-                    true // REQUIRED
-                );
+                $userId = InputValidation::userId($userId);
 
                 return $this->getCertList($userId);
             }
@@ -99,9 +97,7 @@ class CertificateModule implements ServiceModuleInterface
         $service->get(
             '/certificate/',
             function (TokenInfo $tokenInfo) {
-                if (!$tokenInfo->getScope()->hasScope('list')) {
-                    throw new ForbiddenException('insufficient_scope', 'list');
-                }
+                self::requireScope($tokenInfo, 'list');
 
                 return $this->getCertList();
             }
@@ -110,38 +106,34 @@ class CertificateModule implements ServiceModuleInterface
         $service->get(
             '/ca.crl',
             function (TokenInfo $tokenInfo) {
-                if (!$tokenInfo->getScope()->hasScope('crl')) {
-                    throw new ForbiddenException('insufficient_scope', 'crl');
-                }
+                self::requireScope($tokenInfo, 'crl');
 
                 return $this->getCrl();
             }
         );
     }
 
-    public function generateCert($commonName)
+    public function generateCert($commonName, $isServer = false)
     {
         if (false !== $this->ca->getCertInfo($commonName)) {
             throw new BadRequestException('certificate already exists');
         }
 
-        $certKey = $this->ca->generateClientCert($commonName);
+        if ($isServer) {
+            $certInfo = $this->ca->generateServerCert($commonName, 2048);
+        } else {
+            $certInfo = $this->ca->generateClientCert($commonName);
+        }
 
-        $certData = array(
-            'cn' => $commonName,
-            'valid_from' => $certKey['valid_from'],
-            'valid_to' => $certKey['valid_to'],
-            'ca' => $this->ca->getCaCert(),
-            'cert' => $certKey['cert'],
-            'key' => $certKey['key'],
-            'ta' => $this->ca->getTlsAuthKey(),
-        );
+        $certInfo['cn'] = $commonName;
+        $certInfo['ca'] = $this->ca->getCaCert();
+        $certInfo['ta'] = $this->ca->getTlsAuthKey();
 
         $response = new JsonResponse(201);
         $response->setBody(
             [
                 'ok' => true,
-                'certificate' => $certData,
+                'certificate' => $certInfo,
             ]
         );
 
@@ -192,5 +184,12 @@ class CertificateModule implements ServiceModuleInterface
         $response->setBody($this->ca->getCrl());
 
         return $response;
+    }
+
+    private static function requireScope(TokenInfo $tokenInfo, $requiredScope)
+    {
+        if (!$tokenInfo->getScope()->hasScope($requiredScope)) {
+            throw new ForbiddenException('insufficient_scope', sprintf('"%s" scope required', $requiredScope));
+        }
     }
 }

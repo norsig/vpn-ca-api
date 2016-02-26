@@ -2,8 +2,10 @@
 
 # 5.0.0 (...)
 - major refactor across the board
+- more comprehensive tests
 - remove client/server templates from the CA
 - implement different tokens for different consumers
+- also allow generating server certificates through the API
 
 ## 4.4.2 (2016-02-25)
 - consider timezone for expiry/revoke datetime for certificates, 

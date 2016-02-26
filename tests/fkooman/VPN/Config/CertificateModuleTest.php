@@ -72,16 +72,36 @@ class CertificateModuleTest extends PHPUnit_Framework_TestCase
             [
                 'ok' => true,
                 'certificate' => [
-                    'cn' => 'foobar',
-                    'valid_from' => 1234567890,
-                    'valid_to' => 2345678901,
-                    'ca' => 'Ca',
                     'cert' => 'ClientCert for foobar',
                     'key' => 'ClientKey for foobar',
+                    'valid_from' => 1234567890,
+                    'valid_to' => 2345678901,
+                    'cn' => 'foobar',
+                    'ca' => 'Ca',
                     'ta' => 'TlsAuthKey',
                 ],
             ],
-            $this->makeRequest('abcdef', 'POST', '/certificate/', ['common_name' => 'foobar'])
+            $this->makeRequest('abcdef', 'POST', '/certificate/', ['common_name' => 'foobar', 'cert_type' => 'client'])
+        );
+    }
+
+    public function testGenerateServerCert()
+    {
+        $this->assertSame(
+            [
+                'ok' => true,
+                'certificate' => [
+                    'cert' => 'ServerCert for vpn.example',
+                    'key' => 'ServerCert for vpn.example',
+                    'dh' => 'ServerDh for vpn.example',
+                    'valid_from' => 1234567890,
+                    'valid_to' => 2345678901,
+                    'cn' => 'vpn.example',
+                    'ca' => 'Ca',
+                    'ta' => 'TlsAuthKey',
+                ],
+            ],
+            $this->makeRequest('aabbcc', 'POST', '/certificate/', ['common_name' => 'vpn.example', 'cert_type' => 'server'])
         );
     }
 
@@ -111,7 +131,7 @@ class CertificateModuleTest extends PHPUnit_Framework_TestCase
             [
                 'error' => 'certificate already exists',
             ],
-            $this->makeRequest('abcdef', 'POST', '/certificate/', ['common_name' => 'foo_foo'])
+            $this->makeRequest('abcdef', 'POST', '/certificate/', ['common_name' => 'foo_foo', 'cert_type' => 'client'])
         );
     }
 
