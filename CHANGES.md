@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.5.0 (...)
+- add more tests
+- restructure code
+
 ## 4.4.2 (2016-02-25)
 - consider timezone for expiry/revoke datetime for certificates, 
   correctly convert to the timezone of the server

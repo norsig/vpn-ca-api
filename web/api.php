@@ -22,12 +22,13 @@ use fkooman\Config\Reader;
 use fkooman\Rest\Plugin\Authentication\Bearer\BearerAuthentication;
 use fkooman\Rest\Plugin\Authentication\Bearer\ArrayBearerValidator;
 use fkooman\Config\YamlFile;
-use fkooman\VPN\Config\CertService;
 use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Exception\InternalServerErrorException;
 use Monolog\Logger;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Formatter\LineFormatter;
+use fkooman\Rest\Service;
+use fkooman\VPN\Config\ConfigModule;
 
 try {
     $reader = new Reader(
@@ -52,7 +53,8 @@ try {
     $syslog->setFormatter($formatter);
     $logger->pushHandler($syslog);
 
-    $service = new CertService($ca, $templateManager, $logger);
+    $service = new Service();
+    $service->addModule(new ConfigModule($ca, $templateManager, $logger));
 
     // API authentication
     $apiAuth = new BearerAuthentication(

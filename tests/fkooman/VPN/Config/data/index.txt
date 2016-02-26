@@ -3,3 +3,4 @@ R	170222135734Z	160223140048Z	02	unknown	/CN=foo_foo
 V	170222135804Z		03	unknown	/CN=bar_test
 V	170222161035Z		04	unknown	/CN=bar_Test
 R	170223151953Z	160224152000Z	05	unknown	/CN=bar_lkjlkjlkj
+E	160214092710Z		04	unknown	/CN=foo_a_b_c_d_e

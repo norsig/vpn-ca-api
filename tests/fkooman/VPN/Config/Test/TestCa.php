@@ -15,11 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace fkooman\VPN\Config;
+namespace fkooman\VPN\Config\Test;
 
+use fkooman\VPN\Config\CaInterface;
 use RuntimeException;
 
-class NullCa implements CaInterface
+class TestCa implements CaInterface
 {
     public function generateServerCert($commonName, $dhSize)
     {
@@ -72,10 +73,16 @@ class NullCa implements CaInterface
 
     public function getCertList($userId = null)
     {
-        return array(
-            'ok' => true,
-            'items' => array(),
-        );
+        if ('foo' === $userId) {
+            return ['foo_bar', 'foo_abc'];
+        }
+
+        if (null === $userId) {
+            return ['foo_bar', 'foo_abc', 'abc_def'];
+        }
+
+        // non existing user
+        return [];
     }
 
     public function getCrl()

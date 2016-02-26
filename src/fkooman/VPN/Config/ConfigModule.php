@@ -18,6 +18,7 @@
 namespace fkooman\VPN\Config;
 
 use fkooman\Rest\Service;
+use fkooman\Rest\ServiceModuleInterface;
 use fkooman\Http\Request;
 use fkooman\Http\Response;
 use fkooman\Http\Exception\BadRequestException;
@@ -27,7 +28,7 @@ use fkooman\Http\JsonResponse;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
-class CertService extends Service
+class ConfigModule implements ServiceModuleInterface
 {
     /** @var CaInterface */
     private $ca;
@@ -40,17 +41,15 @@ class CertService extends Service
 
     public function __construct(CaInterface $ca, TemplateManagerInterface $templateManager, LoggerInterface $logger)
     {
-        parent::__construct();
         $this->ca = $ca;
         $this->templateManager = $templateManager;
         $this->logger = $logger;
-        $this->registerRoutes();
     }
 
-    public function registerRoutes()
+    public function init(Service $service)
     {
         // XXX change to "common_name" query parameter
-        $this->delete(
+        $service->delete(
             '/config/:commonName',
             function ($commonName) {
                 $commonName = InputValidation::commonName(
@@ -65,7 +64,7 @@ class CertService extends Service
         );
 
         // XXX change to "common_name" POST body
-        $this->post(
+        $service->post(
             '/config/',
             function (Request $request) {
                 $commonName = InputValidation::commonName(
@@ -84,19 +83,19 @@ class CertService extends Service
         );
 
         // XXX change to "user_id" query parameter
-        $this->get(
+        $service->get(
             '/config',
             function (Request $request) {
                 $userId = InputValidation::userId(
                     $request->getUrl()->getQueryParameter('userId'),
-                    false // REQUIRED
+                    false // OPTIONAL
                 );
 
                 return $this->getCertList($userId);
             }
         );
 
-        $this->get(
+        $service->get(
             '/ca.crl',
             function () {
                 return $this->getCrl();

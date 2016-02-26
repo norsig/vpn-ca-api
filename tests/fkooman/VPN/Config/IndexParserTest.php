@@ -21,8 +21,6 @@ use PHPUnit_Framework_TestCase;
 
 class IndexParserTest extends PHPUnit_Framework_TestCase
 {
-    // XXX add a test for expired
-
     public function testGetCertList()
     {
         $i = new IndexParser(__DIR__.'/data/index.txt');
@@ -56,6 +54,13 @@ class IndexParserTest extends PHPUnit_Framework_TestCase
                     'exp' => 1487863193,
                     'rev' => 1456327200,
                 ],
+                [
+                    'user_id' => 'foo',
+                    'name' => 'a_b_c_d_e',
+                    'state' => 'E',
+                    'exp' => 1455442030,
+                    'rev' => false,
+                ],
             ],
             $i->getCertList()
         );
@@ -72,6 +77,13 @@ class IndexParserTest extends PHPUnit_Framework_TestCase
                     'state' => 'R',
                     'exp' => 1487771854,
                     'rev' => 1456236048,
+                ],
+                [
+                    'user_id' => 'foo',
+                    'name' => 'a_b_c_d_e',
+                    'state' => 'E',
+                    'exp' => 1455442030,
+                    'rev' => false,
                 ],
             ],
             $i->getCertList('foo')
