@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b921590dbed19cef3c3f9a6fd40564ac",
-    "content-hash": "7090f5586485f38654cc48d9de1db970",
+    "hash": "3716aeb2484c1c79d2462fcca09790c5",
+    "content-hash": "ddaaa83c1df34f60495661bfb246b47b",
     "packages": [
         {
             "name": "fkooman/config",
@@ -89,45 +89,6 @@
             ],
             "description": "Simple PHP library for dealing with HTTP requests and responses.",
             "time": "2016-02-22 00:05:41"
-        },
-        {
-            "name": "fkooman/io",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-lib-io.git",
-                "reference": "0c2d8c49b1e37b9e3593c9e8dc51f4abc0c6712a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-io/zipball/0c2d8c49b1e37b9e3593c9e8dc51f4abc0c6712a",
-                "reference": "0c2d8c49b1e37b9e3593c9e8dc51f4abc0c6712a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-date": "*",
-                "ext-openssl": "*",
-                "ext-spl": "*",
-                "php": ">= 5.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\IO\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net"
-                }
-            ],
-            "description": "Simple IO library",
-            "time": "2015-10-03 11:35:44"
         },
         {
             "name": "fkooman/json",
@@ -260,16 +221,16 @@
         },
         {
             "name": "fkooman/rest-plugin-authentication-bearer",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fkooman/php-lib-rest-plugin-authentication-bearer.git",
-                "reference": "f0abf30d3835a8dd39fb86899073128543067d61"
+                "reference": "08c97721f98d4a74a021325da6b543934cb23bb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication-bearer/zipball/f0abf30d3835a8dd39fb86899073128543067d61",
-                "reference": "f0abf30d3835a8dd39fb86899073128543067d61",
+                "url": "https://api.github.com/repos/fkooman/php-lib-rest-plugin-authentication-bearer/zipball/08c97721f98d4a74a021325da6b543934cb23bb4",
+                "reference": "08c97721f98d4a74a021325da6b543934cb23bb4",
                 "shasum": ""
             },
             "require": {
@@ -299,82 +260,7 @@
                 }
             ],
             "description": "Bearer (OAuth) Authentication plugin for fkooman/rest-plugin-authentication",
-            "time": "2016-02-25 12:13:52"
-        },
-        {
-            "name": "fkooman/tpl",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-lib-tpl.git",
-                "reference": "d6abca430ff050890f93eb353158b8ed3dc91bf4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-tpl/zipball/d6abca430ff050890f93eb353158b8ed3dc91bf4",
-                "reference": "d6abca430ff050890f93eb353158b8ed3dc91bf4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\Tpl\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net"
-                }
-            ],
-            "description": "Simple Template Abstraction Library",
-            "time": "2016-02-04 10:00:40"
-        },
-        {
-            "name": "fkooman/tpl-twig",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fkooman/php-lib-tpl-twig.git",
-                "reference": "be1eb48678b12bbd501c1be5abfe3263551dc976"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fkooman/php-lib-tpl-twig/zipball/be1eb48678b12bbd501c1be5abfe3263551dc976",
-                "reference": "be1eb48678b12bbd501c1be5abfe3263551dc976",
-                "shasum": ""
-            },
-            "require": {
-                "ext-spl": "*",
-                "fkooman/tpl": "^2.1.0",
-                "php": ">= 5.3.3",
-                "twig/twig": "^1.18"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "fkooman\\Tpl\\Twig\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "François Kooman",
-                    "email": "fkooman@tuxed.net"
-                }
-            ],
-            "description": "Twig for Simple Template Abstraction Library",
-            "time": "2016-02-04 10:14:35"
+            "time": "2016-02-26 17:37:24"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -742,67 +628,6 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2016-01-13 10:28:07"
-        },
-        {
-            "name": "twig/twig",
-            "version": "v1.24.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
-                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.7"
-            },
-            "require-dev": {
-                "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.24-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Twig_": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
-                    "name": "Twig Team",
-                    "homepage": "http://twig.sensiolabs.org/contributors",
-                    "role": "Contributors"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
-            "keywords": [
-                "templating"
-            ],
-            "time": "2016-01-25 21:22:18"
         }
     ],
     "packages-dev": [],

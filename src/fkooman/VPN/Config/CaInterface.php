@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2015 François Kooman <fkooman@tuxed.net>.
+ * Copyright 2016 François Kooman <fkooman@tuxed.net>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,16 +47,6 @@ interface CaInterface
      */
     public function getTlsAuthKey();
 
-    /** 
-     * Check if the CA already issued a certificate.
-     *
-     * @param string $commonName
-     *
-     * @return bool whether or not the commonName already has a certificate,
-     *              also true for revoked certificates
-     */
-    public function hasCert($commonName);
-
     /**
      * Get the CA root certificate.
      *
@@ -86,10 +76,28 @@ interface CaInterface
     /**
      * Get the list of all certificates.
      *
-     * @param string $userId only return certificates for a particular
-     *                       user with the given CN (the part before the underscore)
+     * @return array list of certificates
      */
-    public function getCertList($userId = null);
+    public function getCertList();
+
+    /**
+     * Get the list of all certificates for a particular user.
+     *
+     * @param string $userId the user ID
+     *
+     * @return array list of certificates for this user
+     */
+    public function getUserCertList($userId);
+
+    /**
+     * Get the information about a certificate for a particular CN.
+     *
+     * @param string $commonName the CN
+     *
+     * @return array|false information about the certificate or false if the
+     *                     certificate does not exist
+     */
+    public function getCertInfo($commonName);
 
     /**
      * Initialize the CA.

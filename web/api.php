@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2015 François Kooman <fkooman@tuxed.net>.
+ * Copyright 2016 François Kooman <fkooman@tuxed.net>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,26 @@
  */
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Config\Reader;
-use fkooman\Rest\Plugin\Authentication\Bearer\BearerAuthentication;
-use fkooman\Rest\Plugin\Authentication\Bearer\ArrayBearerValidator;
 use fkooman\Config\YamlFile;
-use fkooman\Tpl\Twig\TwigTemplateManager;
 use fkooman\Http\Exception\InternalServerErrorException;
-use Monolog\Logger;
-use Monolog\Handler\SyslogHandler;
-use Monolog\Formatter\LineFormatter;
+use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
+use fkooman\Rest\Plugin\Authentication\Bearer\ArrayBearerValidator;
+use fkooman\Rest\Plugin\Authentication\Bearer\BearerAuthentication;
 use fkooman\Rest\Service;
-use fkooman\VPN\Config\ConfigModule;
+use fkooman\VPN\Config\CertificateModule;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\SyslogHandler;
+use Monolog\Logger;
 
 try {
     $reader = new Reader(
         new YamlFile(dirname(__DIR__).'/config/config.yaml')
     );
 
-    $caBackend = $reader->v('caBackend', false, 'EasyRsa2');
+    $caBackend = $reader->v('caBackend', false, 'EasyRsa3Ca');
     $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
     $ca = new $caBackendClass($reader->v($caBackend));
-
-    $templateManager = new TwigTemplateManager(
-        array(
-            dirname(__DIR__).'/views',
-            dirname(__DIR__).'/config/views',
-        ),
-        null
-    );
 
     $logger = new Logger('vpn-config-api');
     $syslog = new SyslogHandler('vpn-config-api', 'user');
@@ -54,7 +45,9 @@ try {
     $logger->pushHandler($syslog);
 
     $service = new Service();
-    $service->addModule(new ConfigModule($ca, $templateManager, $logger));
+    $service->addModule(
+        new CertificateModule($ca, $logger)
+    );
 
     // API authentication
     $apiAuth = new BearerAuthentication(

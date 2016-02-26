@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2015 François Kooman <fkooman@tuxed.net>.
+ * Copyright 2016 François Kooman <fkooman@tuxed.net>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 namespace fkooman\VPN\Config\Test;
 
 use fkooman\VPN\Config\CaInterface;
-use RuntimeException;
+use fkooman\VPN\Config\IndexParser;
 
 class TestCa implements CaInterface
 {
@@ -48,41 +48,30 @@ class TestCa implements CaInterface
         return 'TlsAuthKey';
     }
 
-    public function hasCert($commonName)
-    {
-        if ('foo' === $commonName) {
-            return true;
-        }
-        if ('foo_foo' === $commonName) {
-            return true;
-        }
-        if ('foo_bar' === $commonName) {
-            return true;
-        }
-        if ('already_revoked' === $commonName) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function getCaCert()
     {
         return 'Ca';
     }
 
-    public function getCertList($userId = null)
+    public function getUserCertList($userId)
     {
-        if ('foo' === $userId) {
-            return ['foo_bar', 'foo_abc'];
-        }
+        $i = new IndexParser(dirname(__DIR__).'/data/index.txt');
 
-        if (null === $userId) {
-            return ['foo_bar', 'foo_abc', 'abc_def'];
-        }
+        return $i->getUserCertList($userId);
+    }
 
-        // non existing user
-        return [];
+    public function getCertInfo($commonName)
+    {
+        $i = new IndexParser(dirname(__DIR__).'/data/index.txt');
+
+        return $i->getCertInfo($commonName);
+    }
+
+    public function getCertList()
+    {
+        $i = new IndexParser(dirname(__DIR__).'/data/index.txt');
+
+        return $i->getCertList();
     }
 
     public function getCrl()
@@ -97,9 +86,6 @@ class TestCa implements CaInterface
 
     public function revokeClientCert($commonName)
     {
-        if ('already_revoked' === $commonName) {
-            throw new RuntimeException('already revoked');
-        }
     }
 
     public function initCa(array $caConfig)

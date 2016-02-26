@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * Copyright 2016 François Kooman <fkooman@tuxed.net>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 namespace fkooman\VPN\Config;
 
 use RuntimeException;
@@ -21,7 +36,22 @@ class IndexParser
         $this->indexFile = $indexFile;
     }
 
-    public function getCertList($userId = null)
+    public function getCertList()
+    {
+        return $this->parse();
+    }
+
+    public function getUserCertList($userId)
+    {
+        return $this->parse($userId);
+    }
+
+    public function getCertInfo($commonName)
+    {
+        return $this->parse(null, $commonName);
+    }
+
+    private function parse($inUserId = null, $inCommonName = null)
     {
         $certTable = array();
         $handle = @fopen($this->indexFile, 'r');
@@ -45,8 +75,15 @@ class IndexParser
                 continue;
             }
 
+            if (null !== $inCommonName) {
+                // we only want a particular commonName
+                if ($commonName !== $inCommonName) {
+                    continue;
+                }
+            }
+
             $userName = explode('_', $commonName)[0];
-            if (!is_null($userId) && $userName !== $userId) {
+            if (!is_null($inUserId) && $userName !== $inUserId) {
                 continue;
             }
 
@@ -76,6 +113,14 @@ class IndexParser
             throw new RuntimeException('unexpected EOF');
         }
         @fclose($handle);
+
+        if (!is_null($inCommonName)) {
+            if (1 !== count($certTable)) {
+                return false;
+            }
+
+            return $certTable[0];
+        }
 
         return $certTable;
     }

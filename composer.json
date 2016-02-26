@@ -21,12 +21,9 @@
         "ext-spl": "*",
         "fkooman/config": "^1.0.0",
         "fkooman/http": "^1.0.0",
-        "fkooman/io": "^1.0.0",
         "fkooman/rest": "^1.0.0",
         "fkooman/rest-plugin-authentication": "^2.0.0",
-        "fkooman/rest-plugin-authentication-bearer": "^2.2.0",
-        "fkooman/tpl": "^2.0.0",
-        "fkooman/tpl-twig": "^1.0.0",
+        "fkooman/rest-plugin-authentication-bearer": "^2.3.0",
         "monolog/monolog": "^1.17",
         "php": ">=5.4",
         "psr/log": "^1.0.0"

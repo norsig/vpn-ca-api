@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2015 François Kooman <fkooman@tuxed.net>.
+ * Copyright 2016 François Kooman <fkooman@tuxed.net>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,13 +130,6 @@ class EasyRsa2Ca implements CaInterface
         );
     }
 
-    public function hasCert($commonName)
-    {
-        $certFile = sprintf('%s/keys/%s.crt', $this->config['targetPath'], $commonName);
-
-        return file_exists($certFile);
-    }
-
     public function getCaCert()
     {
         return $this->getCertFile('ca.crt');
@@ -211,16 +204,40 @@ class EasyRsa2Ca implements CaInterface
         return trim(Utils::getFile($keyFile));
     }
 
-    public function getCertList($userId = null)
+    public function getCertList()
     {
         $indexFile = sprintf(
-            '%s/keys/index.txt',
-            $this->config['targetPath']
+            '%s/pki/index.txt',
+            $this->config['caPath']
         );
 
         $indexParser = new IndexParser($indexFile);
 
-        return $indexParser->getCertList($userId);
+        return $indexParser->getCertList();
+    }
+
+    public function getUserCertList($userId)
+    {
+        $indexFile = sprintf(
+            '%s/pki/index.txt',
+            $this->config['caPath']
+        );
+
+        $indexParser = new IndexParser($indexFile);
+
+        return $indexParser->getUserCertList($userId);
+    }
+
+    public function getCertInfo($commonName)
+    {
+        $indexFile = sprintf(
+            '%s/pki/index.txt',
+            $this->config['caPath']
+        );
+
+        $indexParser = new IndexParser($indexFile);
+
+        return $indexParser->getCertInfo($commonName);
     }
 
     public function initCa(array $caConfig)

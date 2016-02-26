@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2015 François Kooman <fkooman@tuxed.net>.
+ * Copyright 2016 François Kooman <fkooman@tuxed.net>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ class EasyRsa3Ca implements CaInterface
 
         // where easy-rsa (3) is installed
         if (!array_key_exists('easyRsaPath', $config)) {
-            $this->config['easyRsaPath'] = '/usr/share/easy-rsa/3.0.0';
+            $this->config['easyRsaPath'] = '/usr/share/easy-rsa/3.0';
         } else {
             $this->config['easyRsaPath'] = $config['easyRsaPath'];
         }
@@ -155,13 +155,6 @@ class EasyRsa3Ca implements CaInterface
         );
     }
 
-    public function hasCert($commonName)
-    {
-        $certFile = sprintf('%s/pki/issued/%s.crt', $this->config['caPath'], $commonName);
-
-        return @file_exists($certFile);
-    }
-
     public function getCaCert()
     {
         return $this->getCertFile('ca.crt');
@@ -202,7 +195,7 @@ class EasyRsa3Ca implements CaInterface
         $this->execEasyRsa('gen-crl');
     }
 
-    public function getCertList($userId = null)
+    public function getCertList()
     {
         $indexFile = sprintf(
             '%s/pki/index.txt',
@@ -211,7 +204,31 @@ class EasyRsa3Ca implements CaInterface
 
         $indexParser = new IndexParser($indexFile);
 
-        return $indexParser->getCertList($userId);
+        return $indexParser->getCertList();
+    }
+
+    public function getUserCertList($userId)
+    {
+        $indexFile = sprintf(
+            '%s/pki/index.txt',
+            $this->config['caPath']
+        );
+
+        $indexParser = new IndexParser($indexFile);
+
+        return $indexParser->getUserCertList($userId);
+    }
+
+    public function getCertInfo($commonName)
+    {
+        $indexFile = sprintf(
+            '%s/pki/index.txt',
+            $this->config['caPath']
+        );
+
+        $indexParser = new IndexParser($indexFile);
+
+        return $indexParser->getCertInfo($commonName);
     }
 
     private function getCertFile($certFile)

@@ -1,8 +1,9 @@
 # Changelog
 
-## 4.5.0 (...)
-- add more tests
-- restructure code
+# 5.0.0 (...)
+- major refactor across the board
+- remove client/server templates from the CA
+- implement different tokens for different consumers
 
 ## 4.4.2 (2016-02-25)
 - consider timezone for expiry/revoke datetime for certificates, 

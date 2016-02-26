@@ -3,7 +3,15 @@ caBackend: EasyRsa3Ca
 
 # API credentials
 Api:
-    - 11223344556677889900
+    vpn-user-portal:
+        token: abcdef
+        scope: issue_client revoke_client list
+    vpn-admin-portal:
+        token: fedcba
+        scope: list
+    vpn-server-api:
+        token: aabbcc
+        scope: issue_server crl
 
 EasyRsa3Ca:
     # Fedora/CentOS (default)
