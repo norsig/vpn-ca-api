@@ -20,7 +20,7 @@ directory under the current folder.
 
     $ mkdir data
     $ php bin/init
-    $ php -S localhost:8080 -t web/
+    $ php -S localhost:8008 -t web/
 
 # Authentication
 
@@ -32,27 +32,27 @@ permissions. See `config/config.yaml` for the defaults.
 
 Issue a client certificate:
 
-    $ curl -H "Authorization: Bearer abcdef" -d 'common_name=foo_bar&cert_type=client' http://localhost:8080/api.php/certificate/
+    $ curl -H "Authorization: Bearer abcdef" -d 'common_name=foo_bar&cert_type=client' http://localhost:8008/api.php/certificate/
 
 Issue a server certificate:
 
-    $ curl -H "Authorization: Bearer aabbcc" -d 'common_name=vpn.example&cert_type=server' http://localhost:8080/api.php/certificate/
+    $ curl -H "Authorization: Bearer aabbcc" -d 'common_name=vpn.example&cert_type=server' http://localhost:8008/api.php/certificate/
 
 Revoke a certificate:
 
-    $ curl -H "Authorization: Bearer abcdef" -X DELETE http://localhost:8080/api.php/certificate/foo_bar
+    $ curl -H "Authorization: Bearer abcdef" -X DELETE http://localhost:8008/api.php/certificate/foo_bar
 
 Get a list of certificates:
 
-    $ curl -H "Authorization: Bearer abcdef" http://localhost:8080/api.php/certificate/
+    $ curl -H "Authorization: Bearer abcdef" http://localhost:8008/api.php/certificate/
 
 Or for a particular user:
 
-    $ curl -H "Authorization: Bearer abcdef" http://localhost:8080/api.php/certificate/foo
+    $ curl -H "Authorization: Bearer abcdef" http://localhost:8008/api.php/certificate/foo
 
 Obtain the CRL:
 
-    $ curl -H "Authorization: Bearer aabbcc" http://localhost:8080/api.php/ca.crl
+    $ curl -H "Authorization: Bearer aabbcc" http://localhost:8008/api.php/ca.crl
 
 # License
 Licensed under the Apache License, Version 2.0;
