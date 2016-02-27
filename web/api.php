@@ -24,7 +24,7 @@ use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;
 use fkooman\Rest\Plugin\Authentication\Bearer\ArrayBearerValidator;
 use fkooman\Rest\Plugin\Authentication\Bearer\BearerAuthentication;
 use fkooman\Rest\Service;
-use fkooman\VPN\Config\CertificateModule;
+use fkooman\VPN\CA\CertificateModule;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
@@ -35,11 +35,11 @@ try {
     );
 
     $caBackend = $reader->v('caBackend', false, 'EasyRsa3Ca');
-    $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
+    $caBackendClass = sprintf('\\fkooman\\VPN\\CA\\%s', $caBackend);
     $ca = new $caBackendClass($reader->v($caBackend));
 
-    $logger = new Logger('vpn-config-api');
-    $syslog = new SyslogHandler('vpn-config-api', 'user');
+    $logger = new Logger('vpn-ca-api');
+    $syslog = new SyslogHandler('vpn-ca-api', 'user');
     $formatter = new LineFormatter();
     $syslog->setFormatter($formatter);
     $logger->pushHandler($syslog);
@@ -54,7 +54,7 @@ try {
         new ArrayBearerValidator(
             $reader->v('Api')
         ),
-        ['realm' => 'VPN Config API']
+        ['realm' => 'VPN CA API']
      );
 
     $authenticationPlugin = new AuthenticationPlugin();

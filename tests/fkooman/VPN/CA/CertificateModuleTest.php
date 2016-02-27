@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace fkooman\VPN\Config;
+namespace fkooman\VPN\CA;
 
 require_once __DIR__.'/Test/TestCa.php';
 
-use fkooman\VPN\Config\Test\TestCa;
+use fkooman\VPN\CA\Test\TestCa;
 use PHPUnit_Framework_TestCase;
 use fkooman\Http\Request;
 use fkooman\Rest\Plugin\Authentication\AuthenticationPlugin;

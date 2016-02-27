@@ -27,7 +27,7 @@ try {
     );
 
     $caBackend = $reader->v('caBackend', false, 'EasyRsa3Ca');
-    $caBackendClass = sprintf('\\fkooman\\VPN\\Config\\%s', $caBackend);
+    $caBackendClass = sprintf('\\fkooman\\VPN\\CA\\%s', $caBackend);
     $ca = new $caBackendClass($reader->v($caBackend));
 
     $ca->initCa($reader->v($caBackend, 'CA'));

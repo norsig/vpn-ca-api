@@ -8,10 +8,10 @@
     ],
     "autoload": {
         "psr-0": {
-            "fkooman\\VPN\\Config\\": "src/"
+            "fkooman\\VPN\\CA\\": "src/"
         }
     },
-    "description": "REST service to manage OpenVPN client configurations",
+    "description": "REST API for OpenVPN CA",
     "license": "Apache-2.0",
     "name": "eduVPN/vpn-config-api",
     "require": {

@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-namespace fkooman\VPN\Config\Test;
+namespace fkooman\VPN\CA\Test;
 
-use fkooman\VPN\Config\CaInterface;
-use fkooman\VPN\Config\IndexParser;
+use fkooman\VPN\CA\CaInterface;
+use fkooman\VPN\CA\IndexParser;
 
 class TestCa implements CaInterface
 {
