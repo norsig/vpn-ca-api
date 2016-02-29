@@ -1,18 +1,7 @@
 # CA backend
 caBackend: EasyRsa3Ca
 
-# API credentials
-Api:
-    vpn-user-portal:
-        token: abcdef
-        scope: issue_client revoke_client list
-    vpn-admin-portal:
-        token: fedcba
-        scope: list
-    vpn-server-api:
-        token: aabbcc
-        scope: issue_server crl
-
+# EasyRsa3Ca Configuration
 EasyRsa3Ca:
     easyRsaPath: /usr/share/easy-rsa/3
     caPath: /var/lib/vpn-config-api/easy-rsa
@@ -22,3 +11,15 @@ EasyRsa3Ca:
         ca_expire: '1826'
         cert_expire: '365'
         ca_cn: VPN CA
+
+# API credentials
+Authentication:
+    vpn-user-portal:
+        token: abcdef
+        scope: issue_client revoke_client list
+    vpn-admin-portal:
+        token: fedcba
+        scope: list
+    vpn-server-api:
+        token: aabbcc
+        scope: issue_server crl

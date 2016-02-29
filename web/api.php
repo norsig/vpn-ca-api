@@ -52,7 +52,7 @@ try {
     // API authentication
     $apiAuth = new BearerAuthentication(
         new ArrayBearerValidator(
-            $reader->v('Api')
+            $reader->v('Authentication')
         ),
         ['realm' => 'VPN CA API']
      );
