@@ -61,7 +61,7 @@ class InputValidation
 
     public static function certType($certType)
     {
-        if ('client' !== $certType && 'server' != $certType) {
+        if ('client' !== $certType && 'server' !== $certType) {
             throw new BadRequestException('invalid "cert_type"');
         }
 
