@@ -207,8 +207,8 @@ class EasyRsa2Ca implements CaInterface
     public function getCertList()
     {
         $indexFile = sprintf(
-            '%s/pki/index.txt',
-            $this->config['caPath']
+            '%s/keys/index.txt',
+            $this->config['targetPath']
         );
 
         $indexParser = new IndexParser($indexFile);
@@ -219,8 +219,8 @@ class EasyRsa2Ca implements CaInterface
     public function getUserCertList($userId)
     {
         $indexFile = sprintf(
-            '%s/pki/index.txt',
-            $this->config['caPath']
+            '%s/keys/index.txt',
+            $this->config['targetPath']
         );
 
         $indexParser = new IndexParser($indexFile);
@@ -231,8 +231,8 @@ class EasyRsa2Ca implements CaInterface
     public function getCertInfo($commonName)
     {
         $indexFile = sprintf(
-            '%s/pki/index.txt',
-            $this->config['caPath']
+            '%s/keys/index.txt',
+            $this->config['targetPath']
         );
 
         $indexParser = new IndexParser($indexFile);
