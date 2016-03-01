@@ -13,13 +13,13 @@ EasyRsa3Ca:
         ca_cn: VPN CA
 
 # API credentials
-Authentication:
+api:
     vpn-user-portal:
-        token: abcdef
         scope: issue_client revoke_client list
+        token: abcdef
     vpn-admin-portal:
-        token: fedcba
         scope: list
+        token: fedcba
     vpn-server-api:
-        token: aabbcc
         scope: issue_server crl
+        token: aabbcc
