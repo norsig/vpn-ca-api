@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\CA;
 
 use fkooman\Rest\Plugin\Authentication\Bearer\TokenInfo;
@@ -115,7 +116,7 @@ class CertificateModule implements ServiceModuleInterface
 
     public function generateCert($commonName, $isServer = false)
     {
-        if (false !== $this->ca->getCertInfo($commonName)) {
+        if (false !== $this->ca->hasCert($commonName)) {
             throw new BadRequestException('certificate already exists');
         }
 

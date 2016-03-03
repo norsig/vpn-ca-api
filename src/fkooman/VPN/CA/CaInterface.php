@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\CA;
 
 interface CaInterface
@@ -88,6 +89,15 @@ interface CaInterface
      * @return array list of certificates for this user
      */
     public function getUserCertList($userId);
+
+    /**
+     * Check whether a certificate with this common name already exists.
+     *
+     * @param string $commonName the CN
+     *
+     * @return bool whether or not it exists
+     */
+    public function hasCert($commonName);
 
     /**
      * Get the information about a certificate for a particular CN.

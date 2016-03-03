@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\CA;
 
 require_once __DIR__.'/Test/TestCa.php';

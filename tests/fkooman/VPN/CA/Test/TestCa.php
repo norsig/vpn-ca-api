@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\CA\Test;
 
 use fkooman\VPN\CA\CaInterface;
@@ -58,6 +59,11 @@ class TestCa implements CaInterface
         $i = new IndexParser(dirname(__DIR__).'/data/index.txt');
 
         return $i->getUserCertList($userId);
+    }
+
+    public function hasCert($commonName)
+    {
+        return $this->getCertInfo($commonName) ? true : false;
     }
 
     public function getCertInfo($commonName)

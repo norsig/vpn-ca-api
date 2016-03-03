@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\VPN\CA;
 
 use RuntimeException;
@@ -217,6 +218,17 @@ class EasyRsa3Ca implements CaInterface
         $indexParser = new IndexParser($indexFile);
 
         return $indexParser->getUserCertList($userId);
+    }
+
+    public function hasCert($commonName)
+    {
+        $certFile = sprintf(
+            '%s/pki/issued/%s.crt',
+            $this->config['caPath'],
+            $commonName
+        );
+
+        return @file_exists($certFile);
     }
 
     public function getCertInfo($commonName)
