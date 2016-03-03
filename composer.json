@@ -13,7 +13,7 @@
     },
     "description": "REST API for OpenVPN CA",
     "license": "Apache-2.0",
-    "name": "eduVPN/vpn-config-api",
+    "name": "eduVPN/vpn-ca-api",
     "require": {
         "ext-date": "*",
         "ext-openssl": "*",

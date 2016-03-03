@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/eduVPN/vpn-config-api.svg)](https://travis-ci.org/eduVPN/vpn-config-api)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eduVPN/vpn-config-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eduVPN/vpn-config-api/?branch=master)
+[![Build Status](https://travis-ci.org/eduVPN/vpn-ca-api.svg)](https://travis-ci.org/eduVPN/vpn-ca-api)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eduVPN/vpn-ca-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eduVPN/vpn-ca-api/?branch=master)
 
 # Introduction
 

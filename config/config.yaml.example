@@ -4,7 +4,7 @@ caBackend: EasyRsa3Ca
 # EasyRsa3Ca Configuration
 EasyRsa3Ca:
     easyRsaPath: /usr/share/easy-rsa/3
-    caPath: /var/lib/vpn-config-api/easy-rsa
+    caPath: /var/lib/vpn-ca-api/easy-rsa
     openVpnPath: /usr/sbin/openvpn
     CA:
         key_size: '4096'
