@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/eduVPN/vpn-ca-api.svg)](https://travis-ci.org/eduVPN/vpn-ca-api)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eduVPN/vpn-ca-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eduVPN/vpn-ca-api/?branch=master)
+[![Build Status](https://travis-ci.org/eduvpn/vpn-ca-api.svg)](https://travis-ci.org/eduvpn/vpn-ca-api)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eduvpn/vpn-ca-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eduvpn/vpn-ca-api/?branch=master)
 
 # Introduction
 
@@ -8,7 +8,7 @@ manage certificates.
 
 # Deployment
 
-See the [documentation](https://github.com/eduVPN/documentation) repository.
+See the [documentation](https://github.com/eduvpn/documentation) repository.
 
 # Development
 
