@@ -233,7 +233,7 @@ class EasyRsa2Ca implements CaInterface
     {
         $certFile = sprintf(
             '%s/keys/%s.crt',
-            $this->config['caPath'],
+            $this->config['targetPath'],
             $commonName
         );
 
