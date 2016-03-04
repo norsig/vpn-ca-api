@@ -24,12 +24,11 @@ interface CaInterface
      * Generate a certificate for the VPN server.
      * 
      * @param string $commonName
-     * @param int    $dhSize     the size of the DH parameter
      *
-     * @return array the certificate, key and dh parameters in array with keys 
-     *               'cert', 'key', 'dh', 'valid_from' and 'valid_to'
+     * @return array the certificate, key in array with keys 
+     *               'cert', 'key', 'valid_from' and 'valid_to'
      */
-    public function generateServerCert($commonName, $dhSize);
+    public function generateServerCert($commonName);
 
     /**
      * Generate a certificate for a VPN client.

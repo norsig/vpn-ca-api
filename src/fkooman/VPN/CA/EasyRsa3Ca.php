@@ -100,25 +100,9 @@ class EasyRsa3Ca implements CaInterface
         );
     }
 
-    public function generateServerCert($commonName, $dhSize)
+    public function generateServerCert($commonName)
     {
-        // we ignore $dhSize here, only for EasyRSA 2
-        $certKeyDh = $this->generateCert($commonName, true);
-        $certKeyDh['dh'] = $this->generateDh();
-
-        return $certKeyDh;
-    }
-
-    private function generateDh()
-    {
-        $this->execEasyRsa('gen-dh');
-
-        $dhFile = sprintf(
-            '%s/pki/dh.pem',
-            $this->config['caPath']
-        );
-
-        return trim(Utils::getFile($dhFile));
+        return $this->generateCert($commonName, true);
     }
 
     public function generateClientCert($commonName)

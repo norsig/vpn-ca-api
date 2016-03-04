@@ -23,12 +23,11 @@ use fkooman\VPN\CA\IndexParser;
 
 class TestCa implements CaInterface
 {
-    public function generateServerCert($commonName, $dhSize)
+    public function generateServerCert($commonName)
     {
         return array(
             'cert' => sprintf('ServerCert for %s', $commonName),
             'key' => sprintf('ServerCert for %s', $commonName),
-            'dh' => sprintf('ServerDh for %s', $commonName),
             'valid_from' => 1234567890,
             'valid_to' => 2345678901,
         );

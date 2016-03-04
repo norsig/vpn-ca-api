@@ -1,6 +1,9 @@
 # Changelog
 
-# 5.0.0 (2016-03-03)
+## 5.1.0 (2016-03-04)
+- do no longer generate DH here
+
+## 5.0.0 (2016-03-03)
 - major refactor across the board
 - more comprehensive tests
 - remove client/server templates from the CA

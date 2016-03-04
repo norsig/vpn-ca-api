@@ -94,7 +94,6 @@ class CertificateModuleTest extends PHPUnit_Framework_TestCase
                 'certificate' => [
                     'cert' => 'ServerCert for vpn.example',
                     'key' => 'ServerCert for vpn.example',
-                    'dh' => 'ServerDh for vpn.example',
                     'valid_from' => 1234567890,
                     'valid_to' => 2345678901,
                     'cn' => 'vpn.example',
